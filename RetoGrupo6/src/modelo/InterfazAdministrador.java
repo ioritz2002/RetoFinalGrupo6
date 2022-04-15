@@ -7,9 +7,7 @@ import clases.Producto;
 import clases.Repartidor;
 import clases.Usuario;
 
-public interface InterfazAdministrador {
-	//Recoge todos los datos del usuario para hacer login y utilizarlo despues
-	public Usuario buscarUsuarioLogin(String dni, String contraseña);
+public interface InterfazAdministrador extends InterfazAmbosUsuarios{
 	//Dar de alta a un repartidor
 	public void altaRepartidor(Repartidor repartidor);
 	//Dar de baja a un repartidor

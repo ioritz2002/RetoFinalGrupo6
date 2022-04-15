@@ -15,23 +15,9 @@ import javax.swing.JMenuItem;
 public class VMenuAdministrador extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
+	private JButton btnHistorialCliente;
+	private JButton btnAtras;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			VMenuAdministrador dialog = new VMenuAdministrador();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
 	public VMenuAdministrador() {
 		setBounds(100, 100, 575, 386);
 		getContentPane().setLayout(new BorderLayout());
@@ -39,13 +25,13 @@ public class VMenuAdministrador extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JButton btnAtras = new JButton("ATR\u00C1S");
+			btnAtras = new JButton("ATR\u00C1S");
 			btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			btnAtras.setBounds(68, 260, 105, 50);
 			contentPanel.add(btnAtras);
 		}
 		{
-			JButton btnHistorialCliente = new JButton("HISTORIAL CLIENTE");
+			btnHistorialCliente = new JButton("HISTORIAL CLIENTE");
 			btnHistorialCliente.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			btnHistorialCliente.setBounds(287, 260, 213, 50);
 			contentPanel.add(btnHistorialCliente);

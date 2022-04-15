@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 import com.toedter.calendar.JCalendar;
 import javax.swing.JPasswordField;
 
-public class VRegistro extends JDialog{
+public class VDatosCliente extends JDialog{
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtDni;
@@ -26,7 +26,10 @@ public class VRegistro extends JDialog{
 	private JTextField txtNombre;
 	private JTextField txtDireccion;
 	private InterfazCliente datosCliente;
+	private JTextField txtFNacimiento;
 	private JPasswordField txtContraseña;
+	private JButton btnCrearCuenta;
+	private JButton btnAtras;
 
 	/**
 	 * Create the dialog.
@@ -34,17 +37,17 @@ public class VRegistro extends JDialog{
 	 * @param b 
 	 * @param vPrincipal 
 	 */
-	public VRegistro(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente) {
+	public VDatosCliente(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente) {
 		super(vPrincipal);
 		this.setModal(b);
 		this.datosCliente = datosCliente;
-		setBounds(100, 100, 713, 895);
+		setBounds(100, 100, 713, 629);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JLabel lblNewLabel = new JLabel("*DNI:");
+			JLabel lblNewLabel = new JLabel("DNI:");
 			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			lblNewLabel.setBounds(132, 47, 77, 48);
 			contentPanel.add(lblNewLabel);
@@ -57,7 +60,7 @@ public class VRegistro extends JDialog{
 			txtDni.setColumns(10);
 		}
 		{
-			JLabel lblcontraseai = new JLabel("*Contrase\u00F1a:");
+			JLabel lblcontraseai = new JLabel("Contrase\u00F1a:");
 			lblcontraseai.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			lblcontraseai.setBounds(65, 121, 144, 48);
 			contentPanel.add(lblcontraseai);
@@ -69,34 +72,28 @@ public class VRegistro extends JDialog{
 			contentPanel.add(lblemail);
 		}
 		{
-			JLabel lblnombre = new JLabel("*Nombre:");
+			JLabel lblnombre = new JLabel("Nombre:");
 			lblnombre.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			lblnombre.setBounds(113, 247, 96, 48);
 			contentPanel.add(lblnombre);
 		}
 		{
-			JLabel lblfechaNacimiento = new JLabel("*Fecha nacimiento:");
+			JLabel lblfechaNacimiento = new JLabel("Fecha nacimiento:");
 			lblfechaNacimiento.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblfechaNacimiento.setBounds(22, 383, 187, 48);
+			lblfechaNacimiento.setBounds(22, 330, 187, 48);
 			contentPanel.add(lblfechaNacimiento);
 		}
 		{
-			JLabel lbldireccin = new JLabel("*Direcci\u00F3n:");
+			JLabel lbldireccin = new JLabel("Direcci\u00F3n:");
 			lbldireccin.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lbldireccin.setBounds(91, 504, 118, 48);
+			lbldireccin.setBounds(65, 389, 118, 48);
 			contentPanel.add(lbldireccin);
 		}
 		{
-			JButton btnAtras = new JButton("ATR\u00C1S");
+			btnAtras = new JButton("ATR\u00C1S");
 			btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btnAtras.setBounds(113, 649, 103, 53);
+			btnAtras.setBounds(36, 515, 96, 48);
 			contentPanel.add(btnAtras);
-		}
-		{
-			JLabel lblNewLabel_1 = new JLabel("Los campos con * son obligatorios");
-			lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblNewLabel_1.setBounds(175, 754, 333, 31);
-			contentPanel.add(lblNewLabel_1);
 		}
 		{
 			txtEmail = new JTextField();
@@ -116,23 +113,34 @@ public class VRegistro extends JDialog{
 			txtDireccion = new JTextField();
 			txtDireccion.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			txtDireccion.setColumns(10);
-			txtDireccion.setBounds(231, 509, 210, 39);
+			txtDireccion.setBounds(231, 394, 210, 39);
 			contentPanel.add(txtDireccion);
 		}
 		{
-			JButton btnCrearCuenta = new JButton("CREAR CUENTA");
+			btnCrearCuenta = new JButton("MODIFICAR");
 			btnCrearCuenta.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btnCrearCuenta.setBounds(422, 645, 187, 60);
+			btnCrearCuenta.setBounds(451, 515, 187, 48);
 			contentPanel.add(btnCrearCuenta);
 		}
-		
-		JCalendar calendar = new JCalendar();
-		calendar.setBounds(236, 329, 205, 153);
-		contentPanel.add(calendar);
+		{
+			txtFNacimiento = new JTextField();
+			txtFNacimiento.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			txtFNacimiento.setColumns(10);
+			txtFNacimiento.setBounds(231, 330, 210, 39);
+			contentPanel.add(txtFNacimiento);
+		}
 		{
 			txtContraseña = new JPasswordField();
-			txtContraseña.setBounds(231, 134, 210, 35);
+			txtContraseña.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			txtContraseña.setColumns(10);
+			txtContraseña.setBounds(231, 121, 210, 39);
 			contentPanel.add(txtContraseña);
+		}
+		{
+			JButton btnBorrar = new JButton("BORRAR");
+			btnBorrar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			btnBorrar.setBounds(201, 512, 187, 48);
+			contentPanel.add(btnBorrar);
 		}
 	}
 }
