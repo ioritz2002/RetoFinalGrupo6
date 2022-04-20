@@ -17,19 +17,8 @@ public class VAltaRepartidor extends JDialog {
 	private JTextField txtId;
 	private JTextField txtNombre;
 	private JTextField txtApellido;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			VAltaRepartidor dialog = new VAltaRepartidor();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	private JButton btnDarAlta;
+	private JButton btnAtras;
 
 	/**
 	 * Create the dialog.
@@ -77,16 +66,16 @@ public class VAltaRepartidor extends JDialog {
 			contentPanel.add(txtApellido);
 		}
 		{
-			JButton btnAtras = new JButton("ATR\u00C1S");
+			btnAtras = new JButton("ATR\u00C1S");
 			btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			btnAtras.setBounds(83, 298, 101, 47);
 			contentPanel.add(btnAtras);
 		}
 		{
-			JButton btnDarDeAlta = new JButton("DAR DE ALTA REPARTIDOR");
-			btnDarDeAlta.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btnDarDeAlta.setBounds(237, 293, 289, 56);
-			contentPanel.add(btnDarDeAlta);
+			btnDarAlta = new JButton("DAR DE ALTA REPARTIDOR");
+			btnDarAlta.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			btnDarAlta.setBounds(237, 293, 289, 56);
+			contentPanel.add(btnDarAlta);
 		}
 	}
 

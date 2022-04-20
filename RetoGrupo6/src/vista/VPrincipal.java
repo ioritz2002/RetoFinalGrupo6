@@ -16,16 +16,17 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class VPrincipal extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private JTextField txtDni;
-	private JTextField txtContraseña;
-	private JButton btnRegistro;
+	private JButton btnCrearCuenta;
 	private JButton btnIniciarSesion;
 	private InterfazAdministrador datosAdmin;
 	private InterfazCliente datosCliente;
+	private JPasswordField txtContraseña;
 
 	
 	public VPrincipal(InterfazAdministrador datosAdmin, InterfazCliente datosCliente) {
@@ -53,27 +54,28 @@ public class VPrincipal extends JFrame implements ActionListener{
 		lblContrasea.setBounds(65, 167, 140, 50);
 		contentPane.add(lblContrasea);
 		
-		txtContraseña = new JTextField();
-		txtContraseña.setBounds(196, 178, 309, 36);
-		contentPane.add(txtContraseña);
-		txtContraseña.setColumns(10);
-		
 		btnIniciarSesion = new JButton("INICIAR SESION");
 		btnIniciarSesion.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnIniciarSesion.setBounds(89, 275, 171, 67);
 		contentPane.add(btnIniciarSesion);
+		btnIniciarSesion.addActionListener(this);
 		
-		btnRegistro = new JButton("CREAR CUENTA");
-		btnRegistro.addActionListener(this);
-		btnRegistro.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnRegistro.setBounds(382, 275, 171, 67);
-		contentPane.add(btnRegistro);
+		btnCrearCuenta = new JButton("CREAR CUENTA");
+		btnCrearCuenta.addActionListener(this);
+		btnCrearCuenta.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnCrearCuenta.setBounds(382, 275, 171, 67);
+		contentPane.add(btnCrearCuenta);
+		btnCrearCuenta.addActionListener(this);
+		
+		txtContraseña = new JPasswordField();
+		txtContraseña.setBounds(200, 181, 267, 31);
+		contentPane.add(txtContraseña);
 	}
 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource().equals(btnRegistro)) {
+		if(e.getSource().equals(btnCrearCuenta)) {
 			VRegistro venRegistro = new VRegistro(this, true, datosCliente);
 			venRegistro.setVisible(true);
 		}

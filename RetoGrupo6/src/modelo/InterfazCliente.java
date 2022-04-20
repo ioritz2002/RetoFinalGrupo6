@@ -8,9 +8,7 @@ import clases.Valora;
 
 import java.util.List;
 
-public interface InterfazCliente {
-	//Recoge todos los datos del usuario para hacer login y utilizarlo despues
-	public Usuario buscarUsuarioLogin(String dni, String contraseña);
+public interface InterfazCliente extends InterfazAmbosUsuarios{
 	//Da de alta a un cliente
 	public void registroCliente(Usuario usuario);
 	//Lista todos los productos en la ventana de productos
