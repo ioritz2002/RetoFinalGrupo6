@@ -8,7 +8,7 @@ import clases.Valora;
 
 import java.util.List;
 
-public interface InterfazCliente extends InterfazAmbosUsuarios{
+public interface InterfazCliente {
 	//Da de alta a un cliente
 	public void registroCliente(Usuario usuario);
 	//Lista todos los productos en la ventana de productos

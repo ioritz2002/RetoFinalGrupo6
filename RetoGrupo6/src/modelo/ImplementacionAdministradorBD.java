@@ -51,12 +51,6 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 	}
 
 	@Override
-	public Usuario buscarUsuarioLogin(String dni, String contraseña) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void altaRepartidor(Repartidor repartidor) {
 		// TODO Auto-generated method stub
 		

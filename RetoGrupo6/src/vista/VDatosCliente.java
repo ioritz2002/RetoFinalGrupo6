@@ -8,17 +8,24 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import modelo.ImplementacionAmbosUsuarios;
 import modelo.InterfazCliente;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
 import com.toedter.calendar.JCalendar;
+
+import clases.Cliente;
+
 import javax.swing.JPasswordField;
 
-public class VDatosCliente extends JDialog{
+public class VDatosCliente extends JDialog implements ActionListener{
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtDni;
@@ -30,6 +37,7 @@ public class VDatosCliente extends JDialog{
 	private JPasswordField txtContraseña;
 	private JButton btnCrearCuenta;
 	private JButton btnAtras;
+	private JButton btnBorrar ;
 
 	/**
 	 * Create the dialog.
@@ -37,7 +45,7 @@ public class VDatosCliente extends JDialog{
 	 * @param b 
 	 * @param vPrincipal 
 	 */
-	public VDatosCliente(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente) {
+	public VDatosCliente(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente,Cliente cliente) {
 		super(vPrincipal);
 		this.setModal(b);
 		this.datosCliente = datosCliente;
@@ -137,10 +145,38 @@ public class VDatosCliente extends JDialog{
 			contentPanel.add(txtContraseña);
 		}
 		{
-			JButton btnBorrar = new JButton("BORRAR");
+			btnBorrar = new JButton("BORRAR");
 			btnBorrar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			btnBorrar.setBounds(201, 512, 187, 48);
 			contentPanel.add(btnBorrar);
+			
+			btnBorrar.addActionListener(this);
 		}
+		
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+		/*
+		 * Si se pulsa el boton borrar, se crea un cliente,
+		 * se coge su dni del txtdni y se le pregunta a la persona
+		 * si quiere borrar de verdad su cuenta para confirma, si da que 
+		 * si se borrará y se cerrara la ventana. Si no solo se cerrara la ventana
+		 * y no se borrar el cliente  
+		 */
+		if(e.getSource().equals(btnBorrar)) {
+			
+			Cliente cliente = new Cliente();
+			cliente.setDni(txtDni.getText());
+			if(JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres darte de baja?", "Selecciona una opcion", JOptionPane.YES_NO_OPTION) == 0) {
+				datosCliente.darseDeBaja(txtDni.getText());
+				this.dispose();
+			}
+			
+		}
+		
 	}
 }

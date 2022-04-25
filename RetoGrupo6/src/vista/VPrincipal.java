@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import modelo.InterfazAdministrador;
+import modelo.InterfazAmbosUsuarios;
 import modelo.InterfazCliente;
 
 import javax.swing.JLabel;
@@ -20,18 +21,24 @@ import javax.swing.JPasswordField;
 
 public class VPrincipal extends JFrame implements ActionListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtDni;
 	private JButton btnCrearCuenta;
 	private JButton btnIniciarSesion;
 	private InterfazAdministrador datosAdmin;
 	private InterfazCliente datosCliente;
+	private InterfazAmbosUsuarios datosAmbos;
 	private JPasswordField txtContraseña;
 
 	
-	public VPrincipal(InterfazAdministrador datosAdmin, InterfazCliente datosCliente) {
+	public VPrincipal(InterfazAdministrador datosAdmin, InterfazCliente datosCliente, InterfazAmbosUsuarios datosAmbos) {
 		this.datosAdmin = datosAdmin;
 		this.datosCliente = datosCliente;
+		this.datosAmbos = datosAmbos;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 729, 427);
 		contentPane = new JPanel();
