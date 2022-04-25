@@ -7,7 +7,7 @@ import clases.Producto;
 import clases.Repartidor;
 import clases.Usuario;
 
-public interface InterfazAdministrador extends InterfazAmbosUsuarios{
+public interface InterfazAdministrador{
 	//Dar de alta a un repartidor
 	public void altaRepartidor(Repartidor repartidor);
 	//Dar de baja a un repartidor

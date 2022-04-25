@@ -3,6 +3,10 @@ package vista;
 import java.awt.EventQueue;
 
 import javax.swing.JDialog;
+
+import clases.Usuario;
+import modelo.InterfazCliente;
+
 import javax.swing.JButton;
 import java.awt.Font;
 
@@ -12,8 +16,12 @@ public class VMenuCliente extends JDialog {
 	private JButton btnHistorialCompra;
 	private JButton btnInfoPersonal;
 	private JButton btnComprar;
+	private InterfazCliente datosCliente;
 
-	public VMenuCliente() {
+	public VMenuCliente(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente, Usuario usuario) {
+		super(vPrincipal);
+		this.setModal(b);
+		this.datosCliente = datosCliente;
 		setBounds(100, 100, 521, 457);
 		getContentPane().setLayout(null);
 		

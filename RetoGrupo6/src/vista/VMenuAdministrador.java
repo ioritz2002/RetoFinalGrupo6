@@ -7,6 +7,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import clases.Usuario;
+import modelo.InterfazAdministrador;
+
 import java.awt.Font;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -17,9 +21,13 @@ public class VMenuAdministrador extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JButton btnHistorialCliente;
 	private JButton btnAtras;
+	private InterfazAdministrador datosAdmin;
 
-	public VMenuAdministrador() {
-		setBounds(100, 100, 575, 386);
+	public VMenuAdministrador(VPrincipal vPrincipal, boolean b, InterfazAdministrador datosAdmin, Usuario usuario) {
+		super(vPrincipal);
+		this.setModal(b);
+		this.datosAdmin = datosAdmin;
+		setBounds(100, 100, 639, 386);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -33,12 +41,12 @@ public class VMenuAdministrador extends JDialog {
 		{
 			btnHistorialCliente = new JButton("HISTORIAL CLIENTE");
 			btnHistorialCliente.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btnHistorialCliente.setBounds(287, 260, 213, 50);
+			btnHistorialCliente.setBounds(287, 260, 273, 50);
 			contentPanel.add(btnHistorialCliente);
 		}
 		{
 			JMenuBar menuBar = new JMenuBar();
-			menuBar.setBounds(0, 0, 559, 50);
+			menuBar.setBounds(0, 0, 623, 50);
 			contentPanel.add(menuBar);
 			
 			JMenu menAlta = new JMenu("                    ALTA                ");
