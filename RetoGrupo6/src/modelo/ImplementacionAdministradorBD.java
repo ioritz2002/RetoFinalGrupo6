@@ -28,7 +28,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 	
 	//SQL
 	
-	private final String numRepartidor= "SELECT * FROM repartidor"; 
+	private final String numRepartidor= "SELECT COUNT(*) AS total FROM repartidor"; 
 	private final String altaRepartidor= "INSERT INTO repartidor(ID_REPARTIDOR, FECHA_ALTA, NOMBRE, APELLIDO, DNI) VALUES( ?, ?, ?, ?, ?)";
 	
 	public ImplementacionAdministradorBD() {
@@ -147,7 +147,10 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 			
 			rs= stmt.executeQuery();
 			
-			num= rs.getRow();
+			if (rs.next()) {
+				num= rs.getInt("total");
+			}
+			
 			
 		} catch (SQLException e1) {
 			

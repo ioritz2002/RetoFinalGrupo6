@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import clases.Usuario;
 import modelo.InterfazAdministrador;
 import modelo.InterfazAmbosUsuarios;
 import modelo.InterfazCliente;
@@ -33,6 +34,7 @@ public class VPrincipal extends JFrame implements ActionListener{
 	private InterfazCliente datosCliente;
 	private InterfazAmbosUsuarios datosAmbos;
 	private JPasswordField txtContraseña;
+	private Usuario usuario;
 
 	
 	public VPrincipal(InterfazAdministrador datosAdmin, InterfazCliente datosCliente, InterfazAmbosUsuarios datosAmbos) {
@@ -83,12 +85,11 @@ public class VPrincipal extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(btnCrearCuenta)) {
-			VRegistro venRegistro = new VRegistro(this, true, datosCliente);
+			VRegistro venRegistro = new VRegistro(this, true, datosCliente, usuario);
 			venRegistro.setVisible(true);
 		}
 		if (e.getSource().equals(btnIniciarSesion)) {
 			
-			Object usuario = null;
 			VMenuAdministrador p = new VMenuAdministrador(datosAdmin, usuario);
 			p.setVisible(true);
 			}

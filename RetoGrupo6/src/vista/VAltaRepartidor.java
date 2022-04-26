@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import clases.Repartidor;
+import clases.Usuario;
 import modelo.InterfazAdministrador;
 
 import javax.swing.JLabel;
@@ -29,15 +30,17 @@ public class VAltaRepartidor extends JDialog implements ActionListener{
 	private JButton btnDarAlta;
 	private JButton btnAtras;
 	private InterfazAdministrador datosAdmin;
+	private Usuario us;
 
 	/**
 	 * Create the dialog.
 	 * @param b 
 	 */
-	public VAltaRepartidor(VMenuAdministrador menuAdmin, boolean b, InterfazAdministrador datosAdmin) {
+	public VAltaRepartidor(VMenuAdministrador menuAdmin, boolean b, InterfazAdministrador datosAdmin, Usuario usuario) {
 		super(menuAdmin);
 		this.setModal(b);
 		this.datosAdmin= datosAdmin;
+		us= usuario;
 		
 		setBounds(100, 100, 566, 436);
 		getContentPane().setLayout(new BorderLayout());
@@ -116,7 +119,8 @@ public class VAltaRepartidor extends JDialog implements ActionListener{
 	//Cacular un nuevo codigo para el repartidor
 	private void nuevoCodRepartidor() {
 		String cod= calcularId();
-		String dni= null;
+		String dni= us.getDni();
+		//String dni= us.getDni();
 		//Cargar datos en el repartidor
 		Repartidor rep= new Repartidor();
 		rep.setIdRepartidor(cod);
@@ -130,8 +134,17 @@ public class VAltaRepartidor extends JDialog implements ActionListener{
 	
 	private String calcularId() {
 		int cant= datosAdmin.calcularCodRepartidor() +1;
+		String cod;
 		cant= 0000+cant;
-		String cod= "RP-"+cant;
+		if (cant>=1000) {
+			cod= "RP-"+cant;
+		}else if(cant>=100) {
+			cod= "RP-0"+cant;
+		}else if(cant>=10){
+			cod="RP-00"+cant;
+		}else {
+			cod="RP-000"+cant;
+		}
 		return cod;
 	}
 

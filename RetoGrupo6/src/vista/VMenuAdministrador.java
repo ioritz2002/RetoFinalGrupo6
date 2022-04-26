@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import clases.Usuario;
 import modelo.InterfazAdministrador;
 
 import java.awt.Font;
@@ -32,9 +33,12 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 	private JMenu menModificacion;
 	private JMenuItem itmModificarProducto;
 	private InterfazAdministrador datosAdmin;
+	private Usuario us;
 
-	public VMenuAdministrador(InterfazAdministrador datosAdmin, Object usuario) {
+	public VMenuAdministrador(InterfazAdministrador datosAdmin, Usuario usuario) {
 		this.datosAdmin = datosAdmin;
+		us= usuario;
+		
 		setBounds(100, 100, 575, 386);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -88,7 +92,7 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(itmAltaRepartidor)) {
-			VAltaRepartidor a = new VAltaRepartidor(this, true, datosAdmin);
+			VAltaRepartidor a = new VAltaRepartidor(this, true, datosAdmin, us);
 			a.setVisible(true);
 		}
 	}

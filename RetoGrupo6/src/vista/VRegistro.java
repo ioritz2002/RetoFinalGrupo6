@@ -13,20 +13,27 @@ import modelo.InterfazCliente;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import com.toedter.calendar.JCalendar;
+
+import clases.Usuario;
+
 import javax.swing.JPasswordField;
 
-public class VRegistro extends JDialog{
+public class VRegistro extends JDialog implements ActionListener{
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtDni;
 	private JTextField txtEmail;
 	private JTextField txtNombre;
 	private JTextField txtDireccion;
+	private JButton btnAtras;
 	private InterfazCliente datosCliente;
 	private JPasswordField txtContraseña;
+	private Usuario us;
+	private JButton btnCrearCuenta;
 
 	/**
 	 * Create the dialog.
@@ -34,10 +41,11 @@ public class VRegistro extends JDialog{
 	 * @param b 
 	 * @param vPrincipal 
 	 */
-	public VRegistro(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente) {
+	public VRegistro(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente, Usuario usuario) {
 		super(vPrincipal);
 		this.setModal(b);
 		this.datosCliente = datosCliente;
+		us=usuario;
 		setBounds(100, 100, 713, 895);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -87,7 +95,7 @@ public class VRegistro extends JDialog{
 			contentPanel.add(lbldireccin);
 		}
 		{
-			JButton btnAtras = new JButton("ATR\u00C1S");
+			btnAtras = new JButton("ATR\u00C1S");
 			btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			btnAtras.setBounds(113, 649, 103, 53);
 			contentPanel.add(btnAtras);
@@ -120,7 +128,7 @@ public class VRegistro extends JDialog{
 			contentPanel.add(txtDireccion);
 		}
 		{
-			JButton btnCrearCuenta = new JButton("CREAR CUENTA");
+			btnCrearCuenta = new JButton("CREAR CUENTA");
 			btnCrearCuenta.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			btnCrearCuenta.setBounds(422, 645, 187, 60);
 			contentPanel.add(btnCrearCuenta);
@@ -133,6 +141,18 @@ public class VRegistro extends JDialog{
 			txtContraseña = new JPasswordField();
 			txtContraseña.setBounds(231, 134, 210, 35);
 			contentPanel.add(txtContraseña);
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(btnAtras)) {
+			this.dispose();
+		}
+		if (e.getSource().equals(btnCrearCuenta)) {
+			if (txtDni.getText().isEmpty() || txtNombre.getText().isEmpty() || txtContraseña.isEmpty() || txtDireccion {
+				
+			}
 		}
 	}
 }
