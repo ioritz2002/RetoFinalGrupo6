@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import clases.Cliente;
 import modelo.InterfazAdministrador;
 import modelo.InterfazAmbosUsuarios;
 import modelo.InterfazCliente;
@@ -33,6 +34,7 @@ public class VPrincipal extends JFrame implements ActionListener{
 	private InterfazCliente datosCliente;
 	private InterfazAmbosUsuarios datosAmbos;
 	private JPasswordField txtContraseña;
+	private Cliente cliente;
 
 	
 	public VPrincipal(InterfazAdministrador datosAdmin, InterfazCliente datosCliente, InterfazAmbosUsuarios datosAmbos) {
@@ -85,6 +87,10 @@ public class VPrincipal extends JFrame implements ActionListener{
 		if(e.getSource().equals(btnCrearCuenta)) {
 			VRegistro venRegistro = new VRegistro(this, true, datosCliente);
 			venRegistro.setVisible(true);
+		}
+		if(e.getSource().equals(btnIniciarSesion)) {
+			VDatosCliente vDatosCliente = new VDatosCliente(this,true, datosCliente, cliente);
+			vDatosCliente.setVisible(true);
 		}
 		
 	}

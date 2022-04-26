@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import com.toedter.calendar.JCalendar;
 
 import clases.Cliente;
+import clases.Usuario;
 
 import javax.swing.JPasswordField;
 
@@ -37,7 +38,8 @@ public class VDatosCliente extends JDialog implements ActionListener{
 	private JPasswordField txtContraseña;
 	private JButton btnCrearCuenta;
 	private JButton btnAtras;
-	private JButton btnBorrar ;
+	private JButton btnBorrar;
+	private Cliente cliente;
 
 	/**
 	 * Create the dialog.
@@ -45,7 +47,7 @@ public class VDatosCliente extends JDialog implements ActionListener{
 	 * @param b 
 	 * @param vPrincipal 
 	 */
-	public VDatosCliente(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente,Cliente cliente) {
+	public VDatosCliente( VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente,Cliente cliente) {
 		super(vPrincipal);
 		this.setModal(b);
 		this.datosCliente = datosCliente;
@@ -153,8 +155,33 @@ public class VDatosCliente extends JDialog implements ActionListener{
 			btnBorrar.addActionListener(this);
 		}
 		
+		mostrarDatos();
+	}
+	
+	private void limpiar() {
+		txtContraseña.setText("");
+		txtDireccion.setText("");
+		txtDni.setText("");
+		txtEmail.setText("");
+		txtFNacimiento.setText("");
+		txtNombre.setText("");
+	}
+	
+	
+
+	private void mostrarDatos() {
+		// TODO Auto-generated method stub
+		
+		txtDireccion.setText(cliente.getContraseña());
+		txtContraseña.setText(cliente.getContraseña());
+		txtDni.setText(cliente.getDni());
+		txtEmail.setText(cliente.getEmail());
+		txtNombre.setText(cliente.getNombre());
+		txtFNacimiento.setText(String.valueOf(cliente.getFechaNacimiento()));
 		
 	}
+
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
