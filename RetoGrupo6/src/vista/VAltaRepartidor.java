@@ -7,11 +7,20 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import clases.Repartidor;
+import modelo.InterfazAdministrador;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.awt.event.ActionEvent;
 
-public class VAltaRepartidor extends JDialog {
+public class VAltaRepartidor extends JDialog implements ActionListener{
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtId;
@@ -19,11 +28,17 @@ public class VAltaRepartidor extends JDialog {
 	private JTextField txtApellido;
 	private JButton btnDarAlta;
 	private JButton btnAtras;
+	private InterfazAdministrador datosAdmin;
 
 	/**
 	 * Create the dialog.
+	 * @param b 
 	 */
-	public VAltaRepartidor() {
+	public VAltaRepartidor(VMenuAdministrador menuAdmin, boolean b, InterfazAdministrador datosAdmin) {
+		super(menuAdmin);
+		this.setModal(b);
+		this.datosAdmin= datosAdmin;
+		
 		setBounds(100, 100, 566, 436);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -51,6 +66,9 @@ public class VAltaRepartidor extends JDialog {
 			txtId = new JTextField();
 			txtId.setBounds(257, 88, 174, 28);
 			contentPanel.add(txtId);
+			txtId.setEditable(false);
+			txtId.setText(calcularId());
+			
 			txtId.setColumns(10);
 		}
 		{
@@ -69,14 +87,52 @@ public class VAltaRepartidor extends JDialog {
 			btnAtras = new JButton("ATR\u00C1S");
 			btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			btnAtras.setBounds(83, 298, 101, 47);
+			btnAtras.addActionListener(this);
 			contentPanel.add(btnAtras);
 		}
 		{
 			btnDarAlta = new JButton("DAR DE ALTA REPARTIDOR");
 			btnDarAlta.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			btnDarAlta.setBounds(237, 293, 289, 56);
+			btnDarAlta.addActionListener(this);
 			contentPanel.add(btnDarAlta);
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource().equals(btnAtras)) {
+			this.dispose();
+		}
+		if(e.getSource().equals(btnDarAlta)) {
+			if (txtNombre.getText().isEmpty() || txtApellido.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "El nombre y el apellido no pueden estar vacios", "Error", JOptionPane.OK_OPTION);
+			}else {
+				nuevoCodRepartidor();
+			}
+		}
+	}
+	
+	//Cacular un nuevo codigo para el repartidor
+	private void nuevoCodRepartidor() {
+		String cod= calcularId();
+		String dni= null;
+		//Cargar datos en el repartidor
+		Repartidor rep= new Repartidor();
+		rep.setIdRepartidor(cod);
+		rep.setNombre(txtNombre.getText());
+		rep.setApellido(txtApellido.getText());
+		rep.setFechaAlta(LocalDate.now());
+		rep.setDniUsuario(dni);
+		
+		datosAdmin.altaRepartidor(rep);
+		}
+	
+	private String calcularId() {
+		int cant= datosAdmin.calcularCodRepartidor() +1;
+		cant= 0000+cant;
+		String cod= "RP-"+cant;
+		return cod;
 	}
 
 }

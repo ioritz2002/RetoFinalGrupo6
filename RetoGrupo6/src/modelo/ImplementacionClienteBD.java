@@ -50,11 +50,7 @@ public class ImplementacionClienteBD implements InterfazCliente{
 		}
 	}
 	
-	@Override
-	public Usuario buscarUsuarioLogin(String dni, String contraseña) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public void registroCliente(Usuario usuario) {

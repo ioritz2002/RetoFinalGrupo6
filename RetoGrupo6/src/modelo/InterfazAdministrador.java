@@ -7,9 +7,11 @@ import clases.Producto;
 import clases.Repartidor;
 import clases.Usuario;
 
-public interface InterfazAdministrador extends InterfazAmbosUsuarios{
+public interface InterfazAdministrador{
 	//Dar de alta a un repartidor
 	public void altaRepartidor(Repartidor repartidor);
+	//Buscar cuantos repartidores hay
+	public int calcularCodRepartidor();
 	//Dar de baja a un repartidor
 	public void bajaRepartidor(String idRepartidor);
 	//Listar todos los repartidores

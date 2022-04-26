@@ -86,7 +86,7 @@ public class VDatosCliente extends JDialog{
 		{
 			JLabel lbldireccin = new JLabel("Direcci\u00F3n:");
 			lbldireccin.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lbldireccin.setBounds(65, 389, 118, 48);
+			lbldireccin.setBounds(80, 389, 118, 48);
 			contentPanel.add(lbldireccin);
 		}
 		{

@@ -39,9 +39,9 @@ public class VProductos extends JDialog {
 		btnCarrito.setBounds(169, 369, 103, 33);
 		getContentPane().add(btnCarrito);
 		
-		btnMasVendidos = new JButton("Mas vendidos");
+		btnMasVendidos = new JButton("MAS VENDIDOS");
 		btnMasVendidos.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnMasVendidos.setBounds(320, 369, 138, 33);
+		btnMasVendidos.setBounds(320, 369, 160, 33);
 		getContentPane().add(btnMasVendidos);
 		
 		btnFiltrar = new JButton("FILTRAR");
@@ -55,11 +55,11 @@ public class VProductos extends JDialog {
 		txtNombre.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Por nombre:");
-		lblNewLabel.setBounds(334, 86, 103, 16);
+		lblNewLabel.setBounds(320, 86, 103, 16);
 		getContentPane().add(lblNewLabel);
 		
 		JLabel lblPorTipo = new JLabel("Por tipo:");
-		lblPorTipo.setBounds(330, 130, 103, 16);
+		lblPorTipo.setBounds(320, 132, 103, 16);
 		getContentPane().add(lblPorTipo);
 		
 		cmbxTipos = new JComboBox();
@@ -67,7 +67,7 @@ public class VProductos extends JDialog {
 		getContentPane().add(cmbxTipos);
 		
 		JLabel lblPrecioMin = new JLabel("Precio Min:");
-		lblPrecioMin.setBounds(334, 201, 103, 16);
+		lblPrecioMin.setBounds(320, 192, 103, 16);
 		getContentPane().add(lblPrecioMin);
 		
 		txtPrecioMin = new JTextField();
@@ -81,7 +81,7 @@ public class VProductos extends JDialog {
 		getContentPane().add(txtPrecioMax);
 		
 		JLabel lblPrecioMax = new JLabel("Precio Max:");
-		lblPrecioMax.setBounds(334, 247, 103, 16);
+		lblPrecioMax.setBounds(320, 247, 103, 16);
 		getContentPane().add(lblPrecioMax);
 		
 		/*Tabla

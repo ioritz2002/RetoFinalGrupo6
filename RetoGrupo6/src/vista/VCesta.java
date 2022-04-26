@@ -31,12 +31,12 @@ public class VCesta extends JDialog {
 		
 		JButton btnCancelarCompra = new JButton("CANCELAR COMPRA");
 		btnCancelarCompra.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnCancelarCompra.setBounds(179, 232, 141, 52);
+		btnCancelarCompra.setBounds(173, 232, 141, 52);
 		getContentPane().add(btnCancelarCompra);
 		
 		JButton btnComprar = new JButton("COMPRAR");
 		btnComprar.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnComprar.setBounds(350, 241, 103, 33);
+		btnComprar.setBounds(330, 241, 125, 33);
 		getContentPane().add(btnComprar);
 		/*Tabla
 		Aqui se ponen las cabeceras y cuantas columnas va a tener la tabla

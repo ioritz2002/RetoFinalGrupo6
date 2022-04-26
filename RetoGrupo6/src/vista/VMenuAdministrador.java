@@ -7,18 +7,34 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import modelo.InterfazAdministrador;
+
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-public class VMenuAdministrador extends JDialog {
+public class VMenuAdministrador extends JDialog implements ActionListener{
 
 	private final JPanel contentPanel = new JPanel();
 	private JButton btnHistorialCliente;
 	private JButton btnAtras;
+	private JMenuBar menuBar;
+	private JMenu menAlta;
+	private JMenuItem itmAltaRepartidor;
+	private JMenuItem itmAltaProducto;
+	private JMenu menBaja;
+	private JMenuItem itmBajaRepartidor;
+	private JMenu menModificacion;
+	private JMenuItem itmModificarProducto;
+	private InterfazAdministrador datosAdmin;
 
-	public VMenuAdministrador() {
+	public VMenuAdministrador(InterfazAdministrador datosAdmin, Object usuario) {
+		this.datosAdmin = datosAdmin;
 		setBounds(100, 100, 575, 386);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -37,33 +53,43 @@ public class VMenuAdministrador extends JDialog {
 			contentPanel.add(btnHistorialCliente);
 		}
 		{
-			JMenuBar menuBar = new JMenuBar();
+			menuBar = new JMenuBar();
 			menuBar.setBounds(0, 0, 559, 50);
 			contentPanel.add(menuBar);
 			
-			JMenu menAlta = new JMenu("                    ALTA                ");
+			menAlta = new JMenu("                    ALTA                ");
 			menAlta.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			menuBar.add(menAlta);
 			
-			JMenuItem itmAltaRepartidor = new JMenuItem("REPARTIDOR");
+			itmAltaRepartidor = new JMenuItem("REPARTIDOR");
+			itmAltaRepartidor.addActionListener(this);
 			menAlta.add(itmAltaRepartidor);
 			
-			JMenuItem itmAltaProducto = new JMenuItem("PRODUCTO");
+			itmAltaProducto = new JMenuItem("PRODUCTO");
+			itmAltaProducto.addActionListener(this);
 			menAlta.add(itmAltaProducto);
 			
-			JMenu menBaja = new JMenu("                    BAJA                   ");
+			menBaja = new JMenu("                    BAJA                   ");
 			menBaja.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			menuBar.add(menBaja);
 			
-			JMenuItem itmBajaRepartidor = new JMenuItem("REPARTIDOR");
+			itmBajaRepartidor = new JMenuItem("REPARTIDOR");
 			menBaja.add(itmBajaRepartidor);
 			
-			JMenu menModificacion = new JMenu("               MODIFICACION               ");
+			menModificacion = new JMenu("               MODIFICACION               ");
 			menModificacion.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			menuBar.add(menModificacion);
 			
-			JMenuItem itmModificarProducto = new JMenuItem("PRODUCTO");
+			itmModificarProducto = new JMenuItem("PRODUCTO");
 			menModificacion.add(itmModificarProducto);
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource().equals(itmAltaRepartidor)) {
+			VAltaRepartidor a = new VAltaRepartidor(this, true, datosAdmin);
+			a.setVisible(true);
 		}
 	}
 }

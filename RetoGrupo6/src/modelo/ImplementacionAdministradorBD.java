@@ -2,10 +2,13 @@ package modelo;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.sql.Connection;
+import java.sql.Date;
+
 import clases.Cesta;
 import clases.Cliente;
 import clases.Producto;
@@ -24,6 +27,9 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 	private String contraseña;
 	
 	//SQL
+	
+	private final String numRepartidor= "SELECT * FROM repartidor"; 
+	private final String altaRepartidor= "INSERT INTO repartidor(ID_REPARTIDOR, FECHA_ALTA, NOMBRE, APELLIDO, DNI) VALUES( ?, ?, ?, ?, ?)";
 	
 	public ImplementacionAdministradorBD() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
@@ -50,15 +56,33 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 		}
 	}
 
-	@Override
-	public Usuario buscarUsuarioLogin(String dni, String contraseña) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void altaRepartidor(Repartidor repartidor) {
-		// TODO Auto-generated method stub
+		this.openConnection();
+		
+		try {
+			stmt= conex.prepareStatement(altaRepartidor);
+			stmt.setString(1, repartidor.getIdRepartidor());
+			stmt.setDate(2, Date.valueOf(repartidor.getFechaAlta()));
+			stmt.setString(3, repartidor.getNombre());
+			stmt.setString(4, repartidor.getApellido());
+			stmt.setString(5, repartidor.getDniUsuario());
+			
+			stmt.executeUpdate();
+			
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -109,7 +133,35 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
 
+	@Override
+	public int calcularCodRepartidor() {
+		
+		ResultSet rs= null;
+		int num = 0;
+		
+		this.openConnection();
+		
+		try {
+			stmt= conex.prepareStatement(numRepartidor);
+			
+			rs= stmt.executeQuery();
+			
+			num= rs.getRow();
+			
+		} catch (SQLException e1) {
+			
+			e1.printStackTrace();
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return num;
+		
+	}
 }
