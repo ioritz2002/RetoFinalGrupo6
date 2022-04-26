@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 
 import clases.Cliente;
 import clases.Usuario;
+import excepciones.LoginIncorrectoException;
 import modelo.InterfazAdministrador;
 import modelo.InterfazAmbosUsuarios;
 import modelo.InterfazCliente;
@@ -90,22 +91,25 @@ public class VPrincipal extends JFrame implements ActionListener {
 			String dni = txtDni.getText();
 			String contraseña = txtContraseña.getText();
 			Usuario usuario = null;
-			
-			 if (dni.equalsIgnoreCase("") || contraseña.equalsIgnoreCase("")) {
+
+			if (dni.equalsIgnoreCase("") || contraseña.equalsIgnoreCase("")) {
 				JOptionPane.showMessageDialog(null, "Error, tiene que rellenar ambos campos", "Error",
 						JOptionPane.ERROR_MESSAGE);
 				limpiar();
-			 } else if(dni == null || contraseña == null) {
-				 JOptionPane.showMessageDialog(null, "Error, no se han podido leer bien los campos intentelo otra vez", "Error",
+			} else {
+				usuario = datosAmbos.buscarUsuarioLogin(dni);
+
+				try {
+					comprobarLogin(dni, contraseña, usuario);
+				} catch (LoginIncorrectoException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Error, DNI o contraseña incorrecto", "Error",
 							JOptionPane.ERROR_MESSAGE);
-				 limpiar();
-			 }
-			 else {
-				 usuario = datosAmbos.buscarUsuarioLogin(dni);
-				 comprobarLogin(dni, contraseña, usuario);
-			 }
-			
-			
+					limpiar();
+				}
+
+			}
+
 		}
 
 	}
@@ -115,22 +119,19 @@ public class VPrincipal extends JFrame implements ActionListener {
 		txtContraseña.setText("");
 	}
 
-	private void comprobarLogin(String dni, String contraseña, Usuario usuario) {
+	private void comprobarLogin(String dni, String contraseña, Usuario usuario) throws LoginIncorrectoException {
 		if (dni.equalsIgnoreCase(usuario.getDni()) && contraseña.equalsIgnoreCase(usuario.getContraseña())) {
-				if (usuario instanceof Cliente) {
-					VMenuCliente vMenuCliente = new VMenuCliente(this, true, datosCliente, usuario);
-					vMenuCliente.setVisible(true);
-				} 
-				if (usuario instanceof Usuario && usuario.getTipo().equalsIgnoreCase("administrador")) {
-					VMenuAdministrador vMenuAdmin = new VMenuAdministrador(this, true, datosAdmin, usuario);
-					vMenuAdmin.setVisible(true);
-				}
-			}  else {
-				JOptionPane.showMessageDialog(null, "Error, DNI o contraseña incorrectos", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				txtDni.setText("");
-				txtContraseña.setText("");
+			if (usuario instanceof Cliente) {
+				VMenuCliente vMenuCliente = new VMenuCliente(this, true, datosCliente, usuario);
+				vMenuCliente.setVisible(true);
 			}
+			if (usuario instanceof Usuario && usuario.getTipo().equalsIgnoreCase("administrador")) {
+				VMenuAdministrador vMenuAdmin = new VMenuAdministrador(this, true, datosAdmin, usuario);
+				vMenuAdmin.setVisible(true);
+			}
+		} else {
+			throw new LoginIncorrectoException();
+		}
 	}
 
 }
