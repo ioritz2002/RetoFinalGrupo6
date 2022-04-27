@@ -1,6 +1,7 @@
 package modelo;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import clases.Cesta;
+import clases.Cliente;
 import clases.Producto;
 import clases.Usuario;
 import clases.Valora;
@@ -24,6 +26,7 @@ public class ImplementacionClienteBD implements InterfazCliente{
 	private String contraseña;
 	
 	//SQL
+	private final String UPDATEcliente = "CALL MODIFICAR_CLIENTE(?,?,?,?,?,?)";
 	
 	public ImplementacionClienteBD() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
@@ -124,9 +127,30 @@ public class ImplementacionClienteBD implements InterfazCliente{
 	}
 
 	@Override
-	public void modificarDatosCliente(String dni) {
-		// TODO Auto-generated method stub
-		
+	public void modificarDatosCliente(Cliente usuario) {
+		openConnection();
+		try {
+			stmt = conex.prepareStatement(UPDATEcliente);
+			
+			stmt.setString(1, usuario.getDni());
+			stmt.setString(2, usuario.getEmail());
+			stmt.setString(3, usuario.getContraseña());
+			stmt.setString(4, usuario.getNombre());
+			stmt.setDate(5, Date.valueOf(usuario.getFechaNacimiento()));
+			stmt.setString(6, usuario.getDireccion());
+			
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				closeConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override

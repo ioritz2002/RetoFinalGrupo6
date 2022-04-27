@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JDialog;
 
+import clases.Cliente;
 import clases.Usuario;
 import modelo.InterfazCliente;
 
@@ -19,11 +20,13 @@ public class VMenuCliente extends JDialog implements ActionListener{
 	private JButton btnInfoPersonal;
 	private JButton btnComprar;
 	private InterfazCliente datosCliente;
+	private Cliente usuario;
 
-	public VMenuCliente(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente, Usuario usuario) {
+	public VMenuCliente(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente, Cliente usuario) {
 		super(vPrincipal);
 		this.setModal(b);
 		this.datosCliente = datosCliente;
+		this.usuario = usuario;
 		setBounds(100, 100, 521, 457);
 		getContentPane().setLayout(null);
 		
@@ -37,6 +40,7 @@ public class VMenuCliente extends JDialog implements ActionListener{
 		btnInfoPersonal.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnInfoPersonal.setBounds(24, 37, 212, 44);
 		getContentPane().add(btnInfoPersonal);
+		btnInfoPersonal.addActionListener(this);
 		
 		btnComprar = new JButton("COMPRAR");
 		btnComprar.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -64,6 +68,10 @@ public class VMenuCliente extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(btnAtras)) {
 			this.dispose();
+		}
+		if (e.getSource().equals(btnInfoPersonal)) {
+			VDatosCliente vDatosCliente = new VDatosCliente(this, true, (Cliente) usuario, datosCliente);
+			vDatosCliente.setVisible(true);
 		}
 	}
 

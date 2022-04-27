@@ -93,7 +93,7 @@ public class VPrincipal extends JFrame implements ActionListener {
 		}
 
 	}
-
+	
 	private void iniciarSesion() {
 		String dni = txtDni.getText();
 		String contraseña = txtContraseña.getText();
@@ -127,7 +127,7 @@ public class VPrincipal extends JFrame implements ActionListener {
 		if (usuario != null) {
 			if (dni.equalsIgnoreCase(usuario.getDni()) && contraseña.equalsIgnoreCase(usuario.getContraseña())) {
 				if (usuario instanceof Cliente) {
-					VMenuCliente vMenuCliente = new VMenuCliente(this, true, datosCliente, usuario);
+					VMenuCliente vMenuCliente = new VMenuCliente(this, true, datosCliente, (Cliente) usuario);
 					vMenuCliente.setVisible(true);
 				}
 				if (usuario instanceof Usuario && usuario.getTipo().equalsIgnoreCase("administrador")) {
