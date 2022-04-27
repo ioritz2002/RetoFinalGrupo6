@@ -17,6 +17,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
@@ -34,7 +35,7 @@ public class VPrincipal extends JFrame implements ActionListener{
 	private InterfazCliente datosCliente;
 	private InterfazAmbosUsuarios datosAmbos;
 	private JPasswordField txtContraseña;
-	private Cliente cliente;
+	//private Cliente cliente;
 
 	
 	public VPrincipal(InterfazAdministrador datosAdmin, InterfazCliente datosCliente, InterfazAmbosUsuarios datosAmbos) {
@@ -89,7 +90,10 @@ public class VPrincipal extends JFrame implements ActionListener{
 			venRegistro.setVisible(true);
 		}
 		if(e.getSource().equals(btnIniciarSesion)) {
-			VDatosCliente vDatosCliente = new VDatosCliente(this,true, datosCliente, cliente);
+			
+			LocalDate date = LocalDate.now();
+			Cliente cliente = new Cliente("2","jljl","dads","dads","kjalsdj",date,"da");
+			VDatosCliente vDatosCliente = new VDatosCliente(this,true, datosCliente,cliente);
 			vDatosCliente.setVisible(true);
 		}
 		

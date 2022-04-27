@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import clases.Cesta;
+import clases.Cliente;
 import clases.Producto;
 import clases.Usuario;
 import clases.Valora;
@@ -149,7 +150,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	}
 
 	@Override
-	public void modificarDatosCliente(String dni) {
+	public void modificarDatosCliente(Cliente usuario) {
 		// TODO Auto-generated method stub
 
 	}
