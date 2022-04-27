@@ -1,13 +1,16 @@
 package modelo;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import clases.Cesta;
+import clases.Cliente;
 import clases.Producto;
 import clases.Usuario;
 import clases.Valora;
@@ -24,6 +27,9 @@ public class ImplementacionClienteBD implements InterfazCliente{
 	private String contraseña;
 	
 	//SQL
+	
+	private final String BUSCARDni= "SELECT * FROM cliente WHERE dni = ?";
+	private final String introducirCliente = "CALL INSERT_CLIENTE( ?, ?, ?, ?, ?, ?)";
 	
 	public ImplementacionClienteBD() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
@@ -53,8 +59,32 @@ public class ImplementacionClienteBD implements InterfazCliente{
 
 
 	@Override
-	public void registroCliente(Usuario usuario) {
-		// TODO Auto-generated method stub
+	public void registroCliente(Cliente usuario) {
+this.openConnection();
+		
+		try {
+			stmt= conex.prepareStatement(introducirCliente);
+			stmt.setString(1, usuario.getDni());
+			stmt.setString(2, usuario.getEmail());
+			stmt.setString(3, usuario.getContraseña());
+			stmt.setString(4, usuario.getNombre());
+			stmt.setDate(5, Date.valueOf(usuario.getFechaNacimiento()));
+			stmt.setString(6, usuario.getDni());
+			
+			stmt.executeUpdate();
+			
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -125,7 +155,7 @@ public class ImplementacionClienteBD implements InterfazCliente{
 	}
 
 	@Override
-	public void modificarDatosCliente(String dni) {
+	public void modificarDatosCliente(Cliente usuario) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -152,6 +182,36 @@ public class ImplementacionClienteBD implements InterfazCliente{
 	public List<Producto> listarProductosMasVendidos() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean comprobarDni(String dni) {
+		
+		ResultSet rs= null;
+		boolean b= false;
+		this.openConnection();
+		
+		try {
+			stmt=conex.prepareStatement(BUSCARDni);
+			stmt.setString(1, dni);
+			rs= stmt.executeQuery();
+			
+			if (rs.next()) {
+			b= true;
+			}
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return b;
 	}
 
 }

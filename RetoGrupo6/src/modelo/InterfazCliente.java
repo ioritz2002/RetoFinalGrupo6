@@ -2,6 +2,7 @@ package modelo;
 
 import clases.Añade;
 import clases.Cesta;
+import clases.Cliente;
 import clases.Producto;
 import clases.Usuario;
 import clases.Valora;
@@ -9,8 +10,10 @@ import clases.Valora;
 import java.util.List;
 
 public interface InterfazCliente{
+	//Comprobar si el DNI está repetido
+	public boolean comprobarDni(String dni);
 	//Da de alta a un cliente
-	public void registroCliente(Usuario usuario);
+	public void registroCliente(Cliente usuario);
 	//Lista todos los productos en la ventana de productos
 	public List<Producto> listarProductos();
 	//Lista la columna de valoraciones de cada uno de los productos en la ventana de productos
@@ -34,7 +37,7 @@ public interface InterfazCliente{
 	//Darse de baja como cliente
 	public void darseDeBaja(String dni);
 	//Modificar los datos del propio cliente
-	public void modificarDatosCliente(String dni);
+	public void modificarDatosCliente(Cliente usuario);
 	//Filtrar productos por nombre
 	public List<Producto> listarProductosFiltradoNombre(String nombre);
 	//Filtrar produtos por tipo

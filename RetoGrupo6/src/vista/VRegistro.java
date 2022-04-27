@@ -11,18 +11,24 @@ import javax.swing.border.EmptyBorder;
 import modelo.InterfazCliente;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 import com.toedter.calendar.JCalendar;
 
+import clases.Cliente;
+import clases.Repartidor;
 import clases.Usuario;
 
 import javax.swing.JPasswordField;
 
-public class VRegistro extends JDialog implements ActionListener{
+public class VRegistro extends JDialog implements ActionListener {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtDni;
@@ -34,18 +40,22 @@ public class VRegistro extends JDialog implements ActionListener{
 	private JPasswordField txtContraseña;
 	private Usuario us;
 	private JButton btnCrearCuenta;
+	private JCalendar calendar;
+	private char letra[] = { 'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H',
+			'L', 'C', 'K', 'E' };
 
 	/**
 	 * Create the dialog.
-	 * @param datosCliente 
-	 * @param b 
-	 * @param vPrincipal 
+	 * 
+	 * @param datosCliente
+	 * @param b
+	 * @param vPrincipal
 	 */
-	public VRegistro(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente, Usuario usuario) {
+	public VRegistro(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente, Cliente usuario) {
 		super(vPrincipal);
 		this.setModal(b);
 		this.datosCliente = datosCliente;
-		us=usuario;
+		us = usuario;
 		setBounds(100, 100, 713, 895);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -97,6 +107,7 @@ public class VRegistro extends JDialog implements ActionListener{
 		{
 			btnAtras = new JButton("ATR\u00C1S");
 			btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			btnAtras.addActionListener(this);
 			btnAtras.setBounds(113, 649, 103, 53);
 			contentPanel.add(btnAtras);
 		}
@@ -130,11 +141,12 @@ public class VRegistro extends JDialog implements ActionListener{
 		{
 			btnCrearCuenta = new JButton("CREAR CUENTA");
 			btnCrearCuenta.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			btnCrearCuenta.addActionListener(this);
 			btnCrearCuenta.setBounds(422, 645, 187, 60);
 			contentPanel.add(btnCrearCuenta);
 		}
-		
-		JCalendar calendar = new JCalendar();
+
+		calendar = new JCalendar();
 		calendar.setBounds(236, 329, 205, 153);
 		contentPanel.add(calendar);
 		{
@@ -149,10 +161,77 @@ public class VRegistro extends JDialog implements ActionListener{
 		if (e.getSource().equals(btnAtras)) {
 			this.dispose();
 		}
+		
+		//Comprobar que los datos introducidos son válidos o no dependiendo de la forma o cantidad que escribe el usuario y de la base de datos
 		if (e.getSource().equals(btnCrearCuenta)) {
-			if (txtDni.getText().isEmpty() || txtNombre.getText().isEmpty() || txtContraseña.isEmpty() || txtDireccion {
-				
+			if (txtDni.getText().isEmpty() || txtNombre.getText().isEmpty() || txtDireccion.getText().isEmpty() || txtContraseña.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Los apartados marcados con * deben estar completos", "Error", JOptionPane.OK_OPTION);
+			}else if(dniRepetido()) {
+				JOptionPane.showMessageDialog(null, "El DNI introducido ya está en la base datos", "Error", JOptionPane.OK_OPTION);
+			}else if(txtDni.getText().length()!= 9){
+				JOptionPane.showMessageDialog(null, "El DNI debe contener 9 caracteres", "Error", JOptionPane.OK_OPTION);
+			}else if(hayLetra(txtDni.getText().toUpperCase().charAt(8))) {
+				JOptionPane.showMessageDialog(null, "El DNI debe contener una letra en la última posición", "Error", JOptionPane.OK_OPTION);
+			}else if(txtDni.getText().toUpperCase().charAt(8) != clacularLetraDni(txtDni.getText())) {
+				JOptionPane.showMessageDialog(null, "El DNI introducido es incorrecto", "Error", JOptionPane.OK_OPTION);
+			}else if(calendar.getDate().toString().isBlank()) {
+				JOptionPane.showMessageDialog(null, "Se debe marcar la fecha", "Error", JOptionPane.OK_OPTION);
+			}else if(txtContraseña.getText().length()>8) {
+				JOptionPane.showMessageDialog(null, "La contraseña debe tener al menos 8 caracteres", "Error", JOptionPane.OK_OPTION);
+			}else if (txtEmail.getText().isBlank()) {
+				nuevoCliente();
+			}else if(txtEmail.getText().contains("@")){
+				nuevoCliente();
+			}else {
+				JOptionPane.showMessageDialog(null, "Email mal introducido", "Error", JOptionPane.OK_OPTION);
 			}
 		}
 	}
+
+	private boolean dniRepetido() {
+		return datosCliente.comprobarDni(txtDni.getText());
+	}
+
+	private void nuevoCliente() {
+		LocalDate fechaNac= calendar.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		Cliente cli= new Cliente();
+		cli.setDni(txtDni.getText());
+		cli.setNombre(txtNombre.getText());
+		cli.setContraseña(txtContraseña.getText());
+		cli.setFechaNacimiento(fechaNac);
+		cli.setDireccion(txtDireccion.getText());
+		if (txtEmail.getText().isBlank()) {
+			cli.setEmail(null);
+		}else if(txtEmail.getText().contains("@")){
+			
+		}else {
+			cli.setEmail(txtEmail.getText());
+		}
+		datosCliente.registroCliente(cli);
+		
+	}
+
+	private char clacularLetraDni(String text) {
+		text = text.substring(0, 8);
+		int numDni = Integer.parseInt(text);
+		int numLetra = numDni % 23;
+
+		for (int i = 0; i < letra.length; i++) {
+			if (numLetra == i) {
+				return letra[i];
+			}
+		}
+		return 0;
+	}
+	
+	private boolean hayLetra(char c) {
+		for (int i = 0; i < letra.length; i++) {
+			if (letra[i]==c) {
+				return false;
+			}
+		}
+		return true;
+		
+	}
+
 }
