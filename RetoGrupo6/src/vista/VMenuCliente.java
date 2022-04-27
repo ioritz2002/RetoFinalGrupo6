@@ -9,8 +9,10 @@ import modelo.InterfazCliente;
 
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class VMenuCliente extends JDialog {
+public class VMenuCliente extends JDialog implements ActionListener{
 	private JButton btnAtras;
 	private JButton btnCarrito;
 	private JButton btnHistorialCompra;
@@ -29,6 +31,7 @@ public class VMenuCliente extends JDialog {
 		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnAtras.setBounds(44, 325, 103, 53);
 		getContentPane().add(btnAtras);
+		btnAtras.addActionListener(this);
 		
 		btnInfoPersonal = new JButton("INFORMACION PERSONAL");
 		btnInfoPersonal.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -55,6 +58,13 @@ public class VMenuCliente extends JDialog {
 		btnHistorialCompra.setBounds(278, 255, 181, 44);
 		getContentPane().add(btnHistorialCompra);
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(btnAtras)) {
+			this.dispose();
+		}
 	}
 
 }

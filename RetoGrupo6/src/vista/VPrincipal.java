@@ -88,30 +88,34 @@ public class VPrincipal extends JFrame implements ActionListener {
 			venRegistro.setVisible(true);
 		}
 		if (e.getSource().equals(btnIniciarSesion)) {
-			String dni = txtDni.getText();
-			String contraseña = txtContraseña.getText();
-			Usuario usuario = null;
-
-			if (dni.equalsIgnoreCase("") || contraseña.equalsIgnoreCase("")) {
-				JOptionPane.showMessageDialog(null, "Error, tiene que rellenar ambos campos", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				limpiar();
-			} else {
-				usuario = datosAmbos.buscarUsuarioLogin(dni);
-
-				try {
-					comprobarLogin(dni, contraseña, usuario);
-				} catch (LoginIncorrectoException e1) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, "Error, DNI o contraseña incorrecto", "Error",
-							JOptionPane.ERROR_MESSAGE);
-					limpiar();
-				}
-
-			}
+			iniciarSesion();
 
 		}
 
+	}
+
+	private void iniciarSesion() {
+		String dni = txtDni.getText();
+		String contraseña = txtContraseña.getText();
+		Usuario usuario = null;
+
+		if (dni.equalsIgnoreCase("") || contraseña.equalsIgnoreCase("")) {
+			JOptionPane.showMessageDialog(null, "Error, tiene que rellenar ambos campos", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			limpiar();
+		} else {
+
+			usuario = datosAmbos.buscarUsuarioLogin(dni);
+			try {
+				comprobarLogin(dni, contraseña, usuario);
+			} catch (LoginIncorrectoException e1) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, "Error, DNI o contraseña incorrecto", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				limpiar();
+			}
+
+		}
 	}
 
 	private void limpiar() {
@@ -120,15 +124,20 @@ public class VPrincipal extends JFrame implements ActionListener {
 	}
 
 	private void comprobarLogin(String dni, String contraseña, Usuario usuario) throws LoginIncorrectoException {
-		if (dni.equalsIgnoreCase(usuario.getDni()) && contraseña.equalsIgnoreCase(usuario.getContraseña())) {
-			if (usuario instanceof Cliente) {
-				VMenuCliente vMenuCliente = new VMenuCliente(this, true, datosCliente, usuario);
-				vMenuCliente.setVisible(true);
+		if (usuario != null) {
+			if (dni.equalsIgnoreCase(usuario.getDni()) && contraseña.equalsIgnoreCase(usuario.getContraseña())) {
+				if (usuario instanceof Cliente) {
+					VMenuCliente vMenuCliente = new VMenuCliente(this, true, datosCliente, usuario);
+					vMenuCliente.setVisible(true);
+				}
+				if (usuario instanceof Usuario && usuario.getTipo().equalsIgnoreCase("administrador")) {
+					VMenuAdministrador vMenuAdmin = new VMenuAdministrador(this, true, datosAdmin, usuario);
+					vMenuAdmin.setVisible(true);
+				}
+			} else {
+				throw new LoginIncorrectoException();
 			}
-			if (usuario instanceof Usuario && usuario.getTipo().equalsIgnoreCase("administrador")) {
-				VMenuAdministrador vMenuAdmin = new VMenuAdministrador(this, true, datosAdmin, usuario);
-				vMenuAdmin.setVisible(true);
-			}
+
 		} else {
 			throw new LoginIncorrectoException();
 		}

@@ -58,18 +58,21 @@ public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 		try {
 			stmt = conex.prepareStatement(SELECTlogin);
 			stmt.setString(1, dni);
+			
 
 			rs = stmt.executeQuery();
+			
 			if(rs.next()) {
-				if (rs.getString(4).equalsIgnoreCase("administrador")) {
+				if(rs.getString(1).equalsIgnoreCase("DNI no encontrado")) {
+					usuario =  null;
+				}
+				else if (rs.getString(4).equalsIgnoreCase("administrador")) {
 					
 						usuario = new Usuario();
 						usuario.setDni(rs.getString(1));
 						usuario.setEmail(rs.getString(2));
 						usuario.setContraseña(rs.getString(3));
 						usuario.setTipo(rs.getString(4));
-					
-					
 
 				} else {
 					
@@ -83,8 +86,8 @@ public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 						((Cliente) usuario).setDireccion(rs.getString(8));
 					
 					
-				}
-			}
+				} 
+			} 
 			
 
 		} catch (SQLException e) {
