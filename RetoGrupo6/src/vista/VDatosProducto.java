@@ -5,10 +5,18 @@ import java.awt.EventQueue;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
+
+import clases.Producto;
+import clases.Usuario;
+import modelo.InterfazAdministrador;
+
 import javax.swing.JButton;
 
-public class VDatosProducto extends JDialog {
+public class VDatosProducto extends JDialog implements ActionListener{
 	private JTextField txtCodigo;
 	private JTextField txtTipo;
 	private JButton btnAtras;
@@ -18,8 +26,16 @@ public class VDatosProducto extends JDialog {
 	private JTextField txtNombre;
 	private JTextField txtPrecio;
 	private JTextField txtStock;
+	private InterfazAdministrador datosAdmin;
+	private Usuario us;
+	private String cod;
 
-	public VDatosProducto() {
+	public VDatosProducto(VMenuAdministrador menuAdmin, boolean b, InterfazAdministrador datosAdmin, Usuario usuario) {
+		super(menuAdmin);
+		this.us= usuario;
+		this.datosAdmin= datosAdmin;
+		
+		cod= calcularId();
 		setBounds(100, 100, 709, 419);
 		getContentPane().setLayout(null);
 		
@@ -30,6 +46,7 @@ public class VDatosProducto extends JDialog {
 		
 		txtCodigo = new JTextField();
 		txtCodigo.setBounds(150, 38, 318, 28);
+		txtCodigo.setText(cod);
 		getContentPane().add(txtCodigo);
 		txtCodigo.setColumns(10);
 		
@@ -70,11 +87,13 @@ public class VDatosProducto extends JDialog {
 		
 		btnBaja = new JButton("BAJA");
 		btnBaja.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnBaja.setEnabled(false);
 		btnBaja.setBounds(348, 316, 103, 53);
 		getContentPane().add(btnBaja);
 		
 		btnModificar = new JButton("MODIFICAR");
 		btnModificar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnModificar.setEnabled(false);
 		btnModificar.setBounds(487, 316, 158, 53);
 		getContentPane().add(btnModificar);
 		
@@ -85,7 +104,7 @@ public class VDatosProducto extends JDialog {
 		
 		txtPrecio = new JTextField();
 		txtPrecio.setColumns(10);
-		txtPrecio.setBounds(150, 210, 318, 28);
+		txtPrecio.setBounds(150, 206, 318, 28);
 		getContentPane().add(txtPrecio);
 		
 		txtStock = new JTextField();
@@ -93,5 +112,46 @@ public class VDatosProducto extends JDialog {
 		txtStock.setBounds(150, 267, 318, 28);
 		getContentPane().add(txtStock);
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(btnAtras)) {
+			this.dispose();
+		}
+		if (e.getSource().equals(btnAlta)) {
+			nuevoProducto();
+		}
+		
+	}
+	
+	private void nuevoProducto() {
+		Producto prod= new Producto();
+		
+		prod.setNombre(txtNombre.getText());
+		prod.setPrecio(Double.parseDouble(txtPrecio.getText()));
+		prod.setTipo(txtTipo.getText());
+		prod.setStock(Integer.parseInt(txtStock.getText()));
+		prod.setDni(us.getDni());
+		prod.setCodProducto(cod);
+		
+		datosAdmin.altaProductos(prod);
+		
+	}
+
+	private String calcularId() {
+		int cant= datosAdmin.calcularCodProducto() +1;
+		String cod;
+		cant= 0000+cant;
+		if (cant>=1000) {
+			cod= "PO-"+cant;
+		}else if(cant>=100) {
+			cod= "PO-0"+cant;
+		}else if(cant>=10){
+			cod="PO-00"+cant;
+		}else {
+			cod="PO-000"+cant;
+		}
+		return cod;
 	}
 }

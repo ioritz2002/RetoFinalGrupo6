@@ -19,6 +19,8 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.toedter.calendar.JCalendar;
 
@@ -41,8 +43,8 @@ public class VRegistro extends JDialog implements ActionListener {
 	private Usuario us;
 	private JButton btnCrearCuenta;
 	private JCalendar calendar;
-	private char letra[] = { 'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H',
-			'L', 'C', 'K', 'E' };
+	private char letra[] = { 'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V',
+			'H', 'L', 'C', 'K', 'E' };
 
 	/**
 	 * Create the dialog.
@@ -161,29 +163,36 @@ public class VRegistro extends JDialog implements ActionListener {
 		if (e.getSource().equals(btnAtras)) {
 			this.dispose();
 		}
-		
-		//Comprobar que los datos introducidos son válidos o no dependiendo de la forma o cantidad que escribe el usuario y de la base de datos
+
+		// Comprobar que los datos introducidos son válidos o no dependiendo de la forma
+		// o cantidad que escribe el usuario y de la base de datos
 		if (e.getSource().equals(btnCrearCuenta)) {
-			if (txtDni.getText().isEmpty() || txtNombre.getText().isEmpty() || txtDireccion.getText().isEmpty() || txtContraseña.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Los apartados marcados con * deben estar completos", "Error", JOptionPane.OK_OPTION);
-			}else if(dniRepetido()) {
-				JOptionPane.showMessageDialog(null, "El DNI introducido ya está en la base datos", "Error", JOptionPane.OK_OPTION);
-			}else if(txtDni.getText().length()!= 9){
-				JOptionPane.showMessageDialog(null, "El DNI debe contener 9 caracteres", "Error", JOptionPane.OK_OPTION);
-			}else if(hayLetra(txtDni.getText().toUpperCase().charAt(8))) {
-				JOptionPane.showMessageDialog(null, "El DNI debe contener una letra en la última posición", "Error", JOptionPane.OK_OPTION);
-			}else if(txtDni.getText().toUpperCase().charAt(8) != clacularLetraDni(txtDni.getText())) {
+			if (txtDni.getText().isEmpty() || txtNombre.getText().isEmpty() || txtDireccion.getText().isEmpty()
+					|| txtContraseña.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Los apartados marcados con * deben estar completos", "Error",
+						JOptionPane.OK_OPTION);
+			} else if (dniRepetido()) {
+				JOptionPane.showMessageDialog(null, "El DNI introducido ya está en la base datos", "Error",
+						JOptionPane.OK_OPTION);
+			} else if (txtDni.getText().length() != 9) {
+				JOptionPane.showMessageDialog(null, "El DNI debe contener 9 caracteres", "Error",
+						JOptionPane.OK_OPTION);
+			} else if (hayLetra(txtDni.getText().toUpperCase().charAt(8))) {
+				JOptionPane.showMessageDialog(null, "El DNI debe contener una letra en la última posición", "Error",
+						JOptionPane.OK_OPTION);
+			} else if (txtDni.getText().toUpperCase().charAt(8) != clacularLetraDni(txtDni.getText())) {
 				JOptionPane.showMessageDialog(null, "El DNI introducido es incorrecto", "Error", JOptionPane.OK_OPTION);
-			}else if(calendar.getDate().toString().isBlank()) {
+			} else if (calendar.getDate().toString().isBlank()) {
 				JOptionPane.showMessageDialog(null, "Se debe marcar la fecha", "Error", JOptionPane.OK_OPTION);
-			}else if(txtContraseña.getText().length()>8) {
-				JOptionPane.showMessageDialog(null, "La contraseña debe tener al menos 8 caracteres", "Error", JOptionPane.OK_OPTION);
-			}else if (txtEmail.getText().isBlank()) {
+			} else if (txtContraseña.getText().length() > 8) {
+				JOptionPane.showMessageDialog(null, "La contraseña debe tener al menos 8 caracteres", "Error",
+						JOptionPane.OK_OPTION);
+			} else if (txtEmail.getText().isBlank()) {
 				nuevoCliente();
-			}else if(txtEmail.getText().contains("@")){
+			} else if (validarEmail(txtEmail.getText())) {
 				nuevoCliente();
-			}else {
-				JOptionPane.showMessageDialog(null, "Email mal introducido", "Error", JOptionPane.OK_OPTION);
+			} else {
+				JOptionPane.showMessageDialog(null, "Email mal introducido.\nEjemplo formato: andrew@example.com", "Error", JOptionPane.OK_OPTION);
 			}
 		}
 	}
@@ -193,8 +202,8 @@ public class VRegistro extends JDialog implements ActionListener {
 	}
 
 	private void nuevoCliente() {
-		LocalDate fechaNac= calendar.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		Cliente cli= new Cliente();
+		LocalDate fechaNac = calendar.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		Cliente cli = new Cliente();
 		cli.setDni(txtDni.getText());
 		cli.setNombre(txtNombre.getText());
 		cli.setContraseña(txtContraseña.getText());
@@ -202,13 +211,11 @@ public class VRegistro extends JDialog implements ActionListener {
 		cli.setDireccion(txtDireccion.getText());
 		if (txtEmail.getText().isBlank()) {
 			cli.setEmail(null);
-		}else if(txtEmail.getText().contains("@")){
-			
-		}else {
+		} else {
 			cli.setEmail(txtEmail.getText());
 		}
 		datosCliente.registroCliente(cli);
-		
+
 	}
 
 	private char clacularLetraDni(String text) {
@@ -223,15 +230,32 @@ public class VRegistro extends JDialog implements ActionListener {
 		}
 		return 0;
 	}
-	
+
 	private boolean hayLetra(char c) {
 		for (int i = 0; i < letra.length; i++) {
-			if (letra[i]==c) {
+			if (letra[i] == c) {
 				return false;
 			}
 		}
 		return true;
-		
+
+	}
+
+	private boolean validarEmail(String gmail) {
+		// Patrón para validar el email
+		Pattern pattern = Pattern.compile(
+				"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+
+		// El email a validar
+		String email = gmail;
+
+		Matcher mather = pattern.matcher(email);
+
+		if (mather.find() == true) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

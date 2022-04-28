@@ -28,4 +28,6 @@ public interface InterfazAdministrador{
 	public List<Cliente> listarClientes();
 	//Mostrar los productos mas vendidos
 	public List<Producto> listarProductosMasVendidos();
+	//Buscar cuantos productos hay
+	public int calcularCodProducto();
 }
