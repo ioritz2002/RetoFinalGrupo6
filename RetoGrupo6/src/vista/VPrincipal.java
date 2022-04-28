@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import clases.Cliente;
 import clases.Producto;
+import clases.Repartidor;
 import modelo.InterfazAdministrador;
 import modelo.InterfazAmbosUsuarios;
 import modelo.InterfazCliente;
@@ -90,21 +91,6 @@ public class VPrincipal extends JFrame implements ActionListener{
 			VRegistro venRegistro = new VRegistro(this, true, datosCliente);
 			venRegistro.setVisible(true);
 		}
-		/*
-		if(e.getSource().equals(btnIniciarSesion)) {
-			
-			LocalDate date = LocalDate.now();
-			Cliente cliente = new Cliente("2","jljl","dads","dads","kjalsdj",date,"da");
-			VDatosCliente vDatosCliente = new VDatosCliente(this,true, datosCliente,cliente);
-			vDatosCliente.setVisible(true);
-		}
-		*/
-		if(e.getSource().equals(btnIniciarSesion)) {
-			
-			LocalDate date = LocalDate.now();
-			Producto producto = new Producto("2","jljl","dads",1,1,"da");
-			VDatosProducto vDatosProducto = new VDatosProducto(this,true, datosAdmin,producto);
-			vDatosProducto.setVisible(true);
-		}
+		
 	}
 }

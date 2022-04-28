@@ -58,12 +58,17 @@ public class VMenuAdministrador extends JDialog {
 			JMenuItem itmBajaRepartidor = new JMenuItem("REPARTIDOR");
 			menBaja.add(itmBajaRepartidor);
 			
+			JMenuItem itmBajaProducto = new JMenuItem("PRODUCTO");
+			menBaja.add(itmBajaProducto);
+			
 			JMenu menModificacion = new JMenu("               MODIFICACION               ");
 			menModificacion.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			menuBar.add(menModificacion);
 			
 			JMenuItem itmModificarProducto = new JMenuItem("PRODUCTO");
 			menModificacion.add(itmModificarProducto);
+			
+			
 		}
 	}
 }

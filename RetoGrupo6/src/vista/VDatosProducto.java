@@ -149,7 +149,7 @@ public class VDatosProducto extends JDialog implements ActionListener{
 		if(e.getSource().equals(btnBaja)) {
 			if (JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres dar de baja este producto?",
 					"Selecciona una opcion", JOptionPane.YES_NO_OPTION) == 0) {
-				datosAdministrador.bajaProducto("ads");
+				datosAdministrador.bajaProducto(txtCodigo.getText());
 				JOptionPane.showMessageDialog(null, "Producto borrado",
 						"Selecciona una opcion", JOptionPane.WARNING_MESSAGE);
 				this.dispose();

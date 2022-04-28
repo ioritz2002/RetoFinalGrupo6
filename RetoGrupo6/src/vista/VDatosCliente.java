@@ -197,12 +197,6 @@ public class VDatosCliente extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 
-		/*
-		 * Si se pulsa el boton borrar, se crea un cliente, se coge su dni del txtdni y
-		 * se le pregunta a la persona si quiere borrar de verdad su cuenta para
-		 * confirma, si da que si se borrará y se cerrara la ventana. Si no solo se
-		 * cerrara la ventana y no se borrar el cliente
-		 */
 		if (e.getSource().equals(btnBorrar)) {
 
 			Cliente cliente = new Cliente();
@@ -210,9 +204,11 @@ public class VDatosCliente extends JDialog implements ActionListener {
 				if (JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres darte de baja?",
 						"Selecciona una opcion", JOptionPane.YES_NO_OPTION) == 0) {
 					datosCliente.darseDeBaja(txtDni.getText());
+					JOptionPane.showMessageDialog(null, "Cuenta borrada",
+							"Selecciona una opcion", JOptionPane.WARNING_MESSAGE);
 					this.dispose();
 				}
-			
+				
 		}
 
 	}
