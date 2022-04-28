@@ -194,8 +194,9 @@ public class VDatosCliente extends JDialog implements ActionListener{
 		usuario.setDireccion(txtDireccion.getText());
 		usuario.setEmail(txtEmail.getText());
 		usuario.setFechaNacimiento(LocalDate.parse(txtFNacimiento.getText()));
-		if (JOptionPane.showConfirmDialog(null, "Esta seguro que quiere modificar los datos?") == 1) {
+		if (JOptionPane.showConfirmDialog(null, "Esta seguro que quiere modificar los datos?", "confirmacion", JOptionPane.YES_NO_OPTION) == 0) {
 			datosCliente.modificarDatosCliente(usuario);
+			JOptionPane.showMessageDialog(null, "La cuenta se a modificado con exito", "confirmacion", JOptionPane.WARNING_MESSAGE);
 		}
 		
 	}
