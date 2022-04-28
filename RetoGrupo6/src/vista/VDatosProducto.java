@@ -4,11 +4,21 @@ import java.awt.EventQueue;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
+
+import clases.Producto;
+import modelo.InterfazAdministrador;
+import modelo.InterfazCliente;
+
 import javax.swing.JButton;
 
-public class VDatosProducto extends JDialog {
+public class VDatosProducto extends JDialog implements ActionListener{
 	private JTextField txtCodigo;
 	private JTextField txtTipo;
 	private JButton btnAtras;
@@ -18,8 +28,17 @@ public class VDatosProducto extends JDialog {
 	private JTextField txtNombre;
 	private JTextField txtPrecio;
 	private JTextField txtStock;
+	private Producto producto;
+	private InterfazAdministrador datosAdministrador;
 
-	public VDatosProducto() {
+	public VDatosProducto(VPrincipal vPrincipal, boolean b, InterfazAdministrador datosAdmin, Producto producto) {
+		
+		super(vPrincipal);
+		this.setModal(b);
+		this.datosAdministrador = datosAdmin;
+		this.producto = producto;
+		
+		
 		setBounds(100, 100, 709, 419);
 		getContentPane().setLayout(null);
 		
@@ -92,6 +111,51 @@ public class VDatosProducto extends JDialog {
 		txtStock.setColumns(10);
 		txtStock.setBounds(150, 267, 318, 28);
 		getContentPane().add(txtStock);
+		
+		btnBaja.addActionListener(this);
+		noEditable();
+		mostrarDatos();
 
+	}
+
+	private void mostrarDatos() {
+		// TODO Auto-generated method stub
+		
+		txtCodigo.setText(producto.getCodProducto());
+		txtNombre.setText(producto.getNombre());
+		txtPrecio.setText(String.valueOf(producto.getPrecio()));
+		txtStock.setText(String.valueOf(producto.getStock()));
+		txtTipo.setText(producto.getTipo());
+		
+	}
+
+	private void noEditable() {
+		// TODO Auto-generated method stub
+		
+		txtCodigo.setEditable(false);
+		txtNombre.setEditable(false);
+		txtPrecio.setEditable(false);
+		txtStock.setEditable(false);
+		txtTipo.setEditable(false);
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+		Producto producto = new Producto();
+		producto.setCodProducto(txtCodigo.getText());
+		if(e.getSource().equals(btnBaja)) {
+			if (JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres dar de baja este producto?",
+					"Selecciona una opcion", JOptionPane.YES_NO_OPTION) == 0) {
+				datosAdministrador.bajaProducto("ads");
+				JOptionPane.showMessageDialog(null, "Producto borrado",
+						"Selecciona una opcion", JOptionPane.WARNING_MESSAGE);
+				this.dispose();
+			}
+			
+		}
+		
 	}
 }

@@ -136,14 +136,12 @@ public class ImplementacionClienteBD implements InterfazCliente {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Error en el borrado del cliente");
 			e.printStackTrace();
 		} finally {
 			try {
 				this.closeConnection();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				System.out.println("error en el cierre de la BD");
 				e.printStackTrace();
 			}
 		}

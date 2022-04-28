@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import clases.Cliente;
+import clases.Producto;
 import modelo.InterfazAdministrador;
 import modelo.InterfazAmbosUsuarios;
 import modelo.InterfazCliente;
@@ -35,7 +36,7 @@ public class VPrincipal extends JFrame implements ActionListener{
 	private InterfazCliente datosCliente;
 	private InterfazAmbosUsuarios datosAmbos;
 	private JPasswordField txtContraseña;
-	//private Cliente cliente;
+	
 
 	
 	public VPrincipal(InterfazAdministrador datosAdmin, InterfazCliente datosCliente, InterfazAmbosUsuarios datosAmbos) {
@@ -89,6 +90,7 @@ public class VPrincipal extends JFrame implements ActionListener{
 			VRegistro venRegistro = new VRegistro(this, true, datosCliente);
 			venRegistro.setVisible(true);
 		}
+		/*
 		if(e.getSource().equals(btnIniciarSesion)) {
 			
 			LocalDate date = LocalDate.now();
@@ -96,6 +98,13 @@ public class VPrincipal extends JFrame implements ActionListener{
 			VDatosCliente vDatosCliente = new VDatosCliente(this,true, datosCliente,cliente);
 			vDatosCliente.setVisible(true);
 		}
-		
+		*/
+		if(e.getSource().equals(btnIniciarSesion)) {
+			
+			LocalDate date = LocalDate.now();
+			Producto producto = new Producto("2","jljl","dads",1,1,"da");
+			VDatosProducto vDatosProducto = new VDatosProducto(this,true, datosAdmin,producto);
+			vDatosProducto.setVisible(true);
+		}
 	}
 }

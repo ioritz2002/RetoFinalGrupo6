@@ -158,8 +158,18 @@ public class VDatosCliente extends JDialog implements ActionListener {
 
 			btnBorrar.addActionListener(this);
 		}
-
+		noEditable();
 		mostrarDatos();
+	}
+
+	private void noEditable() {
+		// TODO Auto-generated method stub
+		txtContraseña.setEditable(false);
+		txtDireccion.setEditable(false);
+		txtDni.setEditable(false);
+		txtEmail.setEditable(false);
+		txtFNacimiento.setEditable(false);
+		txtNombre.setEditable(false);
 	}
 
 	private void limpiar() {

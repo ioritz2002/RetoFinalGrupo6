@@ -13,25 +13,27 @@ import clases.Repartidor;
 import clases.Usuario;
 import clases.Valora;
 
-public class ImplementacionAdministradorBD implements InterfazAdministrador{
+public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	private Connection conex;
 	private PreparedStatement stmt;
 	private ResourceBundle archivoConfig;
-	
-	//Conexion
+
+	// Conexion
 	private String url;
 	private String usuario;
 	private String contraseña;
-	
-	//SQL
-	
+
+	// SQL
+
+	private final String DELETEproducto = "DELETE FROM producto where COD_PRODUCTO = ?";
+
 	public ImplementacionAdministradorBD() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
 		this.url = archivoConfig.getString("Conn");
 		this.usuario = archivoConfig.getString("BDUser");
 		this.contraseña = archivoConfig.getString("BDPass");
 	}
-	
+
 	public void openConnection() {
 		try {
 			conex = DriverManager.getConnection(url, usuario, contraseña);
@@ -40,8 +42,8 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 			e.printStackTrace();
 		}
 	}
-	
-	public void closeConnection() throws SQLException{
+
+	public void closeConnection() throws SQLException {
 		if (conex != null) {
 			conex.close();
 		}
@@ -53,13 +55,13 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 	@Override
 	public void altaRepartidor(Repartidor repartidor) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void bajaRepartidor(String idRepartidor) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -71,13 +73,30 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 	@Override
 	public void altaProductos(Producto producto) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void bajaProducto(String codProducto) {
 		// TODO Auto-generated method stub
-		
+
+		this.openConnection();
+
+		try {
+			stmt = conex.prepareStatement(DELETEproducto);
+			stmt.setString(1, codProducto);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				this.closeConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
@@ -89,7 +108,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 	@Override
 	public void modificarProducto(String codProducto) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -103,7 +122,5 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
 
 }
