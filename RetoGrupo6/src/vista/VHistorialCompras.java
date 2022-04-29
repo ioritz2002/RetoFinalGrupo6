@@ -10,14 +10,24 @@ import modelo.InterfazAdministrador;
 
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VHistorialCompras extends JDialog {
+	private JButton btnAtras;
 
 	public VHistorialCompras(VSelecCliente vSelecCliente, boolean b, InterfazAdministrador datosAdmin, String dni) {
+		super(vSelecCliente);
+		this.setModal(b);
 		setBounds(100, 100, 501, 335);
 		getContentPane().setLayout(null);
 		
-		JButton btnAtras = new JButton("ATR\u00C1S");
+		btnAtras = new JButton("ATR\u00C1S");
+		btnAtras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
 		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnAtras.setBounds(33, 241, 103, 33);
 		getContentPane().add(btnAtras);

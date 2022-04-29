@@ -1,6 +1,6 @@
 package vista;
 
-import java.awt.EventQueue;
+
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -10,8 +10,12 @@ import javax.swing.JButton;
 import java.awt.Font;
 
 public class VValorar extends JDialog {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtProductoAValorar;
-	private JComboBox cmbxValoracion;
+	private JComboBox<Object> cmbxValoracion;
 	private JButton btnAtras;
 	private JButton btnConfirmacion;
 
@@ -33,7 +37,7 @@ public class VValorar extends JDialog {
 		lblValoracion.setBounds(35, 124, 138, 14);
 		getContentPane().add(lblValoracion);
 		
-		cmbxValoracion = new JComboBox();
+		cmbxValoracion = new JComboBox<Object>();
 		cmbxValoracion.setBounds(196, 120, 117, 22);
 		getContentPane().add(cmbxValoracion);
 		

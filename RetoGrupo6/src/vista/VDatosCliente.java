@@ -16,6 +16,9 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 
 import com.toedter.calendar.JCalendar;
+
+import clases.Cliente;
+
 import javax.swing.JPasswordField;
 
 public class VDatosCliente extends JDialog{
@@ -30,12 +33,14 @@ public class VDatosCliente extends JDialog{
 	private JPasswordField txtContraseña;
 	private JButton btnCrearCuenta;
 	private JButton btnAtras;
+	private JButton btnBorrar;
 
 	/**
 	 * Create the dialog.
 	 * @param datosCliente 
 	 * @param b 
 	 * @param vPrincipal 
+	 * @wbp.parser.constructor
 	 */
 	public VDatosCliente(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente) {
 		super(vPrincipal);
@@ -137,10 +142,13 @@ public class VDatosCliente extends JDialog{
 			contentPanel.add(txtContraseña);
 		}
 		{
-			JButton btnBorrar = new JButton("BORRAR");
+			btnBorrar = new JButton("BORRAR");
 			btnBorrar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			btnBorrar.setBounds(201, 512, 187, 48);
 			contentPanel.add(btnBorrar);
 		}
 	}
+
+	
+	
 }

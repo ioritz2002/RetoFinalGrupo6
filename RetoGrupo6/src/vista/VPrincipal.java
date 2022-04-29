@@ -36,6 +36,7 @@ public class VPrincipal extends JFrame implements ActionListener{
 	private InterfazAmbosUsuarios datosAmbos;
 	private JPasswordField txtContraseña;
 	private Usuario usuario;
+	private String tipo;
 
 	
 	public VPrincipal(InterfazAdministrador datosAdmin, InterfazCliente datosCliente, InterfazAmbosUsuarios datosAmbos) {

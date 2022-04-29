@@ -1,6 +1,6 @@
 package vista;
 
-import java.awt.EventQueue;
+
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
 
 import javax.swing.JTextField;
 
@@ -89,7 +88,7 @@ public class VDatosProducto extends JDialog implements ActionListener {
 		btnAlta = new JButton("ALTA");
 		btnAlta.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnAlta.addActionListener(this);
-		btnAlta.setBounds(209, 316, 103, 53);
+		btnAlta.setBounds(238, 316, 144, 53);
 		getContentPane().add(btnAlta);
 
 		txtNombre = new JTextField();
@@ -155,16 +154,16 @@ public class VDatosProducto extends JDialog implements ActionListener {
 		return letra;
 	}
 
-	private String letraMayus(String palabras) {
+	private String letraMayusMinus(String palabras) {
 		return palabras.toUpperCase().charAt(0) + palabras.toLowerCase().substring(1, palabras.length());
 	}
 
 	private void nuevoProducto() {
 		Producto prod = new Producto();
 
-		prod.setNombre(letraMayus(txtNombre.getText()));
+		prod.setNombre(letraMayusMinus(txtNombre.getText()));
 		prod.setPrecio(Double.parseDouble(txtPrecio.getText()));
-		prod.setTipo(letraMayus(txtTipo.getText()));
+		prod.setTipo(letraMayusMinus(txtTipo.getText()));
 		prod.setStock(Integer.parseInt(txtStock.getText()));
 		prod.setDni(us.getDni());
 		prod.setCodProducto(cod);

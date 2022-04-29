@@ -56,6 +56,7 @@ public class VRegistro extends JDialog implements ActionListener {
 		super(vPrincipal);
 		this.setModal(b);
 		this.datosCliente = datosCliente;
+
 		setBounds(100, 100, 713, 895);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -168,10 +169,10 @@ public class VRegistro extends JDialog implements ActionListener {
 			darAlta();
 		}
 	}
-	
-	private String letraMayus(String palabras){
+
+	private String letraMayus(String palabras) {
 		return palabras.toUpperCase().charAt(0) + palabras.toLowerCase().substring(1, palabras.length());
-		
+
 	}
 
 	private void darAlta() {
@@ -183,9 +184,11 @@ public class VRegistro extends JDialog implements ActionListener {
 			JOptionPane.showMessageDialog(null, "El DNI introducido ya está en la base datos", "Error",
 					JOptionPane.OK_OPTION);
 		} else if (txtDni.getText().length() != 9) {
-			JOptionPane.showMessageDialog(null, "El DNI debe contener 9 caracteres", "Error",
-					JOptionPane.OK_OPTION);
-		} else if (hayLetra(txtDni.getText().toUpperCase().charAt(8))) {
+			JOptionPane.showMessageDialog(null, "El DNI debe contener 9 caracteres", "Error", JOptionPane.OK_OPTION);
+		} else if (!esNumero(txtDni.getText().substring(0, 8))) {
+			JOptionPane.showMessageDialog(null, "Los primeros 8 caracteres del DNI deben ser números", "Error", JOptionPane.OK_OPTION);
+
+		} else if (!hayLetra(txtDni.getText().toUpperCase().charAt(8))) {
 			JOptionPane.showMessageDialog(null, "El DNI debe contener una letra en la última posición", "Error",
 					JOptionPane.OK_OPTION);
 		} else if (txtDni.getText().toUpperCase().charAt(8) != clacularLetraDni(txtDni.getText())) {
@@ -200,10 +203,21 @@ public class VRegistro extends JDialog implements ActionListener {
 		} else if (validarEmail(txtEmail.getText())) {
 			nuevoCliente();
 		} else {
-			JOptionPane.showMessageDialog(null, "Email mal introducido.\nEjemplo formato: andrew@example.com", "Error", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, "Email mal introducido.\nEjemplo formato: andrew@example.com", "Error",
+					JOptionPane.OK_OPTION);
 		}
 	}
-
+	 public static boolean esNumero(String cadena) {
+	        boolean resultado;
+	        try {
+	            Integer.parseInt(cadena);
+	            resultado = true;
+	        } catch (NumberFormatException excepcion) {
+	            resultado = false;
+	        }
+	        return resultado;
+	    }
+	
 	private boolean dniRepetido() {
 		return datosCliente.comprobarDni(txtDni.getText());
 	}
@@ -243,10 +257,10 @@ public class VRegistro extends JDialog implements ActionListener {
 	private boolean hayLetra(char c) {
 		for (int i = 0; i < letra.length; i++) {
 			if (letra[i] == c) {
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 
 	}
 

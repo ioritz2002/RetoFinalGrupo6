@@ -3,15 +3,24 @@ package vista;
 import java.awt.EventQueue;
 
 import javax.swing.JDialog;
+
+import clases.Cliente;
+import modelo.InterfazCliente;
+
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class VMenuCliente extends JDialog {
+public class VMenuCliente extends JDialog implements ActionListener{
 	private JButton btnAtras;
 	private JButton btnCarrito;
 	private JButton btnHistorialCompra;
 	private JButton btnInfoPersonal;
 	private JButton btnComprar;
+	private JButton btnValorarProducto;
+	private InterfazCliente datosCliente;
+	private Cliente cli;
 
 	public VMenuCliente() {
 		setBounds(100, 100, 521, 457);
@@ -32,7 +41,7 @@ public class VMenuCliente extends JDialog {
 		btnComprar.setBounds(278, 37, 181, 44);
 		getContentPane().add(btnComprar);
 		
-		JButton btnValorarProducto = new JButton("VALORAR PRODUCTO");
+		btnValorarProducto = new JButton("VALORAR PRODUCTO");
 		btnValorarProducto.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnValorarProducto.setBounds(266, 139, 212, 44);
 		getContentPane().add(btnValorarProducto);
@@ -47,6 +56,21 @@ public class VMenuCliente extends JDialog {
 		btnHistorialCompra.setBounds(278, 255, 181, 44);
 		getContentPane().add(btnHistorialCompra);
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(btnAtras)) {
+			this.dispose();
+		}
+		if (e.getSource().equals(btnComprar)) {
+			VProductos vprod = new VProductos(this, true, datosCliente, cli);
+			vprod.setVisible(true);
+		}
+		if (e.getSource().equals(btnCarrito)) {
+			VCesta cest = new VCesta(this, true, datosCliente, cli);
+			cest.setVisible(true);
+		}
 	}
 
 }
