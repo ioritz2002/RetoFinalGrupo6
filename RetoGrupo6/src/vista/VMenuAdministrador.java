@@ -25,11 +25,18 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 	private JButton btnHistorialCliente;
 	private JButton btnAtras;
 	private InterfazAdministrador datosAdmin;
+	private JMenuItem itmAltaRepartidor;
+	private JMenuItem itmAltaProducto;
+	private JMenuItem itmBajaRepartidor;
+	private JMenuItem itmBajaProducto;
+	private JMenuItem itmModificarProducto;
+	private Usuario usuario;
 
 	public VMenuAdministrador(VPrincipal vPrincipal, boolean b, InterfazAdministrador datosAdmin, Usuario usuario) {
 		super(vPrincipal);
 		this.setModal(b);
 		this.datosAdmin = datosAdmin;
+		this.usuario = usuario;
 		setBounds(100, 100, 639, 386);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -57,25 +64,29 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 			menAlta.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			menuBar.add(menAlta);
 			
-			JMenuItem itmAltaRepartidor = new JMenuItem("REPARTIDOR");
+			itmAltaRepartidor = new JMenuItem("REPARTIDOR");
 			menAlta.add(itmAltaRepartidor);
 			
-			JMenuItem itmAltaProducto = new JMenuItem("PRODUCTO");
+			itmAltaProducto = new JMenuItem("PRODUCTO");
 			menAlta.add(itmAltaProducto);
 			
 			JMenu menBaja = new JMenu("                    BAJA                   ");
 			menBaja.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			menuBar.add(menBaja);
 			
-			JMenuItem itmBajaRepartidor = new JMenuItem("REPARTIDOR");
+			itmBajaRepartidor = new JMenuItem("REPARTIDOR");
 			menBaja.add(itmBajaRepartidor);
+			
+			itmBajaProducto = new JMenuItem("PRODUCTO");
+			menBaja.add(itmBajaProducto);
 			
 			JMenu menModificacion = new JMenu("               MODIFICACION               ");
 			menModificacion.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			menuBar.add(menModificacion);
 			
-			JMenuItem itmModificarProducto = new JMenuItem("PRODUCTO");
+			itmModificarProducto = new JMenuItem("PRODUCTO");
 			menModificacion.add(itmModificarProducto);
+			itmModificarProducto.addActionListener(this);
 		}
 	}
 
@@ -83,6 +94,10 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(btnAtras)) {
 			this.dispose();
+		}
+		if (e.getSource().equals(itmModificarProducto)) {
+			VProductos vProductos = new VProductos(this, true, usuario, datosAdmin);
+			vProductos.setVisible(true);
 		}
 	}
 }
