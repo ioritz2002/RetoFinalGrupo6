@@ -110,10 +110,16 @@ public class VAltaRepartidor extends JDialog implements ActionListener{
 		if(e.getSource().equals(btnDarAlta)) {
 			if (txtNombre.getText().isEmpty() || txtApellido.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "El nombre y el apellido no pueden estar vacios", "Error", JOptionPane.OK_OPTION);
-			}else {
+			}else{
 				nuevoCodRepartidor();
 			}
 		}
+	}
+	
+	
+	private String letraMayusMinus(String palabras){
+		return palabras.toUpperCase().charAt(0) + palabras.toLowerCase().substring(1, palabras.length());
+		
 	}
 	
 	//Cacular un nuevo codigo para el repartidor
@@ -124,12 +130,17 @@ public class VAltaRepartidor extends JDialog implements ActionListener{
 		//Cargar datos en el repartidor
 		Repartidor rep= new Repartidor();
 		rep.setIdRepartidor(cod);
-		rep.setNombre(txtNombre.getText());
-		rep.setApellido(txtApellido.getText());
+		rep.setNombre(letraMayusMinus(txtNombre.getText()));
+		rep.setApellido(letraMayusMinus(txtApellido.getText()));
 		rep.setFechaAlta(LocalDate.now());
 		rep.setDniUsuario(dni);
 		
+		JOptionPane.showMessageDialog(null, "Los datos se han introducido correctamente", "Correcto", JOptionPane.OK_OPTION);
+		
 		datosAdmin.altaRepartidor(rep);
+		
+		
+		
 		}
 	
 	private String calcularId() {

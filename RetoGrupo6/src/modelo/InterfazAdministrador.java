@@ -30,4 +30,6 @@ public interface InterfazAdministrador{
 	public List<Producto> listarProductosMasVendidos();
 	//Buscar cuantos productos hay
 	public int calcularCodProducto();
+	//Compara productos para saber si el nuevo a introducir está repetido
+	public boolean compararProductos(String nombre);
 }

@@ -12,7 +12,6 @@ import java.util.ResourceBundle;
 import clases.Cesta;
 import clases.Cliente;
 import clases.Producto;
-import clases.Usuario;
 import clases.Valora;
 
 public class ImplementacionClienteBD implements InterfazCliente{
@@ -69,7 +68,7 @@ this.openConnection();
 			stmt.setString(3, usuario.getContraseña());
 			stmt.setString(4, usuario.getNombre());
 			stmt.setDate(5, Date.valueOf(usuario.getFechaNacimiento()));
-			stmt.setString(6, usuario.getDni());
+			stmt.setString(6, usuario.getDireccion());
 			
 			stmt.executeUpdate();
 			

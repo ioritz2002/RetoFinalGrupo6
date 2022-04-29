@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.sql.Connection;
@@ -28,10 +29,12 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 	
 	//SQL
 	
-	private final String INSERTARProducto= "INSERT INTO productos(COD_PRODUCTO, TIPO, NOMBRE, STOCK, PRECIO, DNI) VALUES(?, ? ,? , ?, ?, ?)";
-	private final String BUSCARNumRep= "SELECT COUNT(*) AS total FROM productos";
-	private final String numRepartidor= "SELECT COUNT(*) AS total FROM repartidor"; 
-	private final String altaRepartidor= "INSERT INTO repartidor(ID_REPARTIDOR, FECHA_ALTA, NOMBRE, APELLIDO, DNI) VALUES( ?, ?, ?, ?, ?)";
+	private final String LISTAClientes= "SELECT DNI, NOMBRE FROM cliente";
+	private final String BUSCARNombreProducto= "SELECT NOMBRE FROM producto WHERE UPPER(nombre) LIKE ?";
+	private final String INSERTARProducto= "INSERT INTO producto(COD_PRODUCTO, TIPO, NOMBRE, STOCK, PRECIO, DNI) VALUES(?, ? ,? , ?, ?, ?)";
+	private final String BUSCARNumRep= "SELECT COUNT(*) AS total FROM producto";
+	private final String NUMRepartidor= "SELECT COUNT(*) AS total FROM repartidor"; 
+	private final String ALTARepartidor= "INSERT INTO repartidor(ID_REPARTIDOR, FECHA_ALTA, NOMBRE, APELLIDO, DNI) VALUES( ?, ?, ?, ?, ?)";
 	
 	public ImplementacionAdministradorBD() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
@@ -64,7 +67,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 		this.openConnection();
 		
 		try {
-			stmt= conex.prepareStatement(altaRepartidor);
+			stmt= conex.prepareStatement(ALTARepartidor);
 			stmt.setString(1, repartidor.getIdRepartidor());
 			stmt.setDate(2, Date.valueOf(repartidor.getFechaAlta()));
 			stmt.setString(3, repartidor.getNombre());
@@ -102,9 +105,6 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 
 	@Override
 	public void altaProductos(Producto producto) {
-		
-		
-		
 		this.openConnection();		
 		try {
 			stmt= conex.prepareStatement(INSERTARProducto);
@@ -114,6 +114,8 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 			stmt.setInt(4, producto.getStock());
 			stmt.setDouble(5, producto.getPrecio());
 			stmt.setString(6, producto.getDni());
+			
+			stmt.executeUpdate();
 			
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -149,8 +151,34 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 
 	@Override
 	public List<Cliente> listarClientes() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Cliente> listaClientes= new ArrayList<>();
+		ResultSet rs= null;
+		
+		this.openConnection();
+		
+		try {
+			stmt= conex.prepareStatement(LISTAClientes);
+			rs= stmt.executeQuery();
+			
+			while (rs.next()) {
+				Cliente cli= new Cliente();
+				cli.setDni(rs.getString(1));
+				cli.setNombre(rs.getString(2));
+				listaClientes.add(cli);
+			}
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listaClientes;
 	}
 
 	@Override
@@ -168,7 +196,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 		this.openConnection();
 		
 		try {
-			stmt= conex.prepareStatement(numRepartidor);
+			stmt= conex.prepareStatement(NUMRepartidor);
 			
 			rs= stmt.executeQuery();
 			
@@ -223,5 +251,35 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 		}
 		
 		return num;
+	}
+
+	@Override
+	public boolean compararProductos(String nombre) {
+		
+		ResultSet rs= null;
+		boolean b= false;
+		this.openConnection();
+		
+		try {
+			stmt=conex.prepareStatement(BUSCARNombreProducto);
+			stmt.setString(1, nombre.toUpperCase());
+			rs= stmt.executeQuery();
+			
+			if (rs.next()) {
+			b= true;
+			}
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return b;
 	}
 }

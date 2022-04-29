@@ -5,12 +5,15 @@ import java.awt.EventQueue;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import modelo.InterfazAdministrador;
+
 import javax.swing.JButton;
 import java.awt.Font;
 
 public class VHistorialCompras extends JDialog {
 
-	public VHistorialCompras() {
+	public VHistorialCompras(VSelecCliente vSelecCliente, boolean b, InterfazAdministrador datosAdmin, String dni) {
 		setBounds(100, 100, 501, 335);
 		getContentPane().setLayout(null);
 		

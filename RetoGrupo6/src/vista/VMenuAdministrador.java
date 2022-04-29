@@ -34,8 +34,11 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 	private JMenuItem itmModificarProducto;
 	private InterfazAdministrador datosAdmin;
 	private Usuario us;
+	private String botonElegido;
 
-	public VMenuAdministrador(InterfazAdministrador datosAdmin, Usuario usuario) {
+	public VMenuAdministrador(VPrincipal vPrincipal, boolean b, InterfazAdministrador datosAdmin, Usuario usuario) {
+		super(vPrincipal);
+		this.setModal(b);
 		this.datosAdmin = datosAdmin;
 		us= usuario;
 		
@@ -47,12 +50,14 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 		{
 			btnAtras = new JButton("ATR\u00C1S");
 			btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			btnAtras.addActionListener(this);
 			btnAtras.setBounds(68, 260, 105, 50);
 			contentPanel.add(btnAtras);
 		}
 		{
 			btnHistorialCliente = new JButton("HISTORIAL CLIENTE");
 			btnHistorialCliente.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			btnHistorialCliente.addActionListener(this);
 			btnHistorialCliente.setBounds(287, 260, 213, 50);
 			contentPanel.add(btnHistorialCliente);
 		}
@@ -80,6 +85,9 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 			itmBajaRepartidor = new JMenuItem("REPARTIDOR");
 			menBaja.add(itmBajaRepartidor);
 			
+			JMenuItem itmBajaProducto = new JMenuItem("PRODUCTO");
+			menBaja.add(itmBajaProducto);
+			
 			menModificacion = new JMenu("               MODIFICACION               ");
 			menModificacion.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			menuBar.add(menModificacion);
@@ -94,6 +102,15 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 		if(e.getSource().equals(itmAltaRepartidor)) {
 			VAltaRepartidor a = new VAltaRepartidor(this, true, datosAdmin, us);
 			a.setVisible(true);
+		}
+		if (e.getSource().equals(itmAltaProducto)) {
+			botonElegido= "Alta";
+			VDatosProducto prod= new VDatosProducto(this, true, datosAdmin, us);
+			prod.setVisible(true);
+		}
+		if (e.getSource().equals(btnHistorialCliente)) {
+			VSelecCliente comp= new VSelecCliente(this, true, datosAdmin);
+			comp.setVisible(true);
 		}
 	}
 }

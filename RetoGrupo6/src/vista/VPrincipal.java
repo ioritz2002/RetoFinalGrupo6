@@ -86,12 +86,12 @@ public class VPrincipal extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(btnCrearCuenta)) {
-			VRegistro venRegistro = new VRegistro(this, true, datosCliente, (Cliente) usuario);
+			VRegistro venRegistro = new VRegistro(this, true, datosCliente);
 			venRegistro.setVisible(true);
 		}
 		if (e.getSource().equals(btnIniciarSesion)) {
 			
-			VMenuAdministrador p = new VMenuAdministrador(datosAdmin, usuario);
+			VMenuAdministrador p = new VMenuAdministrador(this, true, datosAdmin, usuario);
 			p.setVisible(true);
 			}
 		
