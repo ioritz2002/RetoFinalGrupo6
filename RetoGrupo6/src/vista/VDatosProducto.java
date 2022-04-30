@@ -117,8 +117,13 @@ public class VDatosProducto extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(btnModificar)) {
 			Producto producto = new Producto();
-			if(JOptionPane.showConfirmDialog(null, "Esta seguro que quiere modificar el producto", null, JOptionPane.YES_NO_OPTION) == 0){
+			producto.setCodProducto(txtCodigo.getText());
+			producto.setNombre(txtNombre.getText());
+			producto.setPrecio(Double.parseDouble(txtPrecio.getText()));
+			producto.setStock(Integer.parseInt(txtStock.getText()));
+			producto.setTipo(txtTipo.getText());
 			
+			if(JOptionPane.showConfirmDialog(null, "Esta seguro que quiere modificar el producto", null, JOptionPane.YES_NO_OPTION) == 0){
 				datosAdmin.modificarProducto(producto);
 			}
 			
