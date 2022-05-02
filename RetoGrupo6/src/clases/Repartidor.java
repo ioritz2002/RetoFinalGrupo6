@@ -12,6 +12,8 @@ public class Repartidor {
 	public Repartidor() {
 		
 	}
+	
+	
 
 	public String getIdRepartidor() {
 		return idRepartidor;

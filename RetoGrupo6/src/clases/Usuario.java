@@ -6,8 +6,24 @@ public class Usuario {
 	private String contraseña;
 	private String tipo;
 	
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
 	public Usuario() {
 		
+	}
+
+	public Usuario(String dni, String email, String contraseña, String tipo) {
+		super();
+		this.dni = dni;
+		this.email = email;
+		this.contraseña = contraseña;
+		this.tipo = tipo;
 	}
 
 	public String getDni() {
