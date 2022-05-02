@@ -6,8 +6,11 @@ import clases.Cliente;
 import clases.Producto;
 import clases.Repartidor;
 import clases.Usuario;
+import clases.Valora;
 
-public interface InterfazAdministrador {
+
+public interface InterfazAdministrador{
+
 	//Dar de alta a un repartidor
 	public void altaRepartidor(Repartidor repartidor);
 	//Dar de baja a un repartidor
@@ -21,9 +24,11 @@ public interface InterfazAdministrador {
 	//Listar todos los productos
 	public List<Producto> listarProductos();
 	//Modificar un producto
-	public void modificarProducto(String codProducto);
+	public void modificarProducto(Producto producto);
 	//Listar todos los clientes
 	public List<Cliente> listarClientes();
 	//Mostrar los productos mas vendidos
 	public List<Producto> listarProductosMasVendidos();
+	
+	public List<Valora> listarValoraciones();
 }

@@ -1,6 +1,7 @@
 package modelo;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -22,22 +23,24 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	// Conexion
 	private String url;
 	private String usuario;
-	private String contrase�a;
+	private String contraseña;
 
-	// SQL
 
-	final String DELETEcliente = "DELETE FROM cliente WHERE DNI = ?";
+  //SQL
+	private final String DELETEcliente = "DELETE FROM cliente WHERE DNI = ?";
+	private final String UPDATEcliente = "CALL MODIFICAR_CLIENTE(?,?,?,?,?,?)";
+	
 
 	public ImplementacionClienteBD() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
 		this.url = archivoConfig.getString("Conn");
 		this.usuario = archivoConfig.getString("BDUser");
-		this.contrase�a = archivoConfig.getString("BDPass");
+		this.contraseña = archivoConfig.getString("BDPass");
 	}
 
 	public void openConnection() {
 		try {
-			conex = DriverManager.getConnection(url, usuario, contrase�a);
+			conex = DriverManager.getConnection(url, usuario, contraseña);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,6 +55,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 			conex.close();
 		}
 	}
+
 
 	@Override
 	public void registroCliente(Usuario usuario) {
@@ -78,7 +82,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	}
 
 	@Override
-	public void a�adirProductoACesta(Producto producto, String dni) {
+	public void añadirProductoACesta(Producto producto, String dni) {
 		// TODO Auto-generated method stub
 
 	}
@@ -123,7 +127,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	public void darseDeBaja(String dni) {
 		// TODO Auto-generated method stub
 
-		// Abrimos la conexi�n
+		// Abrimos la conexión
 
 		this.openConnection();
 
@@ -149,7 +153,30 @@ public class ImplementacionClienteBD implements InterfazCliente {
 
 	@Override
 	public void modificarDatosCliente(Cliente usuario) {
-		// TODO Auto-generated method stub
+
+		openConnection();
+		try {
+			stmt = conex.prepareStatement(UPDATEcliente);
+			
+			stmt.setString(1, usuario.getDni());
+			stmt.setString(2, usuario.getEmail());
+			stmt.setString(3, usuario.getContraseña());
+			stmt.setString(4, usuario.getNombre());
+			stmt.setDate(5, Date.valueOf(usuario.getFechaNacimiento()));
+			stmt.setString(6, usuario.getDireccion());
+			
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				closeConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 	}
 

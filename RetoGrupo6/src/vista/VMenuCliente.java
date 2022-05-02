@@ -3,19 +3,32 @@ package vista;
 import java.awt.EventQueue;
 
 import javax.swing.JDialog;
+
+import clases.Cliente;
+import clases.Usuario;
+import modelo.InterfazCliente;
+
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class VMenuCliente extends JDialog{
+
+public class VMenuCliente extends JDialog implements ActionListener{
+
 	private JButton btnAtras;
 	private JButton btnCarrito;
 	private JButton btnHistorialCompra;
 	private JButton btnInfoPersonal;
 	private JButton btnComprar;
+	private InterfazCliente datosCliente;
+	private Cliente usuario;
 
-	public VMenuCliente() {
+	public VMenuCliente(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente, Cliente usuario) {
+		super(vPrincipal);
+		this.setModal(b);
+		this.datosCliente = datosCliente;
+		this.usuario = usuario;
 		setBounds(100, 100, 521, 457);
 		getContentPane().setLayout(null);
 		
@@ -23,11 +36,13 @@ public class VMenuCliente extends JDialog{
 		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnAtras.setBounds(44, 325, 103, 53);
 		getContentPane().add(btnAtras);
+		btnAtras.addActionListener(this);
 		
 		btnInfoPersonal = new JButton("INFORMACION PERSONAL");
 		btnInfoPersonal.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnInfoPersonal.setBounds(24, 37, 212, 44);
 		getContentPane().add(btnInfoPersonal);
+		btnInfoPersonal.addActionListener(this);
 		
 		btnComprar = new JButton("COMPRAR");
 		btnComprar.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -53,6 +68,17 @@ public class VMenuCliente extends JDialog{
 
 	}
 
-	
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(btnAtras)) {
+			this.dispose();
+		}
+		if (e.getSource().equals(btnInfoPersonal)) {
+			VDatosCliente vDatosCliente = new VDatosCliente(this, true, (Cliente) usuario, datosCliente);
+			vDatosCliente.setVisible(true);
+		}
+	}
+
 
 }

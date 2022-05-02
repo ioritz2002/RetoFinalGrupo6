@@ -26,24 +26,33 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	// Conexion
 	private String url;
 	private String usuario;
-	private String contraseña;
+	private String contraseÃ±a;
 
-	// SQL
+
+	//SQL
 
 	private final String DELETEproducto = "DELETE FROM producto where COD_PRODUCTO = ?";
 	private final String DELETErepartidor = "DELETE FROM repartidor where ID_REPARTIDOR = ?";
 	private final String CONSULTARrepartidores = "SELECT * FROM repartidor";
 
+
+	
+	
+	private final String CALCULOValoracion = "SELECT valora.* FROM valora";
+	private final String SELECTProductos = "SELECT producto.* FROM producto";
+	private final String UPDATEProducto = "UPDATE producto SET TIPO = ?, NOMBRE = ?, STOCK = ?, PRECIO = ? WHERE COD_PRODUCTO LIKE ?";
+	
+
 	public ImplementacionAdministradorBD() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
 		this.url = archivoConfig.getString("Conn");
 		this.usuario = archivoConfig.getString("BDUser");
-		this.contraseña = archivoConfig.getString("BDPass");
+		this.contraseÃ±a = archivoConfig.getString("BDPass");
 	}
 
 	public void openConnection() {
 		try {
-			conex = DriverManager.getConnection(url, usuario, contraseña);
+			conex = DriverManager.getConnection(url, usuario, contraseÃ±a);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,6 +67,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 			conex.close();
 		}
 	}
+
 
 	@Override
 	public void altaRepartidor(Repartidor repartidor) {
@@ -157,13 +167,68 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 
 	@Override
 	public List<Producto> listarProductos() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Producto> productos = new ArrayList<Producto>();
+		Producto producto = null;
+		ResultSet rs = null;
+		
+		openConnection();
+		try {
+			stmt = conex.prepareStatement(SELECTProductos);
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				producto = new Producto();
+				producto.setCodProducto(rs.getString(1));
+				producto.setTipo(rs.getString(2));
+				producto.setNombre(rs.getString(3));
+				producto.setStock(rs.getInt(4));
+				producto.setPrecio(rs.getDouble(5));
+				productos.add(producto);
+			}
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			try {
+				closeConnection();
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return productos;
 	}
 
 	@Override
-	public void modificarProducto(String codProducto) {
-		// TODO Auto-generated method stub
+
+	public void modificarProducto(Producto producto) {
+		openConnection();
+		try {
+			stmt = conex.prepareStatement(UPDATEProducto);
+			
+			stmt.setString(1, producto.getTipo());
+			stmt.setString(2, producto.getNombre());
+			stmt.setInt(3, producto.getStock());
+			stmt.setDouble(4, producto.getPrecio());
+			stmt.setString(5, producto.getCodProducto());
+			
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				closeConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 
 	}
 
@@ -178,5 +243,45 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	@Override
+	public List<Valora> listarValoraciones() {
+		List<Valora> valoraciones = new ArrayList<Valora>();
+		Valora valora = null;
+		ResultSet rs = null;
+		
+		openConnection();
+		try {
+			stmt = conex.prepareStatement(CALCULOValoracion);
+			rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				valora = new Valora();
+				
+				valora.setCodProducto(rs.getString(1));
+				valora.setDniUsuario(rs.getString(2));
+				valora.setValoracion(rs.getInt(3));
+				
+				valoraciones.add(valora);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				closeConnection();
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return valoraciones;
+	}
+	
+	
 
 }
