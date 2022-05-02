@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import clases.Cesta;
 import clases.Cliente;
 import clases.Producto;
+import clases.Usuario;
 import clases.Valora;
 
 public class ImplementacionClienteBD implements InterfazCliente {
@@ -23,28 +24,24 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	// Conexion
 	private String url;
 	private String usuario;
-	private String contraseÃ±a;
+	private String contraseña;
 
-
-  //SQL
-	private final String DELETEcliente = "DELETE FROM cliente WHERE DNI = ?";
+	// SQL
 	private final String UPDATEcliente = "CALL MODIFICAR_CLIENTE(?,?,?,?,?,?)";
-	
-
-	private final String BUSCARDni= "SELECT * FROM cliente WHERE dni = ?";
+	private final String BUSCARDni = "SELECT * FROM cliente WHERE dni = ?";
 	private final String introducirCliente = "CALL INSERT_CLIENTE( ?, ?, ?, ?, ?, ?)";
-	
+	private final String DELETEcliente = "DELETE FROM usuario WHERE DNI = ?";
 
 	public ImplementacionClienteBD() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
 		this.url = archivoConfig.getString("Conn");
 		this.usuario = archivoConfig.getString("BDUser");
-		this.contraseÃ±a = archivoConfig.getString("BDPass");
+		this.contraseña = archivoConfig.getString("BDPass");
 	}
 
 	public void openConnection() {
 		try {
-			conex = DriverManager.getConnection(url, usuario, contraseÃ±a);
+			conex = DriverManager.getConnection(url, usuario, contraseña);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -60,38 +57,31 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		}
 	}
 
-	
-
-
 	@Override
 	public void registroCliente(Cliente usuario) {
-this.openConnection();
-		
+		this.openConnection();
 		try {
-			stmt= conex.prepareStatement(introducirCliente);
+			stmt = conex.prepareStatement(introducirCliente);
 			stmt.setString(1, usuario.getDni());
 			stmt.setString(2, usuario.getEmail());
-			stmt.setString(3, usuario.getContraseï¿½a());
+			stmt.setString(3, usuario.getContraseña());
 			stmt.setString(4, usuario.getNombre());
 			stmt.setDate(5, Date.valueOf(usuario.getFechaNacimiento()));
 			stmt.setString(6, usuario.getDireccion());
-			
+
 			stmt.executeUpdate();
-			
-			
+
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		try {
 			this.closeConnection();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-
 	}
 
 	@Override
@@ -113,7 +103,7 @@ this.openConnection();
 	}
 
 	@Override
-	public void aÃ±adirProductoACesta(Producto producto, String dni) {
+	public void añadirProductoACesta(Producto producto, String dni) {
 		// TODO Auto-generated method stub
 
 	}
@@ -158,7 +148,7 @@ this.openConnection();
 	public void darseDeBaja(String dni) {
 		// TODO Auto-generated method stub
 
-		// Abrimos la conexiÃ³n
+		// Abrimos la conexión
 
 		this.openConnection();
 
@@ -180,23 +170,22 @@ this.openConnection();
 				e.printStackTrace();
 			}
 		}
+
 	}
 
 	@Override
 	public void modificarDatosCliente(Cliente usuario) {
-
-
 		openConnection();
 		try {
 			stmt = conex.prepareStatement(UPDATEcliente);
-			
+
 			stmt.setString(1, usuario.getDni());
 			stmt.setString(2, usuario.getEmail());
-			stmt.setString(3, usuario.getContraseÃ±a());
+			stmt.setString(3, usuario.getContraseña());
 			stmt.setString(4, usuario.getNombre());
 			stmt.setDate(5, Date.valueOf(usuario.getFechaNacimiento()));
 			stmt.setString(6, usuario.getDireccion());
-			
+
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -209,7 +198,6 @@ this.openConnection();
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	@Override
@@ -238,25 +226,24 @@ this.openConnection();
 
 	@Override
 	public boolean comprobarDni(String dni) {
-		
-		ResultSet rs= null;
-		boolean b= false;
+		ResultSet rs = null;
+		boolean b = false;
 		this.openConnection();
-		
+
 		try {
-			stmt=conex.prepareStatement(BUSCARDni);
+			stmt = conex.prepareStatement(BUSCARDni);
 			stmt.setString(1, dni);
-			rs= stmt.executeQuery();
-			
+			rs = stmt.executeQuery();
+
 			if (rs.next()) {
-			b= true;
+				b = true;
 			}
-			
+
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		try {
 			this.closeConnection();
 		} catch (SQLException e) {

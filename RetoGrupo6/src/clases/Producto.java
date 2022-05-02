@@ -11,20 +11,6 @@ public class Producto {
 	public Producto() {
 		
 	}
-	
-	
-
-	public Producto(String codProducto, String tipo, String nombre, int stock, double precio, String dni) {
-		super();
-		this.codProducto = codProducto;
-		this.tipo = tipo;
-		this.nombre = nombre;
-		this.stock = stock;
-		this.precio = precio;
-		this.dni = dni;
-	}
-
-
 
 	public String getCodProducto() {
 		return codProducto;

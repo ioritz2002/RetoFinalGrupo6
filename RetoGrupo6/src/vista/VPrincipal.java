@@ -5,15 +5,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import clases.Cliente;
-
-
-import clases.Producto;
-import clases.Repartidor;
-
 import clases.Usuario;
 import excepciones.LoginIncorrectoException;
-
-
 import modelo.InterfazAdministrador;
 import modelo.InterfazAmbosUsuarios;
 import modelo.InterfazCliente;
@@ -25,7 +18,6 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
@@ -42,13 +34,10 @@ public class VPrincipal extends JFrame implements ActionListener {
 	private InterfazAdministrador datosAdmin;
 	private InterfazCliente datosCliente;
 	private InterfazAmbosUsuarios datosAmbos;
-	private JPasswordField txtContraseï¿½a;
-	private Usuario usuario;
-	private String tipo;
+	private JPasswordField txtContraseña;
 
-	
-	public VPrincipal(InterfazAdministrador datosAdmin, InterfazCliente datosCliente, InterfazAmbosUsuarios datosAmbos) {
-
+	public VPrincipal(InterfazAdministrador datosAdmin, InterfazCliente datosCliente,
+			InterfazAmbosUsuarios datosAmbos) {
 		this.datosAdmin = datosAdmin;
 		this.datosCliente = datosCliente;
 		this.datosAmbos = datosAmbos;
@@ -81,15 +70,14 @@ public class VPrincipal extends JFrame implements ActionListener {
 		btnIniciarSesion.addActionListener(this);
 
 		btnCrearCuenta = new JButton("CREAR CUENTA");
-		btnCrearCuenta.addActionListener(this);
 		btnCrearCuenta.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnCrearCuenta.setBounds(382, 275, 171, 67);
 		contentPane.add(btnCrearCuenta);
-		
+		btnCrearCuenta.addActionListener(this);
 
-		txtContraseÃ±a = new JPasswordField();
-		txtContraseÃ±a.setBounds(200, 181, 267, 31);
-		contentPane.add(txtContraseÃ±a);
+		txtContraseña = new JPasswordField();
+		txtContraseña.setBounds(200, 181, 267, 31);
+		contentPane.add(txtContraseña);
 	}
 
 	@Override
@@ -99,7 +87,6 @@ public class VPrincipal extends JFrame implements ActionListener {
 			venRegistro.setVisible(true);
 		}
 		if (e.getSource().equals(btnIniciarSesion)) {
-
 			iniciarSesion();
 
 		}
@@ -108,10 +95,10 @@ public class VPrincipal extends JFrame implements ActionListener {
 	
 	private void iniciarSesion() {
 		String dni = txtDni.getText();
-		String contraseÃ±a = txtContraseÃ±a.getText();
+		String contraseña = txtContraseña.getText();
 		Usuario usuario = null;
 
-		if (dni.equalsIgnoreCase("") || contraseÃ±a.equalsIgnoreCase("")) {
+		if (dni.equalsIgnoreCase("") || contraseña.equalsIgnoreCase("")) {
 			JOptionPane.showMessageDialog(null, "Error, tiene que rellenar ambos campos", "Error",
 					JOptionPane.ERROR_MESSAGE);
 			limpiar();
@@ -119,10 +106,10 @@ public class VPrincipal extends JFrame implements ActionListener {
 
 			usuario = datosAmbos.buscarUsuarioLogin(dni);
 			try {
-				comprobarLogin(dni, contraseÃ±a, usuario);
+				comprobarLogin(dni, contraseña, usuario);
 			} catch (LoginIncorrectoException e1) {
 				// TODO Auto-generated catch block
-				JOptionPane.showMessageDialog(null, "Error, DNI o contraseÃ±a incorrecto", "Error",
+				JOptionPane.showMessageDialog(null, "Error, DNI o contraseña incorrecto", "Error",
 						JOptionPane.ERROR_MESSAGE);
 				limpiar();
 			}
@@ -132,12 +119,12 @@ public class VPrincipal extends JFrame implements ActionListener {
 
 	private void limpiar() {
 		txtDni.setText("");
-		txtContraseÃ±a.setText("");
+		txtContraseña.setText("");
 	}
 
-	private void comprobarLogin(String dni, String contraseÃ±a, Usuario usuario) throws LoginIncorrectoException {
+	private void comprobarLogin(String dni, String contraseña, Usuario usuario) throws LoginIncorrectoException {
 		if (usuario != null) {
-			if (dni.equalsIgnoreCase(usuario.getDni()) && contraseÃ±a.equalsIgnoreCase(usuario.getContraseÃ±a())) {
+			if (dni.equalsIgnoreCase(usuario.getDni()) && contraseña.equalsIgnoreCase(usuario.getContraseña())) {
 				if (usuario instanceof Cliente) {
 					VMenuCliente vMenuCliente = new VMenuCliente(this, true, datosCliente, (Cliente) usuario);
 					vMenuCliente.setVisible(true);
@@ -153,7 +140,6 @@ public class VPrincipal extends JFrame implements ActionListener {
 		} else {
 			throw new LoginIncorrectoException();
 		}
-
 	}
 
 }
