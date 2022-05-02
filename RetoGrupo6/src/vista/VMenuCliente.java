@@ -13,7 +13,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class VMenuCliente extends JDialog implements ActionListener{
+
 	private JButton btnAtras;
 	private JButton btnCarrito;
 	private JButton btnHistorialCompra;
@@ -61,8 +63,11 @@ public class VMenuCliente extends JDialog implements ActionListener{
 		btnHistorialCompra.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnHistorialCompra.setBounds(278, 255, 181, 44);
 		getContentPane().add(btnHistorialCompra);
+		
+		
 
 	}
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -74,5 +79,6 @@ public class VMenuCliente extends JDialog implements ActionListener{
 			vDatosCliente.setVisible(true);
 		}
 	}
+
 
 }

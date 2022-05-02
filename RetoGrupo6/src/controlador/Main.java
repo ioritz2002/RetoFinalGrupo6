@@ -1,5 +1,6 @@
 package controlador;
 
+import clases.Usuario;
 import modelo.ImplementacionAdministradorBD;
 import modelo.ImplementacionAmbosUsuarios;
 import modelo.ImplementacionClienteBD;
@@ -15,8 +16,12 @@ public class Main {
 		InterfazAdministrador datosAdmin = new ImplementacionAdministradorBD();
 		InterfazAmbosUsuarios datosAmbos = new ImplementacionAmbosUsuarios();
 		
+
 		VPrincipal principal = new VPrincipal(datosAdmin, datosCliente, datosAmbos);
 		principal.setVisible(true);
+		
+		
+		
 	}
 
 }

@@ -14,37 +14,40 @@ import clases.Producto;
 import clases.Usuario;
 import clases.Valora;
 
-public class ImplementacionClienteBD implements InterfazCliente{
+public class ImplementacionClienteBD implements InterfazCliente {
 
 	private Connection conex;
 	private PreparedStatement stmt;
 	private ResourceBundle archivoConfig;
-	
-	//Conexion
+
+	// Conexion
 	private String url;
 	private String usuario;
-	private String contrase�a;
-	
-	//SQL
+	private String contraseña;
+
+
+  //SQL
+	private final String DELETEcliente = "DELETE FROM cliente WHERE DNI = ?";
 	private final String UPDATEcliente = "CALL MODIFICAR_CLIENTE(?,?,?,?,?,?)";
 	
+
 	public ImplementacionClienteBD() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
 		this.url = archivoConfig.getString("Conn");
 		this.usuario = archivoConfig.getString("BDUser");
-		this.contrase�a = archivoConfig.getString("BDPass");
+		this.contraseña = archivoConfig.getString("BDPass");
 	}
-	
+
 	public void openConnection() {
 		try {
-			conex = DriverManager.getConnection(url, usuario, contrase�a);
+			conex = DriverManager.getConnection(url, usuario, contraseña);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	public void closeConnection() throws SQLException{
+
+	public void closeConnection() throws SQLException {
 		if (conex != null) {
 			conex.close();
 		}
@@ -52,12 +55,12 @@ public class ImplementacionClienteBD implements InterfazCliente{
 			conex.close();
 		}
 	}
-	
+
 
 	@Override
 	public void registroCliente(Usuario usuario) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -79,27 +82,27 @@ public class ImplementacionClienteBD implements InterfazCliente{
 	}
 
 	@Override
-	public void a�adirProductoACesta(Producto producto, String dni) {
+	public void añadirProductoACesta(Producto producto, String dni) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void cancelarCompra(String codCesta) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void realizarCompra(String codCesta) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void darValoracion(String codProducto, String dni) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -123,18 +126,41 @@ public class ImplementacionClienteBD implements InterfazCliente{
 	@Override
 	public void darseDeBaja(String dni) {
 		// TODO Auto-generated method stub
-		
+
+		// Abrimos la conexión
+
+		this.openConnection();
+
+		try {
+			// Preparamos la sentencia stmt para borrar el cliente
+
+			stmt = conex.prepareStatement(DELETEcliente);
+			stmt.setString(1, dni);
+			stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				this.closeConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public void modificarDatosCliente(Cliente usuario) {
+
 		openConnection();
 		try {
 			stmt = conex.prepareStatement(UPDATEcliente);
 			
 			stmt.setString(1, usuario.getDni());
 			stmt.setString(2, usuario.getEmail());
-			stmt.setString(3, usuario.getContrase�a());
+			stmt.setString(3, usuario.getContraseña());
 			stmt.setString(4, usuario.getNombre());
 			stmt.setDate(5, Date.valueOf(usuario.getFechaNacimiento()));
 			stmt.setString(6, usuario.getDireccion());
@@ -151,6 +177,7 @@ public class ImplementacionClienteBD implements InterfazCliente{
 				e.printStackTrace();
 			}
 		}
+
 	}
 
 	@Override

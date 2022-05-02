@@ -18,6 +18,14 @@ public class Usuario {
 		
 	}
 
+	public Usuario(String dni, String email, String contraseña, String tipo) {
+		super();
+		this.dni = dni;
+		this.email = email;
+		this.contraseña = contraseña;
+		this.tipo = tipo;
+	}
+
 	public String getDni() {
 		return dni;
 	}

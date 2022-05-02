@@ -3,6 +3,7 @@ package modelo;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -19,28 +20,31 @@ public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 	// Conexion
 	private String url;
 	private String usuario;
-	private String contraseña;
+	private String contraseÃ±a;
 
 	// SQL
 	private final String SELECTlogin = "CALL SELECT_LOGIN(?)";
+
 
 	public ImplementacionAmbosUsuarios() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
 		this.url = archivoConfig.getString("Conn");
 		this.usuario = archivoConfig.getString("BDUser");
-		this.contraseña = archivoConfig.getString("BDPass");
+		this.contraseÃ±a = archivoConfig.getString("BDPass");
 	}
 
 	public void openConnection() {
 		try {
-			conex = DriverManager.getConnection(url, usuario, contraseña);
+			conex = DriverManager.getConnection(url, usuario, contraseÃ±a);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+
 	public void closeConnection() throws SQLException {
+
 		if (conex != null) {
 			conex.close();
 		}
@@ -48,6 +52,7 @@ public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 			conex.close();
 		}
 	}
+
 
 	@Override
 	public Usuario buscarUsuarioLogin(String dni) {
@@ -71,7 +76,7 @@ public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 						usuario = new Usuario();
 						usuario.setDni(rs.getString(1));
 						usuario.setEmail(rs.getString(2));
-						usuario.setContraseña(rs.getString(3));
+						usuario.setContraseÃ±a(rs.getString(3));
 						usuario.setTipo(rs.getString(4));
 
 				} else {
@@ -79,7 +84,7 @@ public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 						usuario = new Cliente();
 						usuario.setDni(dni);
 						usuario.setEmail(rs.getString(2));
-						usuario.setContraseña(rs.getString(3));
+						usuario.setContraseÃ±a(rs.getString(3));
 						usuario.setTipo(rs.getString(4));
 						((Cliente) usuario).setNombre(rs.getString(6));
 						((Cliente) usuario).setFechaNacimiento(rs.getDate(7).toLocalDate());
@@ -105,6 +110,7 @@ public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 			}
 		}
 		return usuario;
+
 	}
 
 }

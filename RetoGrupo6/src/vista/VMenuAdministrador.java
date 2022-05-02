@@ -77,6 +77,7 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 			itmBajaRepartidor = new JMenuItem("REPARTIDOR");
 			menBaja.add(itmBajaRepartidor);
 			
+
 			itmBajaProducto = new JMenuItem("PRODUCTO");
 			menBaja.add(itmBajaProducto);
 			
@@ -86,6 +87,7 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 			
 			itmModificarProducto = new JMenuItem("PRODUCTO");
 			menModificacion.add(itmModificarProducto);
+
 			itmModificarProducto.addActionListener(this);
 		}
 	}
@@ -98,6 +100,7 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 		if (e.getSource().equals(itmModificarProducto)) {
 			VProductos vProductos = new VProductos(this, true, usuario, datosAdmin);
 			vProductos.setVisible(true);
+
 		}
 	}
 }

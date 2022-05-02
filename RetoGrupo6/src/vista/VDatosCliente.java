@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import modelo.ImplementacionAmbosUsuarios;
 import modelo.InterfazCliente;
 
 import javax.swing.JLabel;
@@ -25,7 +26,9 @@ import clases.Usuario;
 
 import javax.swing.JPasswordField;
 
+
 public class VDatosCliente extends JDialog implements ActionListener{
+
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtDni;
@@ -34,9 +37,28 @@ public class VDatosCliente extends JDialog implements ActionListener{
 	private JTextField txtDireccion;
 	private InterfazCliente datosCliente;
 	private JTextField txtFNacimiento;
-	private JPasswordField txtContrase�a;
+	private JPasswordField txtContraseña;
 	private JButton btnModificar;
 	private JButton btnAtras;
+
+	private JButton btnBorrar;
+	private Cliente cliente;
+
+	/**
+	 * Create the dialog.
+	 * 
+	 * @param datosCliente
+	 * @param b
+	 * @param vPrincipal
+	 * @param cliente2
+	 */
+	public VDatosCliente(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente, Cliente cliente) {
+		super(vPrincipal);
+		this.setModal(b);
+		this.datosCliente = datosCliente;
+		this.cliente = cliente;
+
+
 	private Cliente usuario;
 	
 
@@ -51,6 +73,7 @@ public class VDatosCliente extends JDialog implements ActionListener{
 		this.setModal(b);
 		this.datosCliente = datosCliente;
 		this.usuario = usuario;
+
 		setBounds(100, 100, 713, 629);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -133,8 +156,10 @@ public class VDatosCliente extends JDialog implements ActionListener{
 			btnModificar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			btnModificar.setBounds(451, 515, 187, 48);
 			contentPanel.add(btnModificar);
+
 			btnModificar.addActionListener(this);
 			
+
 		}
 		{
 			txtFNacimiento = new JTextField();
@@ -144,25 +169,43 @@ public class VDatosCliente extends JDialog implements ActionListener{
 			contentPanel.add(txtFNacimiento);
 		}
 		{
-			txtContrase�a = new JPasswordField();
-			txtContrase�a.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			txtContrase�a.setColumns(10);
-			txtContrase�a.setBounds(231, 121, 263, 39);
-			contentPanel.add(txtContrase�a);
+			txtContraseña = new JPasswordField();
+			txtContraseña.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			txtContraseña.setColumns(10);
+			txtContraseña.setBounds(231, 121, 263, 39);
+			contentPanel.add(txtContraseña);
 		}
 		{
-			JButton btnBorrar = new JButton("BORRAR");
+			btnBorrar = new JButton("BORRAR");
 			btnBorrar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			btnBorrar.setBounds(201, 512, 187, 48);
 			contentPanel.add(btnBorrar);
+
+			btnBorrar.addActionListener(this);
 		}
+
+		noEditable();
+		mostrarDatos();
+	}
+
+	private void noEditable() {
+		// TODO Auto-generated method stub
+		txtContraseña.setEditable(false);
+		txtDireccion.setEditable(false);
+		txtDni.setEditable(false);
+		txtEmail.setEditable(false);
+		txtFNacimiento.setEditable(false);
+		txtNombre.setEditable(false);
+	}
+
+
 		
 		cargarDatos(usuario);
 	}
 
 	private void cargarDatos(Cliente usuario) {
 		txtDni.setText(usuario.getDni());
-		txtContrase�a.setText(usuario.getContrase�a());
+		txtContraseña.setText(usuario.getContraseña());
 		txtDireccion.setText(usuario.getDireccion());
 		txtEmail.setText(usuario.getEmail());
 		txtFNacimiento.setText(usuario.getFechaNacimiento().toString());
@@ -181,7 +224,7 @@ public class VDatosCliente extends JDialog implements ActionListener{
 
 	private void limpiar() {
 		txtDni.setText("");
-		txtContrase�a.setText("");
+		txtContraseña.setText("");
 		txtDireccion.setText("");
 		txtEmail.setText("");
 		txtFNacimiento.setText("");
@@ -190,7 +233,7 @@ public class VDatosCliente extends JDialog implements ActionListener{
 	private void modificar() {
 		usuario.setDni(txtDni.getText());
 		usuario.setNombre(txtNombre.getText());
-		usuario.setContrase�a(txtContrase�a.getText());
+		usuario.setContraseña(txtContraseña.getText());
 		usuario.setDireccion(txtDireccion.getText());
 		usuario.setEmail(txtEmail.getText());
 		usuario.setFechaNacimiento(LocalDate.parse(txtFNacimiento.getText()));
@@ -199,5 +242,39 @@ public class VDatosCliente extends JDialog implements ActionListener{
 			JOptionPane.showMessageDialog(null, "La cuenta se a modificado con exito", "confirmacion", JOptionPane.WARNING_MESSAGE);
 		}
 		
+
 	}
+
+	private void mostrarDatos() {
+		// TODO Auto-generated method stub
+
+		txtDireccion.setText(cliente.getDireccion());
+		txtContraseña.setText(cliente.getContraseña());
+		txtDni.setText(cliente.getDni());
+		txtEmail.setText(cliente.getEmail());
+		txtNombre.setText(cliente.getNombre());
+		txtFNacimiento.setText(String.valueOf(cliente.getFechaNacimiento()));
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+
+		if (e.getSource().equals(btnBorrar)) {
+
+			Cliente cliente = new Cliente();
+			cliente.setDni(txtDni.getText());
+				if (JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres darte de baja?",
+						"Selecciona una opcion", JOptionPane.YES_NO_OPTION) == 0) {
+					datosCliente.darseDeBaja(txtDni.getText());
+					JOptionPane.showMessageDialog(null, "Cuenta borrada",
+							"Selecciona una opcion", JOptionPane.WARNING_MESSAGE);
+					this.dispose();
+				}
+				
+		}
+
+	}
+
 }

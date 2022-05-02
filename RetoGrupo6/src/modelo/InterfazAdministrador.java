@@ -8,7 +8,9 @@ import clases.Repartidor;
 import clases.Usuario;
 import clases.Valora;
 
+
 public interface InterfazAdministrador{
+
 	//Dar de alta a un repartidor
 	public void altaRepartidor(Repartidor repartidor);
 	//Dar de baja a un repartidor
