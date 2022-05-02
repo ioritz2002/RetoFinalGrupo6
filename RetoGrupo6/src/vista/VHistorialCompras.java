@@ -21,7 +21,7 @@ public class VHistorialCompras extends JDialog {
 		this.setModal(b);
 		setBounds(100, 100, 501, 335);
 		getContentPane().setLayout(null);
-		
+
 		btnAtras = new JButton("ATR\u00C1S");
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -31,44 +31,33 @@ public class VHistorialCompras extends JDialog {
 		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnAtras.setBounds(33, 241, 103, 33);
 		getContentPane().add(btnAtras);
-		/*Tabla
-		Aqui se ponen las cabeceras y cuantas columnas va a tener la tabla
-		String[] nombreColumnas = {"CAMPO1", "CAMPO2", "CAMPO3", "CAMPO4"};
-		String[] fila = new String[4];
-		
-		dtm = new DefaultTableModel(null, nombreColumnas);
-		Aqui se carga en una coleccion todos los datos de los productos
-		 * Clase se refiere a una de las clases de nuestro proyecto
-		 * Set<Clase> productosTabla = aqui va el metodo que carga los datos de los productos en la implementacion;
+		/*
+		 * Tabla Aqui se ponen las cabeceras y cuantas columnas va a tener la tabla
+		 * String[] nombreColumnas = {"CAMPO1", "CAMPO2", "CAMPO3", "CAMPO4"}; String[]
+		 * fila = new String[4];
 		 * 
-		 * foreach para cargar la tabla
-		 * for(){
-		 * 	fila[0]= getDato();
-		 * 	fila[1]= getDato();
-		 * 	fila[2]= getDato();
-		 * 	fila[3]= getDato();
+		 * dtm = new DefaultTableModel(null, nombreColumnas); Aqui se carga en una
+		 * coleccion todos los datos de los productos Clase se refiere a una de las
+		 * clases de nuestro proyecto Set<Clase> productosTabla = aqui va el metodo que
+		 * carga los datos de los productos en la implementacion;
 		 * 
-		 * 	Aqui le decimos que nos añada una fila a la tabla con los datos previamente introducidos
-		 * 	dtm.addRow(fila);
-		 * }
+		 * foreach para cargar la tabla for(){ fila[0]= getDato(); fila[1]= getDato();
+		 * fila[2]= getDato(); fila[3]= getDato();
 		 * 
-		 *Se crea la tabla con el modelo dtm
-		 * table = new JTable(dtm);
+		 * Aqui le decimos que nos añada una fila a la tabla con los datos previamente
+		 * introducidos dtm.addRow(fila); }
 		 * 
-		 * Se le añade un scrol a la tabla
-		 * JScrollPane scroll = new JScrollPane(table);
+		 * Se crea la tabla con el modelo dtm table = new JTable(dtm);
 		 * 
-		 * Se le pone las posiciones y el tamaño
-		 * table.setBounds()
+		 * Se le añade un scrol a la tabla JScrollPane scroll = new JScrollPane(table);
 		 * 
-		 * Se le añade el evento de raton
-		 * y despues se realiza la siguiente accion
+		 * Se le pone las posiciones y el tamaño table.setBounds()
+		 * 
+		 * Se le añade el evento de raton y despues se realiza la siguiente accion
 		 * scroll.setViewportView(table);
-		 *	
+		 * 
 		 * Despues se le pone el tamaño y posiciones al scroll y se añade al panel con
-		 * scroll.setBounds();
-		 * getContentPane().add(scroll, BorderLayout.CENTER);
-		*/
+		 * scroll.setBounds(); getContentPane().add(scroll, BorderLayout.CENTER);
+		 */
 	}
-
 }

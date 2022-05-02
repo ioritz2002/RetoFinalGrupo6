@@ -8,22 +8,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-
-import clases.Cliente;
-
 import clases.ListarTablaProductos;
 import clases.Producto;
 import clases.Usuario;
 import clases.Valora;
 import modelo.InterfazAdministrador;
-
 import modelo.InterfazCliente;
 
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -33,16 +28,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import java.awt.event.MouseAdapter;
 
-
 public class VProductos extends JDialog implements ActionListener, MouseListener {
-
 	private JTable table;
 	private DefaultTableModel dtm;
 	private JTextField txtNombre;
@@ -53,21 +45,11 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 	private JButton btnMasVendidos;
 	private JComboBox cmbxTipos;
 	private JButton btnFiltrar;
-
-	private Cliente cli;
-  private InterfazAdministrador datosAdmin;
+	private InterfazAdministrador datosAdmin;
 	private InterfazCliente datosCliente;
 	private Usuario usuario;
 	private List<ListarTablaProductos> listarProductos;
 	private List<Producto> productos;
-
-	public VProductos(VMenuCliente vMenuCliente, boolean b, InterfazCliente datosCliente, Cliente cli) {
-		super(vMenuCliente);
-		this.setModal(b);
-		this.datosCliente = datosCliente;
-		this.cli = cli;
-
-
 
 	/**
 	 * @wbp.parser.constructor
@@ -78,6 +60,27 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		this.setModal(b);
 		this.datosAdmin = datosAdmin;
 		this.usuario = usuario;
+		setBounds(100, 100, 522, 453);
+		getContentPane().setLayout(null);
+
+		btnAtras = new JButton("ATR\u00C1S");
+		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnAtras.setBounds(26, 369, 103, 33);
+		getContentPane().add(btnAtras);
+		btnAtras.addActionListener(this);
+
+		btnMasVendidos = new JButton("Mas vendidos");
+		btnMasVendidos.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnMasVendidos.setBounds(320, 369, 138, 33);
+		getContentPane().add(btnMasVendidos);
+
+		cargarTabla(datosAdmin);
+	}
+	
+	public VProductos(VMenuCliente vMenuCliente, boolean b, InterfazCliente datosCliente, Usuario usuario) {
+		super(vMenuCliente);
+		this.setModal(b);
+		this.datosCliente = datosCliente;
 
 		setBounds(100, 100, 522, 453);
 		getContentPane().setLayout(null);
@@ -87,14 +90,85 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		btnAtras.setBounds(26, 369, 103, 33);
 		getContentPane().add(btnAtras);
 
-		btnAtras.addActionListener(this);
+		btnCarrito = new JButton("CARRITO");
+		btnCarrito.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnCarrito.setBounds(169, 369, 103, 33);
+		getContentPane().add(btnCarrito);
 
 		btnMasVendidos = new JButton("Mas vendidos");
 		btnMasVendidos.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnMasVendidos.setBounds(320, 369, 138, 33);
 		getContentPane().add(btnMasVendidos);
 
-		cargarTabla(datosAdmin);
+		btnFiltrar = new JButton("FILTRAR");
+		btnFiltrar.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnFiltrar.setBounds(320, 32, 138, 33);
+		getContentPane().add(btnFiltrar);
+
+		txtNombre = new JTextField();
+		txtNombre.setBounds(320, 103, 138, 20);
+		getContentPane().add(txtNombre);
+		txtNombre.setColumns(10);
+
+		JLabel lblNewLabel = new JLabel("Por nombre:");
+		lblNewLabel.setBounds(334, 86, 103, 16);
+		getContentPane().add(lblNewLabel);
+
+		JLabel lblPorTipo = new JLabel("Por tipo:");
+		lblPorTipo.setBounds(330, 130, 103, 16);
+		getContentPane().add(lblPorTipo);
+
+		cmbxTipos = new JComboBox();
+		cmbxTipos.setBounds(320, 159, 138, 22);
+		getContentPane().add(cmbxTipos);
+
+		JLabel lblPrecioMin = new JLabel("Precio Min:");
+		lblPrecioMin.setBounds(334, 201, 103, 16);
+		getContentPane().add(lblPrecioMin);
+
+		txtPrecioMin = new JTextField();
+		txtPrecioMin.setColumns(10);
+		txtPrecioMin.setBounds(320, 216, 138, 20);
+		getContentPane().add(txtPrecioMin);
+
+		txtPrecioMax = new JTextField();
+		txtPrecioMax.setColumns(10);
+		txtPrecioMax.setBounds(320, 274, 138, 20);
+		getContentPane().add(txtPrecioMax);
+
+		JLabel lblPrecioMax = new JLabel("Precio Max:");
+		lblPrecioMax.setBounds(334, 247, 103, 16);
+		getContentPane().add(lblPrecioMax);
+
+		/*
+		 * Tabla Aqui se ponen las cabeceras y cuantas columnas va a tener la tabla
+		 * String[] nombreColumnas = {"CAMPO1", "CAMPO2", "CAMPO3", "CAMPO4"}; String[]
+		 * fila = new String[4];
+		 * 
+		 * dtm = new DefaultTableModel(null, nombreColumnas); Aqui se carga en una
+		 * coleccion todos los datos de los productos Clase se refiere a una de las
+		 * clases de nuestro proyecto Set<Clase> productosTabla = aqui va el metodo que
+		 * carga los datos de los productos en la implementacion;
+		 * 
+		 * foreach para cargar la tabla for(){ fila[0]= getDato(); fila[1]= getDato();
+		 * fila[2]= getDato(); fila[3]= getDato();
+		 * 
+		 * Aqui le decimos que nos añada una fila a la tabla con los datos previamente
+		 * introducidos dtm.addRow(fila); }
+		 * 
+		 * Se crea la tabla con el modelo dtm table = new JTable(dtm);
+		 * 
+		 * Se le añade un scrol a la tabla JScrollPane scroll = new JScrollPane(table);
+		 * 
+		 * Se le pone las posiciones y el tamaño table.setBounds()
+		 * 
+		 * Se le añade el evento de raton y despues se realiza la siguiente accion
+		 * scroll.setViewportView(table);
+		 * 
+		 * Despues se le pone el tamaño y posiciones al scroll y se añade al panel con
+		 * scroll.setBounds(); getContentPane().add(scroll, BorderLayout.CENTER);
+		 */
+
 	}
 
 
@@ -182,87 +256,13 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		return listar;
 	}
 
-	public VProductos(VMenuCliente vMenuCliente, boolean b, Usuario usuario, InterfazCliente datosCliente) {
-		super(vMenuCliente);
-		this.setModal(b);
-		this.datosCliente = datosCliente;
-
-		setBounds(100, 100, 522, 453);
-		getContentPane().setLayout(null);
-
-		btnAtras = new JButton("ATR\u00C1S");
-		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnAtras.setBounds(26, 369, 103, 33);
-		getContentPane().add(btnAtras);
-
-
-		btnCarrito = new JButton("CARRITO");
-		btnCarrito.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnCarrito.setBounds(169, 369, 103, 33);
-		getContentPane().add(btnCarrito);
-
-
-		btnMasVendidos = new JButton("Mas vendidos");
-
-		btnMasVendidos.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnMasVendidos.setBounds(320, 369, 160, 33);
-		getContentPane().add(btnMasVendidos);
-
-		btnFiltrar = new JButton("FILTRAR");
-		btnFiltrar.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnFiltrar.setBounds(320, 32, 138, 33);
-		getContentPane().add(btnFiltrar);
-
-		txtNombre = new JTextField();
-		txtNombre.setBounds(320, 103, 138, 20);
-		getContentPane().add(txtNombre);
-		txtNombre.setColumns(10);
-
-		JLabel lblNewLabel = new JLabel("Por nombre:");
-		lblNewLabel.setBounds(320, 86, 103, 16);
-		getContentPane().add(lblNewLabel);
-
-		JLabel lblPorTipo = new JLabel("Por tipo:");
-		lblPorTipo.setBounds(320, 132, 103, 16);
-		getContentPane().add(lblPorTipo);
-
-		cmbxTipos = new JComboBox();
-		cmbxTipos.setBounds(320, 159, 138, 22);
-		getContentPane().add(cmbxTipos);
-
-		JLabel lblPrecioMin = new JLabel("Precio Min:");
-		lblPrecioMin.setBounds(320, 192, 103, 16);
-		getContentPane().add(lblPrecioMin);
-
-		txtPrecioMin = new JTextField();
-		txtPrecioMin.setColumns(10);
-		txtPrecioMin.setBounds(320, 216, 138, 20);
-		getContentPane().add(txtPrecioMin);
-
-		txtPrecioMax = new JTextField();
-		txtPrecioMax.setColumns(10);
-		txtPrecioMax.setBounds(320, 274, 138, 20);
-		getContentPane().add(txtPrecioMax);
-
-		JLabel lblPrecioMax = new JLabel("Precio Max:");
-		lblPrecioMax.setBounds(320, 247, 103, 16);
-		getContentPane().add(lblPrecioMax);
-
 	
-
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(btnAtras)) {
 			this.dispose();
 		}
-
-		if (e.getSource().equals(btnCarrito)) {
-			VCesta cesta= new VCesta(this, true, datosCliente, cli);
-			cesta.setVisible(true);
-		}
-
 
 	}
 
@@ -275,7 +275,6 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 			}
 		}
 		
-
 	}
 
 

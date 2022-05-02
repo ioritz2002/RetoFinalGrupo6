@@ -1,6 +1,6 @@
 package modelo;
 
-import clases.AÃ±ade;
+import clases.Añade;
 import clases.Cesta;
 import clases.Cliente;
 import clases.Producto;
@@ -9,11 +9,9 @@ import clases.Valora;
 
 import java.util.List;
 
-
 public interface InterfazCliente{
-	//Comprobar si el DNI estï¿½ repetido
+	//Comprobar si el DNI está repetido
 	public boolean comprobarDni(String dni);
-
 	//Da de alta a un cliente
 	public void registroCliente(Cliente usuario);
 	//Lista todos los productos en la ventana de productos
@@ -22,9 +20,9 @@ public interface InterfazCliente{
 	public List<Valora> listarValoracionesProductos();
 	//Listar los productos que estan en la cesta de compra comprobando de que esta en curso
 	public List<Producto> listarCestaCompra(String dni);
-	//AÃ±adir los productos seleccionados a la tabla aÃ±ade
-	public void aÃ±adirProductoACesta(Producto producto, String dni);
-	//Cancelar la compra borrando la cesta y toda la informacion de esta compra en las tablas cesta y aÃ±ade
+	//Añadir los productos seleccionados a la tabla añade
+	public void añadirProductoACesta(Producto producto, String dni);
+	//Cancelar la compra borrando la cesta y toda la informacion de esta compra en las tablas cesta y añade
 	public void cancelarCompra(String codCesta);
 	//Realizar la compra y pasar el estado de la cesta a realizado, ademas le asignamos un repartidor aleatoriamente
 	public void realizarCompra(String codCesta);

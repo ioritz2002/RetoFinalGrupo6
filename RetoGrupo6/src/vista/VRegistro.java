@@ -195,7 +195,7 @@ public class VRegistro extends JDialog implements ActionListener {
 			JOptionPane.showMessageDialog(null, "El DNI introducido es incorrecto", "Error", JOptionPane.OK_OPTION);
 		} else if (calendar.getDate().toString().isBlank()) {
 			JOptionPane.showMessageDialog(null, "Se debe marcar la fecha", "Error", JOptionPane.OK_OPTION);
-		} else if (txtContraseña.getText().length() > 8) {
+		} else if (txtContraseña.getText().toString().length() < 8) {
 			JOptionPane.showMessageDialog(null, "La contraseña debe tener al menos 8 caracteres", "Error",
 					JOptionPane.OK_OPTION);
 		} else if (txtEmail.getText().isBlank()) {

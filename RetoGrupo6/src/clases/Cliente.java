@@ -10,26 +10,6 @@ public class Cliente extends Usuario{
 	public Cliente() {
 		super();
 	}
-	
-	
-
-	
-
-
-
-	public Cliente(String dni, String email, String contraseña, String tipo, String nombre, LocalDate fechaNacimiento,
-			String direccion) {
-		super(dni, email, contraseña, tipo);
-		this.nombre = nombre;
-		this.fechaNacimiento = fechaNacimiento;
-		this.direccion = direccion;
-	}
-
-
-
-
-
-
 
 	public String getNombre() {
 		return nombre;

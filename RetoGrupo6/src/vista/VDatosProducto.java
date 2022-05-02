@@ -1,6 +1,6 @@
 package vista;
 
-
+import java.awt.EventQueue;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -12,15 +12,15 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
 
-import clases.Producto;
+import com.mysql.cj.x.protobuf.MysqlxConnection.Close;
 
+import clases.Producto;
 import clases.Usuario;
 import modelo.InterfazAdministrador;
-import modelo.InterfazCliente;
+
 import javax.swing.JButton;
 
-public class VDatosProducto extends JDialog implements ActionListener {
-
+public class VDatosProducto extends JDialog implements ActionListener{
 	private JTextField txtCodigo;
 	private JTextField txtTipo;
 	private JButton btnAtras;
@@ -30,12 +30,10 @@ public class VDatosProducto extends JDialog implements ActionListener {
 	private JTextField txtNombre;
 	private JTextField txtPrecio;
 	private JTextField txtStock;
-
 	private InterfazAdministrador datosAdmin;
 	private Usuario us;
 	private String cod;
-  private Producto producto;
-  
+
 	public VDatosProducto(VMenuAdministrador menuAdmin, boolean b, InterfazAdministrador datosAdmin, Usuario usuario) {
 		super(menuAdmin);
 		this.us = usuario;
@@ -43,14 +41,6 @@ public class VDatosProducto extends JDialog implements ActionListener {
 		this.setModal(b);
 
 		cod = calcularId();
-
-
-	public VDatosProducto(VProductos vProductos, boolean b, InterfazAdministrador datosAdmin, Producto producto) {
-		super(vProductos);
-		this.setModal(b);
-		this.datosAdmin = datosAdmin;
-
-
 		setBounds(100, 100, 709, 419);
 		getContentPane().setLayout(null);
 
@@ -65,9 +55,6 @@ public class VDatosProducto extends JDialog implements ActionListener {
 		txtCodigo.setEditable(false);
 		getContentPane().add(txtCodigo);
 		txtCodigo.setColumns(10);
-
-		txtCodigo.setEnabled(false);
-		
 
 		JLabel lblTipo = new JLabel("TIPO:");
 		lblTipo.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -100,22 +87,11 @@ public class VDatosProducto extends JDialog implements ActionListener {
 		btnAtras.setBounds(37, 316, 103, 53);
 		getContentPane().add(btnAtras);
 
-
 		btnAlta = new JButton("ALTA");
 		btnAlta.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnAlta.addActionListener(this);
 		btnAlta.setBounds(238, 316, 144, 53);
 		getContentPane().add(btnAlta);
-
-
-		
-		
-		btnModificar = new JButton("MODIFICAR");
-		btnModificar.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnModificar.setBounds(487, 316, 158, 53);
-		getContentPane().add(btnModificar);
-		btnModificar.addActionListener(this);
-		
 
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
@@ -131,37 +107,86 @@ public class VDatosProducto extends JDialog implements ActionListener {
 		txtStock.setColumns(10);
 		txtStock.setBounds(150, 267, 318, 28);
 		getContentPane().add(txtStock);
-		
 
+	}
+	
+	public VDatosProducto(VProductos vProductos, boolean b, InterfazAdministrador datosAdmin, Producto producto) {
+		super(vProductos);
+		this.setModal(b);
+		this.datosAdmin = datosAdmin;
+		setBounds(100, 100, 709, 419);
+		getContentPane().setLayout(null);
+		
+		JLabel lblCodigo = new JLabel("CODIGO:");
+		lblCodigo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblCodigo.setBounds(39, 27, 101, 43);
+		getContentPane().add(lblCodigo);
+		
+		txtCodigo = new JTextField();
+		txtCodigo.setBounds(150, 38, 318, 28);
+		getContentPane().add(txtCodigo);
+		txtCodigo.setColumns(10);
+		txtCodigo.setEnabled(false);
+		
+		JLabel lblTipo = new JLabel("TIPO:");
+		lblTipo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblTipo.setBounds(39, 79, 101, 43);
+		getContentPane().add(lblTipo);
+		
+		txtTipo = new JTextField();
+		txtTipo.setColumns(10);
+		txtTipo.setBounds(150, 90, 318, 28);
+		getContentPane().add(txtTipo);
+		
+		JLabel lblNombre = new JLabel("NOMBRE:");
+		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNombre.setBounds(39, 132, 101, 43);
+		getContentPane().add(lblNombre);
+		
+		JLabel lblPrecio = new JLabel("PRECIO:");
+		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblPrecio.setBounds(39, 195, 101, 43);
+		getContentPane().add(lblPrecio);
+		
+		JLabel lblStock = new JLabel("STOCK:");
+		lblStock.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblStock.setBounds(39, 252, 101, 43);
+		getContentPane().add(lblStock);
+		
+		btnAtras = new JButton("ATR\u00C1S");
+		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnAtras.setBounds(37, 316, 103, 53);
+		getContentPane().add(btnAtras);
+		btnAtras.addActionListener(this);
+		
+		
+		btnModificar = new JButton("MODIFICAR");
+		btnModificar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnModificar.setBounds(487, 316, 158, 53);
+		getContentPane().add(btnModificar);
+		btnModificar.addActionListener(this);
+		
+		btnBaja = new JButton("BAJA");
+		btnBaja.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnBaja.setBounds(348, 316, 103, 53);
+		getContentPane().add(btnBaja);
 		btnBaja.addActionListener(this);
-		noEditable();
-		mostrarDatos();
-
-	}
-
-	private void mostrarDatos() {
-		// TODO Auto-generated method stub
 		
-		txtCodigo.setText(producto.getCodProducto());
-		txtNombre.setText(producto.getNombre());
-		txtPrecio.setText(String.valueOf(producto.getPrecio()));
-		txtStock.setText(String.valueOf(producto.getStock()));
-		txtTipo.setText(producto.getTipo());
+		txtNombre = new JTextField();
+		txtNombre.setColumns(10);
+		txtNombre.setBounds(150, 143, 318, 28);
+		getContentPane().add(txtNombre);
 		
-	}
-
-	private void noEditable() {
-		// TODO Auto-generated method stub
+		txtPrecio = new JTextField();
+		txtPrecio.setColumns(10);
+		txtPrecio.setBounds(150, 210, 318, 28);
+		getContentPane().add(txtPrecio);
 		
-		txtCodigo.setEditable(false);
-		txtNombre.setEditable(false);
-		txtPrecio.setEditable(false);
-		txtStock.setEditable(false);
-		txtTipo.setEditable(false);
+		txtStock = new JTextField();
+		txtStock.setColumns(10);
+		txtStock.setBounds(150, 267, 318, 28);
+		getContentPane().add(txtStock);
 		
-	}
-
-
 		
 		cargarDatos(producto);
 		
@@ -191,28 +216,7 @@ public class VDatosProducto extends JDialog implements ActionListener {
 			}
 			
 		}
-		if (e.getSource().equals(btnAtras)) {
-			this.dispose();
-		}
-    
-    
-		if(e.getSource().equals(btnBaja)) {
-      Producto producto = new Producto();
-		  producto.setCodProducto(txtCodigo.getText());
-			if (JOptionPane.showConfirmDialog(null, "ï¿½Estas seguro que quieres dar de baja este producto?",
-					"Selecciona una opcion", JOptionPane.YES_NO_OPTION) == 0) {
-				datosAdmin.bajaProducto(txtCodigo.getText());
-				JOptionPane.showMessageDialog(null, "Producto borrado",
-						"Selecciona una opcion", JOptionPane.WARNING_MESSAGE);
-				this.dispose();
-			}
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource().equals(btnAtras)) {
-			this.dispose();
-		}
+		
 		if (e.getSource().equals(btnAlta)) {
 			if (txtTipo.getText().isBlank() || txtNombre.getText().isBlank() || txtPrecio.getText().isBlank()
 					|| txtStock.getText().isBlank()) {
@@ -236,8 +240,27 @@ public class VDatosProducto extends JDialog implements ActionListener {
 				nuevoProducto();
 			}
 		}
+		
+		if(e.getSource().equals(btnBaja)) {
+			Producto producto = new Producto();
+			producto.setCodProducto(txtCodigo.getText());
+			
+			if (JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres dar de baja este producto?",
+					"Selecciona una opcion", JOptionPane.YES_NO_OPTION) == 0) {
+				datosAdmin.bajaProducto(txtCodigo.getText());
+				JOptionPane.showMessageDialog(null, "Producto borrado",
+						"Selecciona una opcion", JOptionPane.WARNING_MESSAGE);
+				this.dispose();
+			}
+			
+		}
+		
+		
+		if (e.getSource().equals(btnAtras)) {
+			this.dispose();
+		}
 	}
-
+	
 	private boolean comprobarNumero(String num) {
 		char numeros[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 		boolean letra = false;
@@ -269,6 +292,7 @@ public class VDatosProducto extends JDialog implements ActionListener {
 		prod.setCodProducto(cod);
 
 		datosAdmin.altaProductos(prod);
+		JOptionPane.showMessageDialog(null, "Producto dado de alta correctamente", null, JOptionPane.OK_OPTION);
 
 	}
 
@@ -291,4 +315,5 @@ public class VDatosProducto extends JDialog implements ActionListener {
 	private boolean prodRepetido(String nombre) {
 		return datosAdmin.compararProductos(nombre);
 	}
+	
 }
