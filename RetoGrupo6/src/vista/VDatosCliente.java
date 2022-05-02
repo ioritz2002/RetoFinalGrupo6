@@ -22,7 +22,9 @@ import java.time.LocalDate;
 import com.toedter.calendar.JCalendar;
 
 import clases.Cliente;
+
 import clases.Usuario;
+
 
 import javax.swing.JPasswordField;
 
@@ -40,6 +42,7 @@ public class VDatosCliente extends JDialog implements ActionListener{
 	private JPasswordField txtContraseña;
 	private JButton btnModificar;
 	private JButton btnAtras;
+	private JButton btnBorrar;
 
 	private JButton btnBorrar;
 	private Cliente cliente;
@@ -66,7 +69,12 @@ public class VDatosCliente extends JDialog implements ActionListener{
 	 * Create the dialog.
 	 * @param datosCliente 
 	 * @param b 
+
+	 * @param vPrincipal 
+	 * @wbp.parser.constructor
+
 	 * @param vMenuCliente 
+
 	 */
 	public VDatosCliente(VMenuCliente vMenuCliente, boolean b, Cliente usuario, InterfazCliente datosCliente) {
 		super(vMenuCliente);
@@ -120,7 +128,7 @@ public class VDatosCliente extends JDialog implements ActionListener{
 		{
 			JLabel lbldireccin = new JLabel("Direcci\u00F3n:");
 			lbldireccin.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lbldireccin.setBounds(65, 389, 118, 48);
+			lbldireccin.setBounds(80, 389, 118, 48);
 			contentPanel.add(lbldireccin);
 		}
 		{
@@ -197,6 +205,7 @@ public class VDatosCliente extends JDialog implements ActionListener{
 		txtFNacimiento.setEditable(false);
 		txtNombre.setEditable(false);
 	}
+
 
 
 		

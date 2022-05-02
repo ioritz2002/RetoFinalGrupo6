@@ -11,9 +11,11 @@ import java.util.List;
 
 
 public interface InterfazCliente{
+	//Comprobar si el DNI est� repetido
+	public boolean comprobarDni(String dni);
 
 	//Da de alta a un cliente
-	public void registroCliente(Usuario usuario);
+	public void registroCliente(Cliente usuario);
 	//Lista todos los productos en la ventana de productos
 	public List<Producto> listarProductos();
 	//Lista la columna de valoraciones de cada uno de los productos en la ventana de productos

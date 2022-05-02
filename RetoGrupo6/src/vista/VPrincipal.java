@@ -6,11 +6,13 @@ import javax.swing.border.EmptyBorder;
 
 import clases.Cliente;
 
+
 import clases.Producto;
 import clases.Repartidor;
 
 import clases.Usuario;
 import excepciones.LoginIncorrectoException;
+
 
 import modelo.InterfazAdministrador;
 import modelo.InterfazAmbosUsuarios;
@@ -40,10 +42,11 @@ public class VPrincipal extends JFrame implements ActionListener {
 	private InterfazAdministrador datosAdmin;
 	private InterfazCliente datosCliente;
 	private InterfazAmbosUsuarios datosAmbos;
-	private JPasswordField txtContraseña;
+	private JPasswordField txtContrase�a;
+	private Usuario usuario;
+	private String tipo;
+
 	
-
-
 	public VPrincipal(InterfazAdministrador datosAdmin, InterfazCliente datosCliente, InterfazAmbosUsuarios datosAmbos) {
 
 		this.datosAdmin = datosAdmin;
@@ -82,7 +85,7 @@ public class VPrincipal extends JFrame implements ActionListener {
 		btnCrearCuenta.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnCrearCuenta.setBounds(382, 275, 171, 67);
 		contentPane.add(btnCrearCuenta);
-		btnCrearCuenta.addActionListener(this);
+		
 
 		txtContraseña = new JPasswordField();
 		txtContraseña.setBounds(200, 181, 267, 31);
@@ -96,6 +99,7 @@ public class VPrincipal extends JFrame implements ActionListener {
 			venRegistro.setVisible(true);
 		}
 		if (e.getSource().equals(btnIniciarSesion)) {
+
 			iniciarSesion();
 
 		}
@@ -149,6 +153,7 @@ public class VPrincipal extends JFrame implements ActionListener {
 		} else {
 			throw new LoginIncorrectoException();
 		}
+
 	}
 
 }

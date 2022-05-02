@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -13,9 +14,11 @@ import clases.Usuario;
 
 public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 
+
 	private Connection conex;
 	private PreparedStatement stmt;
 	private ResourceBundle archivoConfig;
+
 
 	// Conexion
 	private String url;
@@ -26,16 +29,19 @@ public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 	private final String SELECTlogin = "CALL SELECT_LOGIN(?)";
 
 
+
 	public ImplementacionAmbosUsuarios() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
 		this.url = archivoConfig.getString("Conn");
 		this.usuario = archivoConfig.getString("BDUser");
+
 		this.contraseña = archivoConfig.getString("BDPass");
 	}
 
 	public void openConnection() {
 		try {
 			conex = DriverManager.getConnection(url, usuario, contraseña);
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -43,7 +49,9 @@ public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 	}
 
 
+
 	public void closeConnection() throws SQLException {
+
 
 		if (conex != null) {
 			conex.close();
@@ -52,6 +60,7 @@ public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 			conex.close();
 		}
 	}
+
 
 
 	@Override
@@ -110,6 +119,7 @@ public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 			}
 		}
 		return usuario;
+
 
 	}
 

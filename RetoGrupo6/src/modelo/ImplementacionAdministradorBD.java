@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 import com.mysql.cj.protocol.Resultset;
 
 import java.sql.Connection;
+import java.sql.Date;
+
 import clases.Cesta;
 import clases.Cliente;
 import clases.Producto;
@@ -34,14 +36,17 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	private final String DELETEproducto = "DELETE FROM producto where COD_PRODUCTO = ?";
 	private final String DELETErepartidor = "DELETE FROM repartidor where ID_REPARTIDOR = ?";
 	private final String CONSULTARrepartidores = "SELECT * FROM repartidor";
-
-
-	
-	
+	private final String LISTAClientes= "SELECT DNI, NOMBRE FROM cliente";
+	private final String BUSCARNombreProducto= "SELECT NOMBRE FROM producto WHERE UPPER(nombre) LIKE ?";
+	private final String INSERTARProducto= "INSERT INTO producto(COD_PRODUCTO, TIPO, NOMBRE, STOCK, PRECIO, DNI) VALUES(?, ? ,? , ?, ?, ?)";
+	private final String BUSCARNumRep= "SELECT COUNT(*) AS total FROM producto";
+	private final String NUMRepartidor= "SELECT COUNT(*) AS total FROM repartidor"; 
+	private final String ALTARepartidor= "INSERT INTO repartidor(ID_REPARTIDOR, FECHA_ALTA, NOMBRE, APELLIDO, DNI) VALUES( ?, ?, ?, ?, ?)";
 	private final String CALCULOValoracion = "SELECT valora.* FROM valora";
 	private final String SELECTProductos = "SELECT producto.* FROM producto";
 	private final String UPDATEProducto = "UPDATE producto SET TIPO = ?, NOMBRE = ?, STOCK = ?, PRECIO = ? WHERE COD_PRODUCTO LIKE ?";
 	
+
 
 	public ImplementacionAdministradorBD() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
@@ -71,8 +76,32 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 
 	@Override
 	public void altaRepartidor(Repartidor repartidor) {
-		// TODO Auto-generated method stub
 
+		this.openConnection();
+		
+		try {
+			stmt= conex.prepareStatement(ALTARepartidor);
+			stmt.setString(1, repartidor.getIdRepartidor());
+			stmt.setDate(2, Date.valueOf(repartidor.getFechaAlta()));
+			stmt.setString(3, repartidor.getNombre());
+			stmt.setString(4, repartidor.getApellido());
+			stmt.setString(5, repartidor.getDniUsuario());
+			
+			stmt.executeUpdate();
+			
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override
@@ -138,7 +167,31 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 
 	@Override
 	public void altaProductos(Producto producto) {
-		// TODO Auto-generated method stub
+
+		this.openConnection();		
+		try {
+			stmt= conex.prepareStatement(INSERTARProducto);
+			stmt.setString(1, producto.getCodProducto());
+			stmt.setString(2, producto.getTipo());
+			stmt.setString(3, producto.getNombre());
+			stmt.setInt(4, producto.getStock());
+			stmt.setDouble(5, producto.getPrecio());
+			stmt.setString(6, producto.getDni());
+			
+			stmt.executeUpdate();
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -234,8 +287,34 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 
 	@Override
 	public List<Cliente> listarClientes() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Cliente> listaClientes= new ArrayList<>();
+		ResultSet rs= null;
+		
+		this.openConnection();
+		
+		try {
+			stmt= conex.prepareStatement(LISTAClientes);
+			rs= stmt.executeQuery();
+			
+			while (rs.next()) {
+				Cliente cli= new Cliente();
+				cli.setDni(rs.getString(1));
+				cli.setNombre(rs.getString(2));
+				listaClientes.add(cli);
+			}
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listaClientes;
 	}
 
 	@Override
@@ -243,6 +322,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 
 	@Override
@@ -284,4 +364,100 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	
 	
 
+
+	@Override
+	public int calcularCodRepartidor() {
+		
+		ResultSet rs= null;
+		int num = 0;
+		
+		this.openConnection();
+		
+		try {
+			stmt= conex.prepareStatement(NUMRepartidor);
+			
+			rs= stmt.executeQuery();
+			
+			if (rs.next()) {
+				num= rs.getInt("total");
+			}
+			
+			
+		} catch (SQLException e1) {
+			
+			e1.printStackTrace();
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return num;
+		
+	}
+
+	@Override
+	public int calcularCodProducto() {
+		ResultSet rs= null;
+		int num = 0;
+		
+		this.openConnection();
+		
+		try {
+			stmt= conex.prepareStatement(BUSCARNumRep);
+			
+			rs= stmt.executeQuery();
+			
+			if (rs.next()) {
+				num= rs.getInt("total");
+			}
+			
+			
+		} catch (SQLException e1) {
+			
+			e1.printStackTrace();
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return num;
+	}
+
+	@Override
+	public boolean compararProductos(String nombre) {
+		
+		ResultSet rs= null;
+		boolean b= false;
+		this.openConnection();
+		
+		try {
+			stmt=conex.prepareStatement(BUSCARNombreProducto);
+			stmt.setString(1, nombre.toUpperCase());
+			rs= stmt.executeQuery();
+			
+			if (rs.next()) {
+			b= true;
+			}
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return b;
+	}
 }

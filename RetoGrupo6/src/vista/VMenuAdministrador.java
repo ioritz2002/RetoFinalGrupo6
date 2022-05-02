@@ -24,20 +24,29 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 	private final JPanel contentPanel = new JPanel();
 	private JButton btnHistorialCliente;
 	private JButton btnAtras;
-	private InterfazAdministrador datosAdmin;
+
+	private JMenuBar menuBar;
+	private JMenu menAlta;
 	private JMenuItem itmAltaRepartidor;
 	private JMenuItem itmAltaProducto;
+	private JMenu menBaja;
 	private JMenuItem itmBajaRepartidor;
-	private JMenuItem itmBajaProducto;
+	private JMenu menModificacion;
 	private JMenuItem itmModificarProducto;
+	private InterfazAdministrador datosAdmin;
+	private String botonElegido;
+	private JMenuItem itmBajaProducto
 	private Usuario usuario;
+
 
 	public VMenuAdministrador(VPrincipal vPrincipal, boolean b, InterfazAdministrador datosAdmin, Usuario usuario) {
 		super(vPrincipal);
 		this.setModal(b);
 		this.datosAdmin = datosAdmin;
+
 		this.usuario = usuario;
 		setBounds(100, 100, 639, 386);
+
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -45,6 +54,7 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 		{
 			btnAtras = new JButton("ATR\u00C1S");
 			btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			btnAtras.addActionListener(this);
 			btnAtras.setBounds(68, 260, 105, 50);
 			contentPanel.add(btnAtras);
 			btnAtras.addActionListener(this);
@@ -52,25 +62,31 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 		{
 			btnHistorialCliente = new JButton("HISTORIAL CLIENTE");
 			btnHistorialCliente.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btnHistorialCliente.setBounds(287, 260, 273, 50);
+
+			btnHistorialCliente.addActionListener(this);
+			btnHistorialCliente.setBounds(287, 260, 213, 50);
 			contentPanel.add(btnHistorialCliente);
 		}
 		{
-			JMenuBar menuBar = new JMenuBar();
-			menuBar.setBounds(0, 0, 623, 50);
+			menuBar = new JMenuBar();
+			menuBar.setBounds(0, 0, 559, 50);
+
 			contentPanel.add(menuBar);
 			
-			JMenu menAlta = new JMenu("                    ALTA                ");
+			menAlta = new JMenu("                    ALTA                ");
 			menAlta.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			menuBar.add(menAlta);
 			
 			itmAltaRepartidor = new JMenuItem("REPARTIDOR");
+			itmAltaRepartidor.addActionListener(this);
 			menAlta.add(itmAltaRepartidor);
 			
 			itmAltaProducto = new JMenuItem("PRODUCTO");
+			itmAltaProducto.addActionListener(this);
+
 			menAlta.add(itmAltaProducto);
 			
-			JMenu menBaja = new JMenu("                    BAJA                   ");
+			menBaja = new JMenu("                    BAJA                   ");
 			menBaja.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			menuBar.add(menBaja);
 			
@@ -78,10 +94,12 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 			menBaja.add(itmBajaRepartidor);
 			
 
+
 			itmBajaProducto = new JMenuItem("PRODUCTO");
 			menBaja.add(itmBajaProducto);
 			
 			JMenu menModificacion = new JMenu("               MODIFICACION               ");
+
 			menModificacion.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			menuBar.add(menModificacion);
 			
@@ -101,6 +119,23 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 			VProductos vProductos = new VProductos(this, true, usuario, datosAdmin);
 			vProductos.setVisible(true);
 
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource().equals(itmAltaRepartidor)) {
+			VAltaRepartidor a = new VAltaRepartidor(this, true, datosAdmin, us);
+			a.setVisible(true);
+		}
+		if (e.getSource().equals(itmAltaProducto)) {
+			botonElegido= "Alta";
+			VDatosProducto prod= new VDatosProducto(this, true, datosAdmin, us);
+			prod.setVisible(true);
+		}
+		if (e.getSource().equals(btnHistorialCliente)) {
+			VSelecCliente comp= new VSelecCliente(this, true, datosAdmin);
+			comp.setVisible(true);
 		}
 	}
 }

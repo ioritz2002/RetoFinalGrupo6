@@ -5,7 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JDialog;
 
 import clases.Cliente;
+
 import clases.Usuario;
+
 import modelo.InterfazCliente;
 
 import javax.swing.JButton;
@@ -14,15 +16,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
+
 public class VMenuCliente extends JDialog implements ActionListener{
+
 
 	private JButton btnAtras;
 	private JButton btnCarrito;
 	private JButton btnHistorialCompra;
 	private JButton btnInfoPersonal;
 	private JButton btnComprar;
+	private JButton btnValorarProducto;
 	private InterfazCliente datosCliente;
 	private Cliente usuario;
+
 
 	public VMenuCliente(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente, Cliente usuario) {
 		super(vPrincipal);
@@ -49,7 +55,7 @@ public class VMenuCliente extends JDialog implements ActionListener{
 		btnComprar.setBounds(278, 37, 181, 44);
 		getContentPane().add(btnComprar);
 		
-		JButton btnValorarProducto = new JButton("VALORAR PRODUCTO");
+		btnValorarProducto = new JButton("VALORAR PRODUCTO");
 		btnValorarProducto.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnValorarProducto.setBounds(266, 139, 212, 44);
 		getContentPane().add(btnValorarProducto);
@@ -74,11 +80,23 @@ public class VMenuCliente extends JDialog implements ActionListener{
 		if (e.getSource().equals(btnAtras)) {
 			this.dispose();
 		}
+
+		if (e.getSource().equals(btnComprar)) {
+			VProductos vprod = new VProductos(this, true, datosCliente, cli);
+			vprod.setVisible(true);
+		}
+		if (e.getSource().equals(btnCarrito)) {
+			VCesta cest = new VCesta(this, true, datosCliente, cli);
+			cest.setVisible(true);
+		}
+	}
+
 		if (e.getSource().equals(btnInfoPersonal)) {
 			VDatosCliente vDatosCliente = new VDatosCliente(this, true, (Cliente) usuario, datosCliente);
 			vDatosCliente.setVisible(true);
 		}
 	}
+
 
 
 }
