@@ -149,7 +149,6 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador{
 			}
 			
 		}
-		System.out.println("Funciona");
 	}
 
 	@Override

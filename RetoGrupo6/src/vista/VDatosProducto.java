@@ -125,6 +125,7 @@ public class VDatosProducto extends JDialog implements ActionListener{
 			
 			if(JOptionPane.showConfirmDialog(null, "Esta seguro que quiere modificar el producto", null, JOptionPane.YES_NO_OPTION) == 0){
 				datosAdmin.modificarProducto(producto);
+				JOptionPane.showMessageDialog(null, "Producto modificado");
 			}
 			
 		}
