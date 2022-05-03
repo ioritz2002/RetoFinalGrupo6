@@ -34,6 +34,9 @@ public class VDatosProducto extends JDialog implements ActionListener{
 	private Usuario us;
 	private String cod;
 
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public VDatosProducto(VMenuAdministrador menuAdmin, boolean b, InterfazAdministrador datosAdmin, Usuario usuario) {
 		super(menuAdmin);
 		this.us = usuario;

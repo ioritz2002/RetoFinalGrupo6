@@ -58,6 +58,7 @@ public class VBajaRepartidor extends JDialog implements ActionListener {
 		cargarRepartidores(datosAdministrador);
 
 		btnBajaRepartidor.addActionListener(this);
+		btnAtras.addActionListener(this);
 
 	}
 
@@ -93,6 +94,9 @@ public class VBajaRepartidor extends JDialog implements ActionListener {
 						JOptionPane.WARNING_MESSAGE);
 				this.dispose();
 			}
+		}
+		if(e.getSource().equals(btnAtras)) {
+			this.dispose();
 		}
 
 	}

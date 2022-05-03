@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -27,6 +28,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	private String contraseña;
 
 	// SQL
+	private final String BUSCARproductos= "SELECT P.NOMBRE,P.TIPO,P.PRECIO FROM PRODUCTO P, CESTA C, AÑADE A WHERE P.COD_PRODUCTO = A.COD_PRODUCTO AND C.COD_CESTA=A.COD_CESTA AND C.ESTADO = 0 AND A.DNI = ?";
 	private final String UPDATEcliente = "CALL MODIFICAR_CLIENTE(?,?,?,?,?,?)";
 	private final String BUSCARDni = "SELECT * FROM cliente WHERE dni = ?";
 	private final String introducirCliente = "CALL INSERT_CLIENTE( ?, ?, ?, ?, ?, ?)";
@@ -96,9 +98,38 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		return null;
 	}
 
+	
+	
+	//ESTE
 	@Override
 	public List<Producto> listarCestaCompra(String dni) {
 		// TODO Auto-generated method stub
+		
+		List<Producto> productos = new ArrayList<>();
+		ResultSet rs = null;
+		Producto producto = null;
+		
+		this.openConnection();
+		
+		try {
+			
+			
+			stmt = conex.prepareStatement(BUSCARDni);
+			rs = stmt.executeQuery();
+			
+			
+			while(rs.next()) {
+			producto = new Producto();
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		return null;
 	}
 
@@ -151,6 +182,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		// Abrimos la conexión
 
 		this.openConnection();
+		
 
 		try {
 			// Preparamos la sentencia stmt para borrar el cliente

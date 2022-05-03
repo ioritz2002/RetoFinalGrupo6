@@ -226,16 +226,16 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 					listar.get(productos.get(i).getCodProducto())
 							.setValoracion(listar.get(productos.get(i).getCodProducto()).getValoracion()
 									+ valoraciones.get(j).getValoracion());
-				}  else if(!listar.containsKey(productos.get(i).getCodProducto())) {
-					ListarTablaProductos linea = new ListarTablaProductos();
-					linea.setCodigoProducto(productos.get(i).getCodProducto());
-					linea.setNombreProducto(productos.get(i).getNombre());
-					linea.setPrecio(productos.get(i).getPrecio());
-					linea.setTipoProducto(productos.get(i).getTipo());
-					linea.setValoracion(0);
-					listar.put(linea.getCodigoProducto(), linea);
-				}
+				}  
 
+			} if(!listar.containsKey(productos.get(i).getCodProducto())) {
+				ListarTablaProductos linea = new ListarTablaProductos();
+				linea.setCodigoProducto(productos.get(i).getCodProducto());
+				linea.setNombreProducto(productos.get(i).getNombre());
+				linea.setPrecio(productos.get(i).getPrecio());
+				linea.setTipoProducto(productos.get(i).getTipo());
+				linea.setValoracion(0);
+				listar.put(linea.getCodigoProducto(), linea);
 			}
 		}
 
