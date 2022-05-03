@@ -31,7 +31,6 @@ public class VBajaRepartidor extends JDialog implements ActionListener {
 		super(vMenuAdministrador);
 		this.setModal(b);
 		this.datosAdministrador = datosAdministrador;
-		// this.repartidor = repartidor;
 
 		setBounds(100, 100, 524, 300);
 		getContentPane().setLayout(null);
@@ -49,6 +48,7 @@ public class VBajaRepartidor extends JDialog implements ActionListener {
 		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnAtras.setBounds(58, 181, 103, 53);
 		getContentPane().add(btnAtras);
+		btnAtras.addActionListener(this);
 
 		btnBajaRepartidor = new JButton("DAR DE BAJA REPARTIDOR");
 		btnBajaRepartidor.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -93,6 +93,10 @@ public class VBajaRepartidor extends JDialog implements ActionListener {
 						JOptionPane.WARNING_MESSAGE);
 				this.dispose();
 			}
+		}
+		
+		if (e.getSource().equals(btnAtras)) {
+			this.dispose();
 		}
 
 	}

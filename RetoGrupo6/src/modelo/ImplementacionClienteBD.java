@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -31,6 +32,9 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	private final String BUSCARDni = "SELECT * FROM cliente WHERE dni = ?";
 	private final String introducirCliente = "CALL INSERT_CLIENTE( ?, ?, ?, ?, ?, ?)";
 	private final String DELETEcliente = "DELETE FROM usuario WHERE DNI = ?";
+	private final String CALCULOValoracion = "SELECT valora.* FROM valora";
+	private final String SELECTProductos = "SELECT producto.* FROM producto";
+	private final String BUSCARCodCesta = "SELECT COUNT(*) AS total FROM cesta";
 
 	public ImplementacionClienteBD() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
@@ -84,11 +88,6 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		}
 	}
 
-	@Override
-	public List<Producto> listarProductos() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public List<Valora> listarValoracionesProductos() {
@@ -112,6 +111,37 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	public void cancelarCompra(String codCesta) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	@Override
+	public int calcularCodCesta() {
+		ResultSet rs = null;
+		int num = 0;
+
+		this.openConnection();
+
+		try {
+			stmt = conex.prepareStatement(BUSCARCodCesta);
+
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				num = rs.getInt("total");
+			}
+
+		} catch (SQLException e1) {
+
+			e1.printStackTrace();
+		}
+
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return num;
 	}
 
 	@Override
@@ -251,6 +281,81 @@ public class ImplementacionClienteBD implements InterfazCliente {
 			e.printStackTrace();
 		}
 		return b;
+	}
+
+	@Override
+	public List<Producto> listarProductos() {
+		List<Producto> productos = new ArrayList<Producto>();
+		Producto producto = null;
+		ResultSet rs = null;
+
+		openConnection();
+		try {
+			stmt = conex.prepareStatement(SELECTProductos);
+			rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				producto = new Producto();
+				producto.setCodProducto(rs.getString(1));
+				producto.setTipo(rs.getString(2));
+				producto.setNombre(rs.getString(3));
+				producto.setStock(rs.getInt(4));
+				producto.setPrecio(rs.getDouble(5));
+				productos.add(producto);
+			}
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				closeConnection();
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return productos;
+	}
+	
+	@Override
+	public List<Valora> listarValoraciones() {
+		List<Valora> valoraciones = new ArrayList<Valora>();
+		Valora valora = null;
+		ResultSet rs = null;
+
+		openConnection();
+		try {
+			stmt = conex.prepareStatement(CALCULOValoracion);
+			rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				valora = new Valora();
+
+				valora.setCodProducto(rs.getString(1));
+				valora.setDniUsuario(rs.getString(2));
+				valora.setValoracion(rs.getInt(3));
+
+				valoraciones.add(valora);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				closeConnection();
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return valoraciones;
 	}
 
 }

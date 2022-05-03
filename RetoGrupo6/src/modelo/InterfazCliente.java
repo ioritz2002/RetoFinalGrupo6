@@ -14,8 +14,10 @@ public interface InterfazCliente{
 	public boolean comprobarDni(String dni);
 	//Da de alta a un cliente
 	public void registroCliente(Cliente usuario);
-	//Lista todos los productos en la ventana de productos
+	// Listar todos los productos
 	public List<Producto> listarProductos();
+	//Listar todas las valoraciones
+	public List<Valora> listarValoraciones();
 	//Lista la columna de valoraciones de cada uno de los productos en la ventana de productos
 	public List<Valora> listarValoracionesProductos();
 	//Listar los productos que estan en la cesta de compra comprobando de que esta en curso
@@ -46,4 +48,5 @@ public interface InterfazCliente{
 	public List<Producto> listarProductos(double precioMin, double precioMax);
 	//Mostrar los productos mas vendidos
 	public List<Producto> listarProductosMasVendidos();
+	public int calcularCodCesta();
 }

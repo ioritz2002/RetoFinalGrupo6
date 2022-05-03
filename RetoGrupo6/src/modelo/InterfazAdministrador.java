@@ -19,20 +19,20 @@ public interface InterfazAdministrador{
 	public void altaProductos(Producto producto);
 	//Dar de baja a un producto
 	public void bajaProducto(String codProducto);
-	//Listar todos los productos
-	public List<Producto> listarProductos();
 	//Modificar un producto
 	public void modificarProducto(Producto producto);
 	//Listar todos los clientes
 	public List<Cliente> listarClientes();
 	//Mostrar los productos mas vendidos
 	public List<Producto> listarProductosMasVendidos();
-	//Listar todas las valoraciones
-	public List<Valora> listarValoraciones();
 	//Buscar cuantos repartidores hay
 	public int calcularCodRepartidor();
 	//Compara productos para saber si el nuevo a introducir está repetido
 	public boolean compararProductos(String nombre);
 	//Buscar cuantos productos hay
 	public int calcularCodProducto();
+	// Listar todos los productos
+	public List<Producto> listarProductos();
+	//Listar todas las valoraciones
+	public List<Valora> listarValoraciones();
 }

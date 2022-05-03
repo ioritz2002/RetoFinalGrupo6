@@ -5,10 +5,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import clases.Cliente;
+import clases.Producto;
 import clases.Usuario;
+import clases.Valora;
 
 public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 
@@ -23,7 +27,7 @@ public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 
 	// SQL
 	private final String SELECTlogin = "CALL SELECT_LOGIN(?)";
-
+	
 	public ImplementacionAmbosUsuarios() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
 		this.url = archivoConfig.getString("Conn");
@@ -106,5 +110,9 @@ public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 		}
 		return usuario;
 	}
+
+	
+
+	
 
 }

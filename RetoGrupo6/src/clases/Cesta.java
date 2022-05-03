@@ -53,8 +53,14 @@ public class Cesta {
 		this.codRepartidor = codRepartidor;
 	}
 	
-	
-	
+	public void ponerEstado(String estado) {
+		if (estado.equalsIgnoreCase("En curso")) {
+			this.estado = false;
+		}
+		if (estado.equalsIgnoreCase("Finalizado")) {
+			this.estado = true;
+		}
+	}
 	
 	
 	
