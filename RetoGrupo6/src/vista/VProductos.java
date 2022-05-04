@@ -76,7 +76,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 
 		cargarTabla(datosAdmin);
 	}
-	
+
 	public VProductos(VMenuCliente vMenuCliente, boolean b, InterfazCliente datosCliente, Usuario usuario) {
 		super(vMenuCliente);
 		this.setModal(b);
@@ -171,7 +171,6 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 
 	}
 
-
 	private void cargarTabla(InterfazAdministrador datosAdmin) {
 		// Tabla
 		String[] cabeceras = { "Nombre", "Tipo", "Precio", "Valoracion" };
@@ -183,19 +182,18 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 
 		Map<String, ListarTablaProductos> listaProductosMap = cargarLista(productos, valoraciones);
 		listarProductos = new ArrayList<ListarTablaProductos>(listaProductosMap.values());
-		
+
 		Collections.sort(listarProductos);
-		
+
 		for (int i = 0; i < listarProductos.size(); i++) {
 			fila[0] = listarProductos.get(i).getNombreProducto();
 			fila[1] = listarProductos.get(i).getTipoProducto();
 			fila[2] = String.valueOf(listarProductos.get(i).getPrecio());
 			fila[3] = String.valueOf(listarProductos.get(i).getValoracion());
-			
+
 			dtm.addRow(fila);
 		}
-		
-		
+
 		table = new JTable(dtm);
 		JScrollPane scroll = new JScrollPane(table);
 		table.setBounds(50, 10, 420, 250);
@@ -205,15 +203,15 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		table.addMouseListener(this);
 	}
 
-
 	private Map<String, ListarTablaProductos> cargarLista(List<Producto> productos, List<Valora> valoraciones) {
 		Map<String, ListarTablaProductos> listar = new TreeMap<String, ListarTablaProductos>();
 		int contador = 0;
-		
+
 		for (int i = 0; i < productos.size(); i++) {
 			contador = 0;
 			for (int j = 0; j < valoraciones.size(); j++) {
-				if (productos.get(i).getCodProducto().equalsIgnoreCase(valoraciones.get(j).getCodProducto())&& !listar.containsKey(productos.get(i).getCodProducto())) {
+				if (productos.get(i).getCodProducto().equalsIgnoreCase(valoraciones.get(j).getCodProducto())
+						&& !listar.containsKey(productos.get(i).getCodProducto())) {
 					ListarTablaProductos linea = new ListarTablaProductos();
 					linea.setCodigoProducto(productos.get(i).getCodProducto());
 					linea.setNombreProducto(productos.get(i).getNombre());
@@ -226,16 +224,17 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 					listar.get(productos.get(i).getCodProducto())
 							.setValoracion(listar.get(productos.get(i).getCodProducto()).getValoracion()
 									+ valoraciones.get(j).getValoracion());
-				}  else if(!listar.containsKey(productos.get(i).getCodProducto())) {
-					ListarTablaProductos linea = new ListarTablaProductos();
-					linea.setCodigoProducto(productos.get(i).getCodProducto());
-					linea.setNombreProducto(productos.get(i).getNombre());
-					linea.setPrecio(productos.get(i).getPrecio());
-					linea.setTipoProducto(productos.get(i).getTipo());
-					linea.setValoracion(0);
-					listar.put(linea.getCodigoProducto(), linea);
 				}
 
+			}
+			if (!listar.containsKey(productos.get(i).getCodProducto())) {
+				ListarTablaProductos linea = new ListarTablaProductos();
+				linea.setCodigoProducto(productos.get(i).getCodProducto());
+				linea.setNombreProducto(productos.get(i).getNombre());
+				linea.setPrecio(productos.get(i).getPrecio());
+				linea.setTipoProducto(productos.get(i).getTipo());
+				linea.setValoracion(0);
+				listar.put(linea.getCodigoProducto(), linea);
 			}
 		}
 
@@ -256,8 +255,6 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		return listar;
 	}
 
-	
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(btnAtras)) {
@@ -266,7 +263,6 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 
 	}
 
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource().equals(table)) {
@@ -274,24 +270,22 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				seleccionAdmin(listarProductos);
 			}
 		}
-		
-	}
 
+	}
 
 	private void seleccionAdmin(List<ListarTablaProductos> listarProductos) {
 		Producto producto = new Producto();
 		int filaSeleccionada = table.getSelectedRow();
-		
+
 		producto.setNombre(String.valueOf(dtm.getValueAt(filaSeleccionada, 0)));
 		producto.setCodProducto(obtenerCodigo(listarProductos, producto.getNombre()));
 		producto.setTipo(String.valueOf(dtm.getValueAt(filaSeleccionada, 1)));
 		producto.setPrecio(Double.parseDouble(String.valueOf(dtm.getValueAt(filaSeleccionada, 2))));
 		producto.setStock(obtenerStock(producto));
-		
+
 		VDatosProducto vDatos = new VDatosProducto(this, true, datosAdmin, producto);
 		vDatos.setVisible(true);
 	}
-
 
 	private int obtenerStock(Producto producto) {
 		int stock = -1;
@@ -303,47 +297,40 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		return stock;
 	}
 
-
 	private String obtenerCodigo(List<ListarTablaProductos> listarProductos, String nombre) {
 		String codigo = null;
-		
+
 		for (ListarTablaProductos i : listarProductos) {
 			if (i.getNombreProducto().equalsIgnoreCase(nombre)) {
 				codigo = i.getCodigoProducto();
 			}
 		}
-		
+
 		return codigo;
 	}
-
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
 
 }

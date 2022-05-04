@@ -1,12 +1,12 @@
 package vista;
 
-
-
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import clases.Cliente;
 import modelo.InterfazAdministrador;
+import modelo.InterfazAmbosUsuarios;
 
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -24,11 +24,13 @@ public class VSelecCliente extends JDialog implements ActionListener {
 	private JButton btnVerHistorial;
 	private JComboBox<String> cmbxClientes;
 	private InterfazAdministrador datosAdmin;
+	private InterfazAmbosUsuarios datosAmbos;
 
-	public VSelecCliente(VMenuAdministrador menuAdmin, boolean b, InterfazAdministrador datosAdmin) {
+	public VSelecCliente(VMenuAdministrador menuAdmin, boolean b, InterfazAdministrador datosAdmin,
+			InterfazAmbosUsuarios datosAmbos) {
 		super(menuAdmin);
 		this.setModal(b);
-
+		this.datosAmbos = datosAmbos;
 		this.datosAdmin = datosAdmin;
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
@@ -64,7 +66,6 @@ public class VSelecCliente extends JDialog implements ActionListener {
 			}
 			cmbxClientes.setSelectedIndex(-1);
 		}
-
 	}
 
 	@Override
@@ -73,11 +74,15 @@ public class VSelecCliente extends JDialog implements ActionListener {
 			this.dispose();
 		}
 		if (e.getSource().equals(btnVerHistorial)) {
-			String dni= cmbxClientes.getSelectedItem().toString().substring(0, 9);
-			VHistorialCompras historial= new VHistorialCompras(this, true, datosAdmin, dni);
-			historial.setVisible(true);
+
+			if (cmbxClientes.getSelectedIndex() == -1) {
+				JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun cliente", "Error",
+						JOptionPane.OK_OPTION);
+			} else {
+				String dni = cmbxClientes.getSelectedItem().toString();
+				VHistorialCompras historial = new VHistorialCompras(this, true, datosAdmin, dni, datosAmbos);
+				historial.setVisible(true);
+			}
 		}
-
 	}
-
 }

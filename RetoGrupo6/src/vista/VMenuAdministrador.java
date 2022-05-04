@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 
 import clases.Usuario;
 import modelo.InterfazAdministrador;
+import modelo.InterfazAmbosUsuarios;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -31,31 +32,33 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 	private JMenuItem itmBajaProducto;
 	private JMenuItem itmModificarProducto;
 	private Usuario usuario;
+	private InterfazAmbosUsuarios datosAmbos;
 
-	public VMenuAdministrador(VPrincipal vPrincipal, boolean b, InterfazAdministrador datosAdmin, Usuario usuario) {
+	public VMenuAdministrador(VPrincipal vPrincipal, boolean b, InterfazAdministrador datosAdmin, Usuario usuario, InterfazAmbosUsuarios datosAmbos) {
 		super(vPrincipal);
 		this.setModal(b);
 		this.datosAdmin = datosAdmin;
 		this.usuario = usuario;
+		this.datosAmbos= datosAmbos;
 		setBounds(100, 100, 639, 386);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		{
+		
 			btnAtras = new JButton("ATR\u00C1S");
 			btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			btnAtras.setBounds(68, 260, 105, 50);
+			btnAtras.addActionListener(this);
 			contentPanel.add(btnAtras);
 			btnAtras.addActionListener(this);
-		}
-		{
+		
 			btnHistorialCliente = new JButton("HISTORIAL CLIENTE");
 			btnHistorialCliente.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			btnHistorialCliente.addActionListener(this);
 			btnHistorialCliente.setBounds(287, 260, 273, 50);
 			contentPanel.add(btnHistorialCliente);
-		}
-		{
+		
 			JMenuBar menuBar = new JMenuBar();
 			menuBar.setBounds(0, 0, 623, 50);
 			contentPanel.add(menuBar);
@@ -91,7 +94,7 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 			itmModificarProducto = new JMenuItem("PRODUCTO");
 			menModificacion.add(itmModificarProducto);
 			itmModificarProducto.addActionListener(this);
-		}
+		
 	}
 
 	@Override
@@ -112,8 +115,8 @@ public class VMenuAdministrador extends JDialog implements ActionListener{
 			prod.setVisible(true);
 		}
 		if (e.getSource().equals(btnHistorialCliente)) {
-			VSelecCliente comp= new VSelecCliente(this, true, datosAdmin);
-			comp.setVisible(true);
+			VSelecCliente vSelecCliente= new VSelecCliente(this, true, datosAdmin, datosAmbos);
+			vSelecCliente.setVisible(true);
 		}
 		if (e.getSource().equals(itmBajaRepartidor)) {
 			VBajaRepartidor vBajaRepartidor = new VBajaRepartidor(this, true, datosAdmin);

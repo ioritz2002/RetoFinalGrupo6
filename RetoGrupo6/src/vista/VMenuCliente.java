@@ -6,6 +6,7 @@ import javax.swing.JDialog;
 
 import clases.Cliente;
 import clases.Usuario;
+import modelo.InterfazAmbosUsuarios;
 import modelo.InterfazCliente;
 
 import javax.swing.JButton;
@@ -20,13 +21,15 @@ public class VMenuCliente extends JDialog implements ActionListener{
 	private JButton btnInfoPersonal;
 	private JButton btnComprar;
 	private InterfazCliente datosCliente;
+	private InterfazAmbosUsuarios datosAmbos;
 	private Cliente usuario;
 
-	public VMenuCliente(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente, Cliente usuario) {
+	public VMenuCliente(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente, Cliente usuario, InterfazAmbosUsuarios datosAmbos) {
 		super(vPrincipal);
 		this.setModal(b);
 		this.datosCliente = datosCliente;
 		this.usuario = usuario;
+		this.datosAmbos= datosAmbos;
 		setBounds(100, 100, 521, 457);
 		getContentPane().setLayout(null);
 		
@@ -59,6 +62,7 @@ public class VMenuCliente extends JDialog implements ActionListener{
 		
 		btnHistorialCompra = new JButton("HISTORIAL COMPRA");
 		btnHistorialCompra.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnHistorialCompra.addActionListener(this);
 		btnHistorialCompra.setBounds(278, 255, 181, 44);
 		getContentPane().add(btnHistorialCompra);
 
@@ -70,7 +74,7 @@ public class VMenuCliente extends JDialog implements ActionListener{
 			this.dispose();
 		}
 		if (e.getSource().equals(btnInfoPersonal)) {
-			VDatosCliente vDatosCliente = new VDatosCliente(this, true, (Cliente) usuario, datosCliente);
+			VDatosCliente vDatosCliente = new VDatosCliente(this, true, (Cliente) usuario, datosCliente, datosAmbos);
 			vDatosCliente.setVisible(true);
 			this.dispose();
 		}
@@ -81,6 +85,10 @@ public class VMenuCliente extends JDialog implements ActionListener{
 		if (e.getSource().equals(btnCarrito)) {
 			VCesta cest = new VCesta(this, true, datosCliente, usuario);
 			cest.setVisible(true);
+		}
+		if (e.getSource().equals(btnHistorialCompra)) {
+			VHistorialCompras vHistorialCompras= new VHistorialCompras(this, true, usuario, datosCliente, datosAmbos);
+			vHistorialCompras.setVisible(true);
 		}
 	}
 

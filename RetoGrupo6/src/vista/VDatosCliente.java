@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import modelo.InterfazAmbosUsuarios;
 import modelo.InterfazCliente;
 
 import javax.swing.JLabel;
@@ -39,6 +40,7 @@ public class VDatosCliente extends JDialog implements ActionListener {
 	private JButton btnAtras;
 	private Cliente usuario;
 	private JButton btnBorrar;
+	private InterfazAmbosUsuarios datosAmbos;
 
 	/**
 	 * Create the dialog.
@@ -47,11 +49,12 @@ public class VDatosCliente extends JDialog implements ActionListener {
 	 * @param b
 	 * @param vMenuCliente
 	 */
-	public VDatosCliente(VMenuCliente vMenuCliente, boolean b, Cliente usuario, InterfazCliente datosCliente) {
+	public VDatosCliente(VMenuCliente vMenuCliente, boolean b, Cliente usuario, InterfazCliente datosCliente, InterfazAmbosUsuarios datosAmbos) {
 		super(vMenuCliente);
 		this.setModal(b);
 		this.datosCliente = datosCliente;
 		this.usuario = usuario;
+		this.datosAmbos= datosAmbos;
 		setBounds(100, 100, 713, 629);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -180,7 +183,7 @@ public class VDatosCliente extends JDialog implements ActionListener {
 		}
 		if (e.getSource().equals(btnAtras)) {
 			this.dispose();
-			VMenuCliente vMenuCliente = new VMenuCliente(null, true, datosCliente, usuario);
+			VMenuCliente vMenuCliente = new VMenuCliente(null, true, datosCliente, usuario, datosAmbos);
 			vMenuCliente.setVisible(true);
 		}
 
