@@ -21,6 +21,7 @@ public class VMenuCliente extends JDialog implements ActionListener{
 	private JButton btnComprar;
 	private InterfazCliente datosCliente;
 	private Cliente usuario;
+	
 
 	public VMenuCliente(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente, Cliente usuario) {
 		super(vPrincipal);
@@ -62,6 +63,7 @@ public class VMenuCliente extends JDialog implements ActionListener{
 		btnHistorialCompra.setBounds(278, 255, 181, 44);
 		getContentPane().add(btnHistorialCompra);
 
+		btnCarrito.addActionListener(this);
 	}
 
 	@Override

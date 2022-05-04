@@ -28,7 +28,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	private String contraseña;
 
 	// SQL
-	private final String BUSCARproductos= "SELECT P.NOMBRE,P.TIPO,P.PRECIO FROM PRODUCTO P, CESTA C, AÑADE A WHERE P.COD_PRODUCTO = A.COD_PRODUCTO AND C.COD_CESTA=A.COD_CESTA AND C.ESTADO = 0 AND A.DNI = ?";
+	private final String BUSCARproductos = "SELECT P.NOMBRE,P.TIPO,P.PRECIO FROM PRODUCTO P, CESTA C, AÑADE A WHERE P.COD_PRODUCTO = A.COD_PRODUCTO AND C.COD_CESTA=A.COD_CESTA AND C.ESTADO = 0 AND A.DNI = ?";
 	private final String UPDATEcliente = "CALL MODIFICAR_CLIENTE(?,?,?,?,?,?)";
 	private final String BUSCARDni = "SELECT * FROM cliente WHERE dni = ?";
 	private final String introducirCliente = "CALL INSERT_CLIENTE( ?, ?, ?, ?, ?, ?)";
@@ -98,39 +98,49 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		return null;
 	}
 
-	
-	
-	//ESTE
+	// ESTE
 	@Override
 	public List<Producto> listarCestaCompra(String dni) {
 		// TODO Auto-generated method stub
-		
+
 		List<Producto> productos = new ArrayList<>();
 		ResultSet rs = null;
 		Producto producto = null;
-		
+
 		this.openConnection();
-		
+
 		try {
-			
-			
-			stmt = conex.prepareStatement(BUSCARDni);
+
+			stmt = conex.prepareStatement(BUSCARproductos);
+			stmt.setString(1, dni);
 			rs = stmt.executeQuery();
-			
-			
-			while(rs.next()) {
-			producto = new Producto();
+
+			while (rs.next()) {
+				producto = new Producto();
+				//producto.setCodProducto(rs.getString(1));
+				producto.setTipo(rs.getString(2));
+				producto.setNombre(rs.getString(1));
+				//producto.setStock(rs.getInt(4));
+				producto.setPrecio(rs.getDouble(3));
+				//producto.setDni(rs.getString(6));
+				productos.add(producto);
 			}
-			
-			
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		return null;
+
+		finally {
+
+			try {
+				closeConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return productos;
 	}
 
 	@Override
@@ -182,7 +192,6 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		// Abrimos la conexión
 
 		this.openConnection();
-		
 
 		try {
 			// Preparamos la sentencia stmt para borrar el cliente
