@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import clases.Cliente;
 import clases.ListarTablaProductos;
 import clases.Producto;
+import clases.Repartidor;
 import clases.Usuario;
 import clases.Valora;
 import clases.Añade;
@@ -55,14 +56,15 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 	private List<ListarTablaProductos> listarProductos;
 	private List<Producto> productos;
 	private List<Producto> productosCesta;
-	
 
-	
 	/**
 	 * @wbp.parser.constructor
 	 */
+
 	
-	public VProductos(VMenuAdministrador vMenuAdministrador, boolean b, Usuario usuario, InterfazAdministrador datosAdmin) {
+	//Constructor para el administrador
+	public VProductos(VMenuAdministrador vMenuAdministrador, boolean b, Usuario usuario,
+			InterfazAdministrador datosAdmin) {
 		super(vMenuAdministrador);
 		this.setModal(b);
 		this.datosAdmin = datosAdmin;
@@ -83,12 +85,13 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 
 		cargarTabla(datosAdmin, null);
 	}
-
+	//Consttructor para el cliente porque tiene mas opciones que el administrador
 	public VProductos(VMenuCliente vMenuCliente, boolean b, Usuario usuario, InterfazCliente datosCliente) {
 		super(vMenuCliente);
 		this.setModal(b);
 		this.datosCliente = datosCliente;
-
+		this.usuario = usuario;
+		
 		setBounds(100, 100, 736, 453);
 		getContentPane().setLayout(null);
 
@@ -149,11 +152,11 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		JLabel lblPrecioMax = new JLabel("Precio Max:");
 		lblPrecioMax.setBounds(517, 275, 103, 16);
 		getContentPane().add(lblPrecioMax);
-		
+
 		cargarTabla(null, datosCliente);
 		productosCesta = new ArrayList<Producto>();
 	}
-
+	//Este metodo sirve para crear la tabla y cargar sus datos
 	private void cargarTabla(InterfazAdministrador datosAdmin, InterfazCliente datosCliente) {
 		// Tabla
 		String[] cabeceras = { "Nombre", "Tipo", "Precio", "Valoracion" };
@@ -170,10 +173,8 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 			valoraciones = datosAdmin.listarValoraciones();
 		}
 		
-		
-
+		//Cargo el map con los datos de los productos y valoraciones
 		Map<String, ListarTablaProductos> listaProductosMap = cargarLista(productos, valoraciones);
-		System.out.println(listaProductosMap.size());
 		listarProductos = new ArrayList<ListarTablaProductos>(listaProductosMap.values());
 
 		Collections.sort(listarProductos);
@@ -196,10 +197,16 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		table.addMouseListener(this);
 	}
 
+	//Este metodo sirve para cargar el map para poder mostrar la informacion en la tabla, los parametros que se le pasa son dos listas, una con las valoraciones y otra con los productos
 	private Map<String, ListarTablaProductos> cargarLista(List<Producto> productos, List<Valora> valoraciones) {
 		Map<String, ListarTablaProductos> listar = new TreeMap<String, ListarTablaProductos>();
 		int contador = 0;
 
+		/*Este for recorre las valoraciones por cada producto para juntar los datos en un map, 
+		*Creando una nueva linea en el caso de que no este en el listado pero si que tenga una valoracion asignandole la valoracion correspondiente desde la lista de valoraciones y el resto de datos de los productos
+		*En el caso de que exita la valoracion del producto y ademas esta ya en la lista se le suma la valoracion del producto a la linea del listado para posteriormente sacar una media de las valoraciones
+		*/
+		
 		for (int i = 0; i < productos.size(); i++) {
 			contador = 0;
 			for (int j = 0; j < valoraciones.size(); j++) {
@@ -220,6 +227,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				}
 
 			}
+			// En el caso de que no exista valoraciones de ese producto ni tampoco este en la lista entonces se crea una nueva linea con los datos del producto y se le asigna como valoracion 0
 			if (!listar.containsKey(productos.get(i).getCodProducto())) {
 				ListarTablaProductos linea = new ListarTablaProductos();
 				linea.setCodigoProducto(productos.get(i).getCodProducto());
@@ -253,24 +261,19 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		if (e.getSource().equals(btnAtras)) {
 			this.dispose();
 		}
-		if(e.getSource().equals(btnCarrito)) {
-			/*VCesta vCesta = new VCesta(this, true, usuario, datosCliente);
-			vCesta.setVisible(true);*/
-			Cesta cesta = new Cesta();
-			Añade añade = new Añade();
-			
-			cesta.setCodCesta(calcularId());
-			añade.setCodCesta(cesta.getCodCesta());
-			cesta.setEstado(false);
-			cesta.setFechaCompra(LocalDate.now());
-			//Queda terminar esto
+		if (e.getSource().equals(btnCarrito)) {
+			/*
+			 * VCesta vCesta = new VCesta(this, true, usuario, datosCliente);
+			 * vCesta.setVisible(true);
+			 */
+
 		}
-		
-		if(e.getSource().equals(btnFiltrar)) {
-			
+
+		if (e.getSource().equals(btnFiltrar)) {
+
 		}
-		if(e.getSource().equals(btnMasVendidos)) {
-			
+		if (e.getSource().equals(btnMasVendidos)) {
+
 		}
 
 	}
@@ -282,45 +285,92 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				seleccionAdmin(listarProductos);
 			}
 			if (usuario instanceof Cliente) {
-				Producto producto = null;
-				producto = seleccionCliente(listarProductos);
-				if (producto != null) {
-					productosCesta.add(producto);
-				}
+				seleccionCliente(listarProductos);
 			}
 		}
 
 	}
-	
-	private String calcularId() {
-		int cant= datosCliente.calcularCodCesta() +1;
+
+	private String calcularIdCesta() {
+		int cant = datosCliente.calcularCodCesta() + 1;
 		String cod;
-		cant= 0000+cant;
-		if (cant>=1000) {
-			cod= "RP-"+cant;
-		}else if(cant>=100) {
-			cod= "RP-0"+cant;
-		}else if(cant>=10){
-			cod="RP-00"+cant;
-		}else {
-			cod="RP-000"+cant;
+		cant = 0000 + cant;
+		if (cant >= 1000) {
+			cod = "CE-" + cant;
+		} else if (cant >= 100) {
+			cod = "CE-0" + cant;
+		} else if (cant >= 10) {
+			cod = "CE-00" + cant;
+		} else {
+			cod = "CE-000" + cant;
 		}
 		return cod;
 	}
 
-	private Producto seleccionCliente(List<ListarTablaProductos> listarProductos2) {
+	private Producto seleccionCliente(List<ListarTablaProductos> listarProductos) {
 		Producto producto = new Producto();
 		int filaSeleccionada = table.getSelectedRow();
+		Añade añade = null;
+		Cesta cesta = null;
 		
-		
-		if (JOptionPane.showConfirmDialog(null, "Quieres añadir el producto a la cesta?", null, JOptionPane.YES_NO_OPTION) == 0) {
+		System.out.println("Entra metodo");
+		if (datosCliente.comprobarCestaActiva(usuario.getDni()) == null) {
+			cesta = new Cesta();
+			cesta.setCodCesta(calcularIdCesta());
+			cesta.setEstado(false);
+			datosCliente.añadirCesta(cesta);
+			System.out.println("Entra if 1");
+			
 			producto.setNombre(String.valueOf(dtm.getValueAt(filaSeleccionada, 0)));
 			producto.setCodProducto(obtenerCodigo(listarProductos, producto.getNombre()));
-			producto.setTipo(String.valueOf(dtm.getValueAt(filaSeleccionada, 1)));
 			producto.setPrecio(Double.parseDouble(String.valueOf(dtm.getValueAt(filaSeleccionada, 2))));
 			producto.setStock(obtenerStock(producto));
-		}
+			if(producto.getStock() == 0) {
+				JOptionPane.showMessageDialog(null, "No se puede añadir el producto porque no tiene stock", null, JOptionPane.ERROR_MESSAGE);
+			} else {
+				if (datosCliente.comprobarProductoRepetido(usuario.getDni(), producto.getCodProducto())) {
+					JOptionPane.showMessageDialog(null, "Error, no se puede introducir el mismo producto mas de una vez en una misma cesta", null, JOptionPane.ERROR_MESSAGE);
+				} else {
+					
+					añade = new Añade();
+					añade.setCodCesta(cesta.getCodCesta());
+					añade.setDni(usuario.getDni());
+					añade.setIdProducto(producto.getCodProducto());
+					System.out.println(producto.getCodProducto());
+					System.out.println(añade.getIdProducto());
+					
+					datosCliente.añadirProductoAAñade(añade);
+				}
+			}
+			
+		} 
 		
+		else{
+			if (JOptionPane.showConfirmDialog(null, "Quieres añadir el producto a la cesta?", null,
+					JOptionPane.YES_NO_OPTION) == 0) {
+				System.out.println("Entra if 2");
+				producto.setNombre(String.valueOf(dtm.getValueAt(filaSeleccionada, 0)));
+				producto.setCodProducto(obtenerCodigo(listarProductos, producto.getNombre()));
+				producto.setPrecio(Double.parseDouble(String.valueOf(dtm.getValueAt(filaSeleccionada, 2))));
+				producto.setStock(obtenerStock(producto));
+				if(producto.getStock() == 0) {
+					JOptionPane.showMessageDialog(null, "No se puede añadir el producto porque no tiene stock", null, JOptionPane.ERROR_MESSAGE);
+				} else {
+					if (datosCliente.comprobarProductoRepetido(usuario.getDni(), producto.getCodProducto())) {
+						JOptionPane.showMessageDialog(null, "Error, no se puede introducir el mismo producto mas de una vez en una misma cesta", null, JOptionPane.ERROR_MESSAGE);
+					} else {
+						añade = new Añade();
+						añade.setCodCesta(datosCliente.comprobarCestaActiva(usuario.getDni()));
+						añade.setDni(usuario.getDni());
+						añade.setIdProducto(producto.getCodProducto());
+						
+						datosCliente.añadirProductoAAñade(añade);
+					}
+				}
+			}
+
+		}
+
 		return producto;
 	}
 

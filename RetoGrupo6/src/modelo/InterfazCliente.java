@@ -4,6 +4,7 @@ import clases.Añade;
 import clases.Cesta;
 import clases.Cliente;
 import clases.Producto;
+import clases.Repartidor;
 import clases.Usuario;
 import clases.Valora;
 
@@ -23,7 +24,9 @@ public interface InterfazCliente{
 	//Listar los productos que estan en la cesta de compra comprobando de que esta en curso
 	public List<Producto> listarCestaCompra(String dni);
 	//Añadir los productos seleccionados a la tabla añade
-	public void añadirProductoACesta(Producto producto, String dni);
+	public void añadirProductoAAñade(Añade añade);
+	//Añadir la cesta a la tabla cesta
+	public void añadirCesta(Cesta cesta);
 	//Cancelar la compra borrando la cesta y toda la informacion de esta compra en las tablas cesta y añade
 	public void cancelarCompra(String codCesta);
 	//Realizar la compra y pasar el estado de la cesta a realizado, ademas le asignamos un repartidor aleatoriamente
@@ -48,5 +51,13 @@ public interface InterfazCliente{
 	public List<Producto> listarProductos(double precioMin, double precioMax);
 	//Mostrar los productos mas vendidos
 	public List<Producto> listarProductosMasVendidos();
+	//Calcular el codigo de la cesta
 	public int calcularCodCesta();
+	//Saber cuantos repartidores hay
+	public int calculoRepartidores();
+	//Comprobar cestas activas por cliente
+	public String comprobarCestaActiva(String dni);
+	//Comprobar que el producto no este repetido en una cesta
+	public boolean comprobarProductoRepetido(String dni, String codProducto);
+	
 }

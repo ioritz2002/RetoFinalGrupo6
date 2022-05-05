@@ -126,6 +126,7 @@ public class VPrincipal extends JFrame implements ActionListener {
 		if (usuario != null) {
 			if (dni.equalsIgnoreCase(usuario.getDni()) && contraseña.equals(usuario.getContraseña())) {
 				if (usuario instanceof Cliente) {
+					usuario.setDni(usuario.getDni().toUpperCase());
 					VMenuCliente vMenuCliente = new VMenuCliente(this, true, datosCliente, (Cliente) usuario);
 					vMenuCliente.setVisible(true);
 				}
