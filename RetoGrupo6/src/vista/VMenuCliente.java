@@ -23,6 +23,7 @@ public class VMenuCliente extends JDialog implements ActionListener{
 	private InterfazCliente datosCliente;
 	private InterfazAmbosUsuarios datosAmbos;
 	private Cliente usuario;
+	private JButton btnValorarProducto;
 
 	public VMenuCliente(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente, Cliente usuario, InterfazAmbosUsuarios datosAmbos) {
 		super(vPrincipal);
@@ -50,14 +51,16 @@ public class VMenuCliente extends JDialog implements ActionListener{
 		btnComprar.setBounds(278, 37, 181, 44);
 		getContentPane().add(btnComprar);
 		
-		JButton btnValorarProducto = new JButton("VALORAR PRODUCTO");
+		btnValorarProducto = new JButton("VALORAR PRODUCTO");
 		btnValorarProducto.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnValorarProducto.setBounds(266, 139, 212, 44);
+		btnValorarProducto.addActionListener(this);
 		getContentPane().add(btnValorarProducto);
 		
 		btnCarrito = new JButton("CARRITO");
 		btnCarrito.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnCarrito.setBounds(36, 139, 181, 44);
+		btnCarrito.addActionListener(this);
 		getContentPane().add(btnCarrito);
 		
 		btnHistorialCompra = new JButton("HISTORIAL COMPRA");
@@ -89,6 +92,10 @@ public class VMenuCliente extends JDialog implements ActionListener{
 		if (e.getSource().equals(btnHistorialCompra)) {
 			VHistorialCompras vHistorialCompras= new VHistorialCompras(this, true, usuario, datosCliente, datosAmbos);
 			vHistorialCompras.setVisible(true);
+		}
+		if (e.getSource().equals(btnValorarProducto)) {
+			VValorar vValorar= new VValorar(this, true, usuario, datosCliente);
+			vValorar.setVisible(true);
 		}
 	}
 

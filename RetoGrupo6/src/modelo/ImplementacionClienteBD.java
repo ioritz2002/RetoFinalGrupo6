@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -29,9 +30,13 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	// SQL
 	private final String UPDATEcliente = "CALL MODIFICAR_CLIENTE(?,?,?,?,?,?)";
 	private final String BUSCARDni = "SELECT * FROM cliente WHERE dni = ?";
-	private final String introducirCliente = "CALL INSERT_CLIENTE( ?, ?, ?, ?, ?, ?)";
+	private final String INTRODUCIRCliente = "CALL INSERT_CLIENTE( ?, ?, ?, ?, ?, ?)";
 	private final String DELETEcliente = "DELETE FROM usuario WHERE DNI = ?";
-
+	private final String BUSCARProductosComprados= "SELECT COD_PRODUCTO, NOMBRE FROM producto WHERE COD_PRODUCTO IN (SELECT COD_PRODUCTO FROM añade WHERE DNI= ? AND COD_CESTA IN (SELECT COD_CESTA FROM cesta WHERE ESTADO=1))";
+	private final String INSERTARValoracion= "INSERT INTO valora (COD_PRODUCTO, DNI, VALORACION) VALUES( ?, ?, ?)";
+	private final String ACTUALIZARValoracion= "UPDATE valora SET VALORACION= ? WHERE COD_PRODUCTO= ? AND DNI= ?";
+	private final String COMPROBARVloracion= "SELECT * FROM valora WHERE COD_PRODUCTO= ? AND DNI= ?";
+	
 	public ImplementacionClienteBD() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
 		this.url = archivoConfig.getString("Conn");
@@ -61,7 +66,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	public void registroCliente(Cliente usuario) {
 		this.openConnection();
 		try {
-			stmt = conex.prepareStatement(introducirCliente);
+			stmt = conex.prepareStatement(INTRODUCIRCliente);
 			stmt.setString(1, usuario.getDni());
 			stmt.setString(2, usuario.getEmail());
 			stmt.setString(3, usuario.getContraseña());
@@ -251,6 +256,120 @@ public class ImplementacionClienteBD implements InterfazCliente {
 			e.printStackTrace();
 		}
 		return b;
+	}
+
+	@Override
+	public List<Producto> listarProductosComprados(String dni) {
+		List<Producto> lista = new ArrayList<>();
+		Producto prod= null;
+		ResultSet rs= null;
+		this.openConnection();
+		
+		try {
+			stmt= conex.prepareStatement(BUSCARProductosComprados);
+			stmt.setString(1, dni);
+			rs= stmt.executeQuery();
+			
+			while (rs.next()) {
+				prod= new Producto();
+				prod.setCodProducto(rs.getString(1));
+				prod.setNombre(rs.getString(2));
+				lista.add(prod);
+			}
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lista;
+	}
+
+	@Override
+	public void insertarValoracion(String codigo, String dni, int valoracion) {
+		
+		this.openConnection();
+		try {
+			stmt= conex.prepareStatement(INSERTARValoracion);
+			stmt.setString(1, codigo);
+			stmt.setString(2, dni);
+			stmt.setInt(3, valoracion);
+			stmt.executeUpdate();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
+
+	@Override
+	public void actualizarValoracion(int valoracion, String codigo, String dni) {
+	
+		this.openConnection();
+		try {
+			stmt= conex.prepareStatement(ACTUALIZARValoracion);
+			stmt.setInt(1, valoracion);
+			stmt.setString(2, codigo);
+			stmt.setString(3, dni);
+			stmt.executeUpdate();
+	
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public boolean comprobarValoracion(String dni, String codigo) {
+		ResultSet rs= null;
+		boolean hay=false;
+		this.openConnection();
+		
+		try {
+			stmt= conex.prepareStatement(COMPROBARVloracion);
+			stmt.setString(1, codigo);
+			stmt.setString(2, dni);
+			rs= stmt.executeQuery();
+			
+			if (rs.next()) {
+				hay=true;
+			}
+		
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return hay;
 	}
 
 }

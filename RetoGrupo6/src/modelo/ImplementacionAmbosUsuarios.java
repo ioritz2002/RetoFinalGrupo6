@@ -26,7 +26,7 @@ public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 
 	// SQL
 	private final String SELECTlogin = "CALL SELECT_LOGIN(?)";
-	private final String SELECTHistorial ="SELECT COD_CESTA, IMPORTE_TOTAL, FECHA_COMPRA, ESTADO FROM cesta WHERE COD_CESTA = (SELECT COD_CESTA FROM añade WHERE DNI = ?);";
+	private final String SELECTHistorial ="SELECT COD_CESTA, IMPORTE_TOTAL, FECHA_COMPRA, ESTADO FROM cesta WHERE COD_CESTA in (SELECT COD_CESTA FROM añade WHERE DNI = ?);";
 
 	public ImplementacionAmbosUsuarios() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");

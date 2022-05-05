@@ -46,4 +46,12 @@ public interface InterfazCliente{
 	public List<Producto> listarProductos(double precioMin, double precioMax);
 	//Mostrar los productos mas vendidos
 	public List<Producto> listarProductosMasVendidos();
+	//Buscar productos ya comprados
+	public List<Producto> listarProductosComprados(String dni);
+	//Insertar valoracion de un producto
+	public void insertarValoracion(String codigo, String dni, int valoracion);
+	//Comprobar actualizar una valoración
+	public void actualizarValoracion(int valoracion, String codigo, String dni );
+	//Comprobar si ya hay una valoracion
+	public boolean comprobarValoracion(String dni, String codigo);
 }
