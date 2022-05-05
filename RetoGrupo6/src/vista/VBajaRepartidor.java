@@ -84,8 +84,6 @@ public class VBajaRepartidor extends JDialog implements ActionListener {
 			String cadena = (String) cmbxRepartidores.getSelectedItem();
 			int pos = cadena.indexOf(" ");
 			String id = cadena.substring(0, pos);
-			Repartidor repartidor = new Repartidor();
-			repartidor.setIdRepartidor(id);
 
 			if (JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres dar de baja a este repartidor ?",
 					"Selecciona una opcion", JOptionPane.YES_NO_OPTION) == 0) {
