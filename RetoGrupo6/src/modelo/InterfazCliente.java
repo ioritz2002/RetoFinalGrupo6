@@ -3,7 +3,9 @@ package modelo;
 import clases.Añade;
 import clases.Cesta;
 import clases.Cliente;
+import clases.ListarTablaCesta;
 import clases.Producto;
+import clases.Repartidor;
 import clases.Usuario;
 import clases.Valora;
 
@@ -19,13 +21,13 @@ public interface InterfazCliente{
 	//Lista la columna de valoraciones de cada uno de los productos en la ventana de productos
 	public List<Valora> listarValoracionesProductos();
 	//Listar los productos que estan en la cesta de compra comprobando de que esta en curso
-	public List<Producto> listarCestaCompra(String dni);
+	public List<ListarTablaCesta> listarCestaCompra(String dni);
 	//Añadir los productos seleccionados a la tabla añade
 	public void añadirProductoACesta(Producto producto, String dni);
 	//Cancelar la compra borrando la cesta y toda la informacion de esta compra en las tablas cesta y añade
 	public void cancelarCompra(String codCesta);
 	//Realizar la compra y pasar el estado de la cesta a realizado, ademas le asignamos un repartidor aleatoriamente
-	public void realizarCompra(String codCesta);
+	public void realizarCompra(String codCesta,Double precio,String codigo);
 	//Valorar un producto previamente comprado
 	public void darValoracion(String codProducto, String dni);
 	//Comprueba de que el producto existe en la tabla producto
@@ -54,4 +56,7 @@ public interface InterfazCliente{
 	public void actualizarValoracion(int valoracion, String codigo, String dni );
 	//Comprobar si ya hay una valoracion
 	public boolean comprobarValoracion(String dni, String codigo);
+	//lista de rapartidores
+	public List<Repartidor> listarRepartidores();
+	
 }

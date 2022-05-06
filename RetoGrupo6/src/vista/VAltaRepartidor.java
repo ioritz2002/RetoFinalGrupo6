@@ -141,6 +141,7 @@ public class VAltaRepartidor extends JDialog implements ActionListener {
 				JOptionPane.OK_OPTION);
 
 		datosAdmin.altaRepartidor(rep);
+		this.dispose();
 
 	}
 
