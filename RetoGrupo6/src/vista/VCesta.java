@@ -14,12 +14,14 @@ import javax.swing.table.DefaultTableModel;
 import clases.Cliente;
 import clases.ListarTablaCesta;
 import clases.Producto;
+import clases.Repartidor;
 import modelo.InterfazCliente;
 
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class VCesta extends JDialog implements ActionListener {
@@ -31,6 +33,7 @@ public class VCesta extends JDialog implements ActionListener {
 	private JTable table;
 	private DefaultTableModel dtm;
 	private List<ListarTablaCesta> productos;
+	private List<Repartidor> repartidores;
 	private Cliente usuario;
 	private ListarTablaCesta cesta;
 
@@ -130,10 +133,13 @@ public class VCesta extends JDialog implements ActionListener {
 
 		productos = datosCliente.listarCestaCompra("45994178C");
 
-		if (productos.size() >= 0) {
+		
+		
+		if (productos.size() <= 0) {
 			btnCancelarCompra.setEnabled(false);
 			btnComprar.setEnabled(false);
 		}
+		
 
 		/*
 		 * Tabla Aqui se ponen las cabeceras y cuantas columnas va a tener la tabla
@@ -192,9 +198,23 @@ public class VCesta extends JDialog implements ActionListener {
 
 		txtPrecioTotal.setText(String.valueOf(precio));
 		txtPrecioTotal.setEditable(false);
-		;
 		table.setEnabled(false);
 
+	}
+	
+	private String asignarRepartidor(InterfazCliente datosCliente) {
+		
+		repartidores = datosCliente.listarRepartidores();
+		
+		int min =0;
+		int max = repartidores.size()-1;
+		
+		int random= (int)(Math.random()*(max-min+1)+min);	
+		
+		
+		String codigo =repartidores.get(random).getIdRepartidor();
+		
+		return codigo;
 	}
 
 	@Override
@@ -206,24 +226,24 @@ public class VCesta extends JDialog implements ActionListener {
 
 			if (JOptionPane.showConfirmDialog(null, "¿Realizar compra?", "Selecciona una opcion",
 					JOptionPane.YES_NO_OPTION) == 0) {
-				datosCliente.realizarCompra(productos.get(0).getCod_cesta(),
-						Double.parseDouble(txtPrecioTotal.getText()));
-				;
+				datosCliente.realizarCompra(productos.get(0).getCod_cesta(),Double.parseDouble(txtPrecioTotal.getText()),asignarRepartidor(datosCliente));
 				JOptionPane.showMessageDialog(null, "Compra realizada", "Selecciona una opcion",
 						JOptionPane.WARNING_MESSAGE);
 				this.dispose();
 
 			}
-			if (e.getSource().equals(btnCancelarCompra)) {
+			
+		}
+		
+		if (e.getSource().equals(btnCancelarCompra)) {
 
-				if (JOptionPane.showConfirmDialog(null, "¿Estas seguro de que quieres cancelar esta cesta ?",
-						"Selecciona una opcion", JOptionPane.YES_NO_OPTION) == 0) {
-					productos = datosCliente.listarCestaCompra("45994178C");
-					datosCliente.cancelarCompra(productos.get(0).getCod_cesta());
-					JOptionPane.showMessageDialog(null, "Cesta borrada", "Selecciona una opcion",
-							JOptionPane.WARNING_MESSAGE);
-					this.dispose();
-				}
+			if (JOptionPane.showConfirmDialog(null, "¿Estas seguro de que quieres cancelar esta cesta ?",
+					"Selecciona una opcion", JOptionPane.YES_NO_OPTION) == 0) {
+				productos = datosCliente.listarCestaCompra("45994178C");
+				datosCliente.cancelarCompra(productos.get(0).getCod_cesta());
+				JOptionPane.showMessageDialog(null, "Cesta borrada", "Selecciona una opcion",
+						JOptionPane.WARNING_MESSAGE);
+				this.dispose();
 			}
 		}
 

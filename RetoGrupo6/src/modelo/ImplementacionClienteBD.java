@@ -15,6 +15,7 @@ import clases.Cesta;
 import clases.Cliente;
 import clases.ListarTablaCesta;
 import clases.Producto;
+import clases.Repartidor;
 import clases.Usuario;
 import clases.Valora;
 
@@ -36,7 +37,8 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	private final String introducirCliente = "CALL INSERT_CLIENTE( ?, ?, ?, ?, ?, ?)";
 	private final String DELETEcliente = "DELETE FROM usuario WHERE DNI = ?";
 	private final String DELETEcompra = "DELETE FROM cesta WHERE COD_CESTA LIKE ?";
-	private final String HACERcompra = "UPDATE CESTA SET IMPORTE_TOTAL = ?,FECHA_COMPRA = ?, ESTADO = 1 WHERE COD_CESTA LIKE ?";
+	private final String HACERcompra = "UPDATE CESTA SET IMPORTE_TOTAL = ?,FECHA_COMPRA = ?, ESTADO = 1, ID_REPARTIDOR = ? WHERE COD_CESTA LIKE ?";
+	private final String CONSULTARrepartidores = "SELECT * FROM repartidor";
 	
 	
 	public ImplementacionClienteBD() {
@@ -179,12 +181,50 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		}
 	}
 	
-	public void asignarRepartidor() {
+	public List<Repartidor> listarRepartidores() {
+		List<Repartidor> repartidores = new ArrayList<>();
+		ResultSet rs = null;
+		Repartidor repartidor = null;
+
+		this.openConnection();
+
+		try {
+			stmt = conex.prepareStatement(CONSULTARrepartidores);
+			rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				repartidor = new Repartidor();
+				repartidor.setIdRepartidor(rs.getString(1));
+				repartidor.setDniUsuario(rs.getString(5));
+				repartidor.setNombre(rs.getString(3));
+				repartidor.setApellido(rs.getString(4));
+				repartidor.setFechaAlta(rs.getDate(2).toLocalDate());
+				repartidores.add(repartidor);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				closeConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return repartidores;
+	}
+	
+	
+	public void asignarRepartidor(int random, String codCesta) {
+		
 		
 	}
 
 	@Override
-	public void realizarCompra(String codCesta,Double precio) {
+	public void realizarCompra(String codCesta,Double precio,String codigo) {
 		// TODO Auto-generated method stub
 		
 		openConnection();
@@ -192,11 +232,12 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		try {
 			stmt = conex.prepareStatement(HACERcompra);
 			
-			stmt.setString(3, codCesta);
+			stmt.setString(4, codCesta);
 			
 			
 			stmt.setDouble(1, precio);
 			stmt.setDate(2, Date.valueOf(LocalDate.now()));
+			stmt.setString(3, codigo);
 			
 			stmt.executeUpdate();
 			

@@ -5,6 +5,7 @@ import clases.Cesta;
 import clases.Cliente;
 import clases.ListarTablaCesta;
 import clases.Producto;
+import clases.Repartidor;
 import clases.Usuario;
 import clases.Valora;
 
@@ -26,7 +27,7 @@ public interface InterfazCliente{
 	//Cancelar la compra borrando la cesta y toda la informacion de esta compra en las tablas cesta y añade
 	public void cancelarCompra(String codCesta);
 	//Realizar la compra y pasar el estado de la cesta a realizado, ademas le asignamos un repartidor aleatoriamente
-	public void realizarCompra(String codCesta,Double precio);
+	public void realizarCompra(String codCesta,Double precio,String codigo);
 	//Valorar un producto previamente comprado
 	public void darValoracion(String codProducto, String dni);
 	//Comprueba de que el producto existe en la tabla producto
@@ -48,5 +49,7 @@ public interface InterfazCliente{
 	//Mostrar los productos mas vendidos
 	public List<Producto> listarProductosMasVendidos();
 	//Asignar un rapartidor a un compra
-	public void asignarRepartidor();
+	public void asignarRepartidor(int random,String codCesta);
+	//lista de rapartidores
+	public List<Repartidor> listarRepartidores();
 }
