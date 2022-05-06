@@ -131,7 +131,7 @@ public class VCesta extends JDialog implements ActionListener {
 		btnCancelarCompra.addActionListener(this);
 		btnComprar.addActionListener(this);
 
-		productos = datosCliente.listarCestaCompra("45994178C");
+		productos = datosCliente.listarCestaCompra(usuario.getDni());
 
 		
 		
@@ -178,7 +178,7 @@ public class VCesta extends JDialog implements ActionListener {
 		String[] cabeceras = { "Nombre", "Tipo", "Precio" };
 		String[] fila = new String[3];
 		dtm = new DefaultTableModel(null, cabeceras);
-		productos = datosCliente.listarCestaCompra("45994178C");
+		productos = datosCliente.listarCestaCompra(usuario.getDni());
 
 		for (int i = 0; i < productos.size(); i++) {
 			fila[0] = productos.get(i).getNombre();
@@ -239,7 +239,7 @@ public class VCesta extends JDialog implements ActionListener {
 
 			if (JOptionPane.showConfirmDialog(null, "¿Estas seguro de que quieres cancelar esta cesta ?",
 					"Selecciona una opcion", JOptionPane.YES_NO_OPTION) == 0) {
-				productos = datosCliente.listarCestaCompra("45994178C");
+				productos = datosCliente.listarCestaCompra(usuario.getDni());
 				datosCliente.cancelarCompra(productos.get(0).getCod_cesta());
 				JOptionPane.showMessageDialog(null, "Cesta borrada", "Selecciona una opcion",
 						JOptionPane.WARNING_MESSAGE);
