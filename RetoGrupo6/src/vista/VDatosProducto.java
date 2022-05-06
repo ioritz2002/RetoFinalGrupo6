@@ -202,6 +202,8 @@ public class VDatosProducto extends JDialog implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		//Se introducen los datos introducidos en un objeto producto para pasarlo a la base de datos para modificarla
 		if (e.getSource().equals(btnModificar)) {
 			Producto producto = new Producto();
 			producto.setCodProducto(txtCodigo.getText());

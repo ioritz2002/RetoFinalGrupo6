@@ -79,7 +79,7 @@ public class VSelecCliente extends JDialog implements ActionListener {
 				JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun cliente", "Error",
 						JOptionPane.OK_OPTION);
 			} else {
-				String dni = cmbxClientes.getSelectedItem().toString();
+				String dni = cmbxClientes.getSelectedItem().toString().substring(0, cmbxClientes.getSelectedItem().toString().indexOf(" "));
 				VHistorialCompras historial = new VHistorialCompras(this, true, datosAdmin, dni, datosAmbos);
 				historial.setVisible(true);
 			}

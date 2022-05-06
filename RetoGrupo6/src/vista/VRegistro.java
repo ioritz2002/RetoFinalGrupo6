@@ -175,6 +175,7 @@ public class VRegistro extends JDialog implements ActionListener {
 
 	}
 
+	//Comprueba que los datos que se han introducido cumplan las condiciones necesarias para poder introducirlos en la base de datos sin problemas
 	private void darAlta() {
 		if (txtDni.getText().isEmpty() || txtNombre.getText().isEmpty() || txtDireccion.getText().isEmpty()
 				|| txtContraseña.getText().isEmpty()) {
@@ -222,6 +223,7 @@ public class VRegistro extends JDialog implements ActionListener {
 		return datosCliente.comprobarDni(txtDni.getText());
 	}
 
+	//Añade los datos de introducidos al objeto y los manda por parámetro para introducirlos en la base de datos 
 	private void nuevoCliente() {
 		LocalDate fechaNac = calendar.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		Cliente cli = new Cliente();

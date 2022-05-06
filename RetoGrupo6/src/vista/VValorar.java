@@ -80,9 +80,11 @@ public class VValorar extends JDialog implements ActionListener {
 		if (e.getSource().equals(btnAtras)) {
 			this.dispose();
 		}
-		
+
 		if (e.getSource().equals(btnConfirmacion)) {
-			
+
+			// Comprueba si el cliente ha comprado el producto para poder valorarlo o
+			// actualizar la valoracion
 			if (datosCliente.comprobarValoracion(dni, sacarCodigo())) {
 				datosCliente.actualizarValoracion((int) cmbxValoracion.getSelectedItem(), sacarCodigo(), dni);
 				JOptionPane.showMessageDialog(null, "La valoración se ha actualizado correctamente", "Éxito",
@@ -96,6 +98,7 @@ public class VValorar extends JDialog implements ActionListener {
 		}
 	}
 
+//Obtiene el codigo del producto que ha seleccionado en el comboBox
 	public String sacarCodigo() {
 		for (int i = 0; i < listaProductos.size(); i++) {
 			if (listaProductos.get(i).getNombre().equalsIgnoreCase((String) cmbxProductos.getSelectedItem())) {

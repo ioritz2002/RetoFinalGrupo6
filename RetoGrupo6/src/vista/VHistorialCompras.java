@@ -49,7 +49,7 @@ public class VHistorialCompras extends JDialog implements ActionListener {
 		btnAtras.setBounds(30, 252, 103, 33);
 		getContentPane().add(btnAtras);
 
-		// * Tabla Aqui se ponen las cabeceras y cuantas columnas va a tener la tabla
+	
 		String[] nombreColumnas = { "Codigo Cesta", "Importe", "Fecha", "Estado" };
 		String[] fila = new String[4];
 
@@ -76,30 +76,9 @@ public class VHistorialCompras extends JDialog implements ActionListener {
 			scroll.setViewportView(table);
 			scroll.setBounds(20, 20, 441, 221);
 			getContentPane().add(scroll, BorderLayout.CENTER);
+			table.setEnabled(false);
 		
-		// Aqui se carga en una
-		// coleccion todos los datos de los productos Clase se refiere a una de las
-		// clases de nuestro proyecto Set<Clase> productosTabla = aqui va el metodo que
-		// carga los datos de los productos en la implementacion;
-		//
-		// foreach para cargar la tabla for(){ fila[0]= getDato(); fila[1]= getDato();
-		// fila[2]= getDato(); fila[3]= getDato();
-		//
-		// Aqui le decimos que nos añada una fila a la tabla con los datos previamente
-		// introducidos dtm.addRow(fila); }
-		//
-		// Se crea la tabla con el modelo dtm table = new JTable(dtm);
-		//
-		// Se le añade un scrol a la tabla JScrollPane scroll = new JScrollPane(table);
-		//
-		// Se le pone las posiciones y el tamaño table.setBounds()
-		//
-		// Se le añade el evento de raton y despues se realiza la siguiente accion
-		// scroll.setViewportView(table);
-		//
-		// Despues se le pone el tamaño y posiciones al scroll y se añade al panel con
-		// scroll.setBounds(); getContentPane().add(scroll, BorderLayout.CENTER);
-		//
+		
 	}
 
 	public VHistorialCompras(VMenuCliente vMenuCliente, boolean b, Cliente usuario, InterfazCliente datosCliente,
@@ -143,6 +122,7 @@ public class VHistorialCompras extends JDialog implements ActionListener {
 			scroll.setViewportView(table);
 			scroll.setBounds(20, 20, 441, 221);
 			getContentPane().add(scroll, BorderLayout.CENTER);
+			table.setEnabled(false);;
 		
 
 		// Aqui se carga en una

@@ -18,6 +18,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.toedter.calendar.JCalendar;
 
@@ -211,19 +213,36 @@ public class VDatosCliente extends JDialog implements ActionListener {
 	}
 
 	private void modificar() {
-		usuario.setDni(txtDni.getText());
-		usuario.setNombre(txtNombre.getText());
-		usuario.setContraseña(txtContraseña.getText());
-		usuario.setDireccion(txtDireccion.getText());
-		usuario.setEmail(txtEmail.getText());
-		usuario.setFechaNacimiento(LocalDate.parse(txtFNacimiento.getText()));
-		if (JOptionPane.showConfirmDialog(null, "Esta seguro que quiere modificar los datos?", "confirmacion",
-				JOptionPane.YES_NO_OPTION) == 0) {
-			datosCliente.modificarDatosCliente(usuario);
-			JOptionPane.showMessageDialog(null, "La cuenta se a modificado con exito", "confirmacion",
-					JOptionPane.WARNING_MESSAGE);
+		if (validarEmail(txtEmail.getText())) {
+			usuario.setDni(txtDni.getText());
+			usuario.setNombre(txtNombre.getText());
+			usuario.setContraseña(txtContraseña.getText());
+			usuario.setDireccion(txtDireccion.getText());
+			usuario.setEmail(txtEmail.getText());
+			usuario.setFechaNacimiento(LocalDate.parse(txtFNacimiento.getText()));
+			if (JOptionPane.showConfirmDialog(null, "Esta seguro que quiere modificar los datos?", "confirmacion",
+					JOptionPane.YES_NO_OPTION) == 0) {
+				datosCliente.modificarDatosCliente(usuario);
+				JOptionPane.showMessageDialog(null, "La cuenta se a modificado con exito", "confirmacion",
+						JOptionPane.WARNING_MESSAGE);
+			}
 		}
-
 	}
+	
+	private boolean validarEmail(String gmail) {
+		// Patrón para validar el email
+		Pattern pattern = Pattern.compile(
+				"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 
+		// El email a validar
+		String email = gmail;
+
+		Matcher mather = pattern.matcher(email);
+
+		if (mather.find() == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
