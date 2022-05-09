@@ -3,6 +3,7 @@ package modelo;
 import clases.Añade;
 import clases.Cesta;
 import clases.Cliente;
+import clases.ListarTablaProductosMasVendidos;
 import clases.Producto;
 import clases.Repartidor;
 import clases.Usuario;
@@ -48,9 +49,9 @@ public interface InterfazCliente{
 	//Filtrar produtos por tipo
 	public List<Producto> listarProductosPorTipo(String tipo);
 	//Filtrar productos mediante precio
-	public List<Producto> listarProductos(double precioMin, double precioMax);
+	public List<Producto> listarProductosFiltradoPrecio(double precioMin, double precioMax);
 	//Mostrar los productos mas vendidos
-	public List<Producto> listarProductosMasVendidos();
+	public List<ListarTablaProductosMasVendidos> listarProductosMasVendidos();
 	//Calcular el codigo de la cesta
 	public int calcularCodCesta();
 	//Saber cuantos repartidores hay
@@ -59,5 +60,6 @@ public interface InterfazCliente{
 	public String comprobarCestaActiva(String dni);
 	//Comprobar que el producto no este repetido en una cesta
 	public boolean comprobarProductoRepetido(String dni, String codProducto);
-	
+	//Reducir stock cuando se añada al carrito
+	public void reducirStock(String codProducto);
 }

@@ -14,6 +14,8 @@ import java.util.ResourceBundle;
 import clases.Añade;
 import clases.Cesta;
 import clases.Cliente;
+import clases.ListarTablaProductos;
+import clases.ListarTablaProductosMasVendidos;
 import clases.Producto;
 import clases.Repartidor;
 import clases.Usuario;
@@ -41,8 +43,12 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	private final String CONTARrepartidores = "SELECT COUNT(*) AS total FROM repartidor";
 	private final String INSERTañade = "INSERT INTO añade(COD_PRODUCTO, COD_CESTA, DNI) VALUES(?,?,?)";
 	private final String INSERTcesta = "INSERT INTO cesta(COD_CESTA, IMPORTE_TOTAL, ESTADO, ID_REPARTIDOR) VALUES(?,?,?,?)";
-	private final String CONSULTARestadoCesta = "SELECT COD_CESTA FROM cesta WHERE ESTADO = 0 AND COD_CESTA IN (SELECT COD_CESTA FROM añade WHERE DNI = ?)"; 
+	private final String CONSULTARestadoCesta = "SELECT COD_CESTA FROM cesta WHERE ESTADO = 0 AND COD_CESTA IN (SELECT COD_CESTA FROM añade WHERE DNI = ?)";
 	private final String COMPRBARproductoNoDuplicado = "SELECT COD_PRODUCTO FROM añade WHERE COD_CESTA IN (SELECT COD_CESTA FROM cesta WHERE ESTADO = 0) AND DNI = ? AND COD_PRODUCTO = ?";
+	private final String REDUCIRstock = "UPDATE producto SET stock = stock - 1 WHERE COD_PRODUCTO = ?";
+	private final String SELECTproductosMasVendidos="CALL PRODUCTOS_MAS_VENDIDOS()";
+	private final String SELECTfiltroPrecio = "SELECT * FROM producto WHERE producto.PRECIO >= ? AND producto.PRECIO <= ?";
+	
 
 	public ImplementacionClienteBD() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
@@ -244,15 +250,88 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	}
 
 	@Override
-	public List<Producto> listarProductos(double precioMin, double precioMax) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Producto> listarProductosFiltradoPrecio(double precioMin, double precioMax) {
+		List<Producto> productos = new ArrayList<Producto>();
+		Producto producto = null;
+		ResultSet rs = null;
+		
+		openConnection();
+		try {
+			stmt = conex.prepareStatement(SELECTfiltroPrecio);
+			
+			stmt.setDouble(1, precioMin);
+			stmt.setDouble(2, precioMax);
+			
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				producto = new Producto();
+				
+				producto.setCodProducto(rs.getString(1));
+				producto.setTipo(rs.getString(2));
+				producto.setNombre(rs.getString(3));
+				producto.setStock(rs.getInt(4));
+				producto.setPrecio(rs.getDouble(5));
+				
+				productos.add(producto);
+			}
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				closeConnection();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return productos;
 	}
 
 	@Override
-	public List<Producto> listarProductosMasVendidos() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ListarTablaProductosMasVendidos> listarProductosMasVendidos() {
+		List<ListarTablaProductosMasVendidos> lista = new ArrayList<ListarTablaProductosMasVendidos>();
+		ResultSet rs = null;
+		ListarTablaProductosMasVendidos linea = null;
+		
+		openConnection();
+		try {
+			stmt = conex.prepareStatement(SELECTproductosMasVendidos);
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				linea = new ListarTablaProductosMasVendidos();
+				
+				linea.setCodProducto(rs.getString(1));
+				linea.setTipo(rs.getString(2));
+				linea.setNombre(rs.getString(3));
+				linea.setStock(rs.getInt(4));
+				linea.setPrecio(rs.getDouble(5));
+				linea.setContador(rs.getInt(7));
+			
+				lista.add(linea);
+			}
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				closeConnection();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return lista;
 	}
 
 	@Override
@@ -393,14 +472,14 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	@Override
 	public void añadirProductoAAñade(Añade añade) {
 		openConnection();
-		
+
 		try {
 			stmt = conex.prepareStatement(INSERTañade);
-			
+
 			stmt.setString(1, añade.getIdProducto());
 			stmt.setString(2, añade.getCodCesta());
 			stmt.setString(3, añade.getDni());
-			
+
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -475,20 +554,20 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	public boolean comprobarProductoRepetido(String dni, String codProducto) {
 		ResultSet rs = null;
 		boolean encontrado = false;
-		
+
 		openConnection();
-		
+
 		try {
 			stmt = conex.prepareStatement(COMPRBARproductoNoDuplicado);
 			stmt.setString(1, dni);
 			stmt.setString(2, codProducto);
-			
+
 			rs = stmt.executeQuery();
-			
+
 			if (rs.next()) {
 				encontrado = true;
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -506,6 +585,27 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		return encontrado;
 	}
 
-	
+	@Override
+	public void reducirStock(String codProducto) {
+		openConnection();
+
+		try {
+			stmt = conex.prepareStatement(REDUCIRstock);
+			
+			stmt.setString(1, codProducto);
+			stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				closeConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
 }

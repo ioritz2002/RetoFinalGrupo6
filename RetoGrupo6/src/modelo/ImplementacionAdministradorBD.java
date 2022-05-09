@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import java.sql.Connection;
 import clases.Cesta;
 import clases.Cliente;
+import clases.ListarTablaProductosMasVendidos;
 import clases.Producto;
 import clases.Repartidor;
 import clases.Usuario;
@@ -40,6 +41,8 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	private final String CONSULTARrepartidores = "SELECT * FROM repartidor";
 	private final String CALCULOValoracion = "SELECT valora.* FROM valora";
 	private final String SELECTProductos = "SELECT producto.* FROM producto";
+	private final String SELECTProductosMasVendidos = "SELECT producto.*, COUNT(*) FROM producto, añade, cesta WHERE producto.COD_PRODUCTO = añade.COD_PRODUCTO AND añade.COD_CESTA = cesta.COD_CESTA AND cesta.ESTADO = 1 GROUP BY producto.COD_PRODUCTO";
+	private final String SELECTproductosMasVendidos="CALL PRODUCTOS_MAS_VENDIDOS()";
 
 
 	public ImplementacionAdministradorBD() {
@@ -438,6 +441,47 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 			}
 		}
 		return valoraciones;
+	}
+	
+	@Override
+	public List<ListarTablaProductosMasVendidos> listarProductosMasVendidosAdmin() {
+		List<ListarTablaProductosMasVendidos> lista = new ArrayList<ListarTablaProductosMasVendidos>();
+		ResultSet rs = null;
+		ListarTablaProductosMasVendidos linea = null;
+		
+		openConnection();
+		try {
+			stmt = conex.prepareStatement(SELECTproductosMasVendidos);
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				linea = new ListarTablaProductosMasVendidos();
+				
+				linea.setCodProducto(rs.getString(1));
+				linea.setTipo(rs.getString(2));
+				linea.setNombre(rs.getString(3));
+				linea.setStock(rs.getInt(4));
+				linea.setPrecio(rs.getDouble(5));
+				linea.setContador(rs.getInt(7));
+			
+				lista.add(linea);
+			}
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				closeConnection();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return lista;
 	}
 
 

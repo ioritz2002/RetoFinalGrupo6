@@ -49,6 +49,7 @@ public class VDatosCliente extends JDialog implements ActionListener {
 	 */
 	public VDatosCliente(VMenuCliente vMenuCliente, boolean b, Cliente usuario, InterfazCliente datosCliente) {
 		super(vMenuCliente);
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		this.setModal(b);
 		this.datosCliente = datosCliente;
 		this.usuario = usuario;

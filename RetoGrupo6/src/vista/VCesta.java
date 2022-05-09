@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import clases.Cliente;
+import clases.Usuario;
 import modelo.InterfazCliente;
 
 import javax.swing.JButton;
@@ -20,7 +21,7 @@ public class VCesta extends JDialog implements ActionListener {
 	private JButton btnCancelarCompra;
 	private JButton btnComprar;
 
-	public VCesta(VProductos vProductos, boolean b, InterfazCliente datosCliente, Cliente cli) {
+	public VCesta(VProductos vProductos, boolean b, Usuario usuario, InterfazCliente datosCliente) {
 		super(vProductos);
 		this.setModal(b);
 		setBounds(100, 100, 501, 335);
