@@ -1,8 +1,22 @@
 package clases;
 
+/**
+ * 
+ * @author 1dam
+ *
+ */
 public class Valora {
+	/**
+	 * Guarda el DNI del usuario
+	 */
 	private String dniUsuario;
+	/**
+	 * Guarda el código del producto que ha valorado el usuario
+	 */
 	private String codProducto;
+	/**
+	 * Guarda la valoración que le ha dado el usuario al producto
+	 */
 	private int valoracion;
 	
 	public Valora(){

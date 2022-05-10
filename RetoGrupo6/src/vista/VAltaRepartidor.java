@@ -21,21 +21,56 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 
+/**
+ * En esta ventana se crea un nuevo repartidor
+ * 
+ * @author grupo6
+ * @version 1
+ * @since 09/05/2022
+ */
+
 public class VAltaRepartidor extends JDialog implements ActionListener {
 
-	private final JPanel contentPanel = new JPanel();
+	/**
+	 * En el, se mostrará el un Id generado automaticamente perteneciente al nuevo repartidor que se vaya a crear.
+	 */
 	private JTextField txtId;
+	/**
+	 * En el, el usuario escribirá el nombre del nuevo repartidor
+	 */
 	private JTextField txtNombre;
+	/**
+	 * En el, el usuario escribirá el apellido del nuevo repartidor
+	 */
 	private JTextField txtApellido;
+	/**
+	 * Si el usuario pulsa el botón los datos introducidos (si hay) se guardarán en
+	 * la base datos
+	 */
 	private JButton btnDarAlta;
+	/**
+	 * Al pulsarlo volverá a la ventana de la que ha venido.
+	 */
 	private JButton btnAtras;
+	/**
+	 * Se utiliza para guardar los datosAdmin que llegan como parámetro
+	 */
 	private InterfazAdministrador datosAdmin;
+	/**
+	 * Se utiliza para guardar los datos que llegan por parámetro del usuario que ha
+	 * inciado la sesión
+	 */
 	private Usuario us;
 
 	/**
-	 * Create the dialog.
-	 * 
-	 * @param b
+	 * @author grupo6
+	 * @param menuAdmin  Es la ventana de la que viene.
+	 * @param b          Es lo que indica si la ventana es modal o no. Si es true
+	 *                   entonces será modal.
+	 * @param datosAdmin Es la interfaz que contiene los métodos que puede utilizar
+	 *                   el administrador.
+	 * @param usuario    Son los datos del usuario que ha iniciado sesión.
+	 * @since 09/05/2022
 	 */
 	public VAltaRepartidor(VMenuAdministrador menuAdmin, boolean b, InterfazAdministrador datosAdmin, Usuario usuario) {
 		super(menuAdmin);
@@ -43,6 +78,7 @@ public class VAltaRepartidor extends JDialog implements ActionListener {
 		this.datosAdmin = datosAdmin;
 		us = usuario;
 
+		JPanel contentPanel = new JPanel();
 		setBounds(100, 100, 566, 436);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -119,12 +155,21 @@ public class VAltaRepartidor extends JDialog implements ActionListener {
 	}
 
 	// Hace que los nombres y apellidos sean escritos correctamente
+	/**
+	 * Metodo para transformar la primera letra de una palabra en mayúscula y el
+	 * resto en minúscula
+	 * @param palabras
+	 * @return String Devuelve la palabra enviada bien escrita
+	 */
 	private String letraMayusMinus(String palabras) {
 		return palabras.toUpperCase().charAt(0) + palabras.toLowerCase().substring(1, palabras.length());
 
 	}
 
 	// Cacular un nuevo codigo para el repartidor
+	/**
+	 * Introduce todos los datos requeridos para la creación del repartidor en un objeto repartidor y se mandan por parámetro a la implementación.
+	 */
 	private void nuevoCodRepartidor() {
 		String cod = calcularId();
 		String dni = us.getDni();
@@ -146,6 +191,12 @@ public class VAltaRepartidor extends JDialog implements ActionListener {
 	}
 
 	// Calcula el nuevo Id del repartidor
+	/**
+	 * Metodo para generar una Id según el número de repartidores que haya
+	 * 
+	 * @return String Devuelve un código para el repartidor
+	 * @since 09/05/2022
+	 */
 	private String calcularId() {
 		int cant = datosAdmin.calcularCodRepartidor() + 1;
 		String cod;

@@ -49,6 +49,7 @@ public class VMenuCliente extends JDialog implements ActionListener{
 		btnComprar = new JButton("COMPRAR");
 		btnComprar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnComprar.setBounds(278, 37, 181, 44);
+		btnComprar.addActionListener(this);
 		getContentPane().add(btnComprar);
 		
 		btnValorarProducto = new JButton("VALORAR PRODUCTO");
@@ -82,7 +83,7 @@ public class VMenuCliente extends JDialog implements ActionListener{
 			this.dispose();
 		}
 		if (e.getSource().equals(btnComprar)) {
-			VProductos vprod = new VProductos(this, true, datosCliente, usuario);
+			VProductos vprod = new VProductos(this, true, usuario, datosCliente);
 			vprod.setVisible(true);
 		}
 		if (e.getSource().equals(btnCarrito)) {

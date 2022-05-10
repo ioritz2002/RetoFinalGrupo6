@@ -205,16 +205,9 @@ public class VDatosCliente extends JDialog implements ActionListener {
 
 	}
 
-	private void limpiar() {
-		txtDni.setText("");
-		txtContraseña.setText("");
-		txtDireccion.setText("");
-		txtEmail.setText("");
-		txtFNacimiento.setText("");
-	}
 
 	private void modificar() {
-		if (validarEmail(txtEmail.getText())) {
+	
 			usuario.setDni(txtDni.getText());
 			usuario.setNombre(txtNombre.getText());
 			usuario.setContraseña(txtContraseña.getText());
@@ -227,7 +220,7 @@ public class VDatosCliente extends JDialog implements ActionListener {
 				JOptionPane.showMessageDialog(null, "La cuenta se a modificado con exito", "confirmacion",
 						JOptionPane.WARNING_MESSAGE);
 			}
-		}
+		
 	}
 	
 	private boolean validarEmail(String gmail) {

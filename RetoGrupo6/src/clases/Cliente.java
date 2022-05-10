@@ -1,7 +1,11 @@
 package clases;
 
 import java.time.LocalDate;
-
+/**
+ * 
+ * @author 1dam
+ *
+ */
 public class Cliente extends Usuario{
 	private String nombre;
 	private LocalDate fechaNacimiento;
@@ -11,6 +15,10 @@ public class Cliente extends Usuario{
 		super();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getNombre() {
 		return nombre;
 	}
@@ -30,7 +38,10 @@ public class Cliente extends Usuario{
 	public String getDireccion() {
 		return direccion;
 	}
-
+/**
+ * 
+ * @param direccion
+ */
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
