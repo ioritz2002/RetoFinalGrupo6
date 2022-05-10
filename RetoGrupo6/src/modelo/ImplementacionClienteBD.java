@@ -149,11 +149,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		return productos;
 	}
 
-	@Override
-	public List<Valora> listarValoracionesProductos() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public List<ListarTablaCesta> listarCestaCompra(String dni) {
@@ -198,11 +194,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		return productos;
 	}
 
-	@Override
-	public void añadirProductoACesta(Producto producto, String dni) {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	@Override
 	public void cancelarCompra(String codCesta) {
@@ -263,29 +255,6 @@ public class ImplementacionClienteBD implements InterfazCliente {
 
 	}
 
-	@Override
-	public void darValoracion(String codProducto, String dni) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String productoExiste(String nombreProducto) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean productoComprado(String codProducto, String dni) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public List<Cesta> verHistorialCompras(String dni) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void darseDeBaja(String dni) {
@@ -343,17 +312,6 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		}
 	}
 
-	@Override
-	public List<Producto> listarProductosFiltradoNombre(String nombre) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Producto> listarProductosPorTipo(String tipo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public List<Producto> listarProductos(double precioMin, double precioMax) {
@@ -701,11 +659,6 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		
 	}
 
-	@Override
-	public void realizarCompra(String codCesta) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public List<Producto> listarProductosFiltradoPrecio(double precioMin, double precioMax) {
