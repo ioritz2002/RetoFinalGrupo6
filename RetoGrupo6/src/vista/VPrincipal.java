@@ -124,13 +124,13 @@ public class VPrincipal extends JFrame implements ActionListener {
 
 	private void comprobarLogin(String dni, String contraseña, Usuario usuario) throws LoginIncorrectoException {
 		if (usuario != null) {
-			if (dni.equalsIgnoreCase(usuario.getDni()) && contraseña.equalsIgnoreCase(usuario.getContraseña())) {
+			if (dni.equalsIgnoreCase(usuario.getDni()) && contraseña.equals(usuario.getContraseña())) {
 				if (usuario instanceof Cliente) {
-					VMenuCliente vMenuCliente = new VMenuCliente(this, true, datosCliente, (Cliente) usuario);
+					VMenuCliente vMenuCliente = new VMenuCliente(this, true, datosCliente, (Cliente) usuario, datosAmbos);
 					vMenuCliente.setVisible(true);
 				}
 				if (usuario instanceof Usuario && usuario.getTipo().equalsIgnoreCase("administrador")) {
-					VMenuAdministrador vMenuAdmin = new VMenuAdministrador(this, true, datosAdmin, usuario);
+					VMenuAdministrador vMenuAdmin = new VMenuAdministrador(this, true, datosAdmin, usuario, datosAmbos);
 					vMenuAdmin.setVisible(true);
 				}
 			} else {

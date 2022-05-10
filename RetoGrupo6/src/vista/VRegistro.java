@@ -32,31 +32,60 @@ import javax.swing.JPasswordField;
 
 public class VRegistro extends JDialog implements ActionListener {
 
-	private final JPanel contentPanel = new JPanel();
+	/**
+	 * Guarda el DNI que introduzca el usuario
+	 */
 	private JTextField txtDni;
+	/**
+	 * Guarda el email que vaya a introducir el usuario.
+	 */
 	private JTextField txtEmail;
+	/**
+	 * Guarda el nombre que vaya a introducir el usuario
+	 */
 	private JTextField txtNombre;
+	/**
+	 * Guarda la dirección que vaya a introducir el usuario
+	 */
 	private JTextField txtDireccion;
+	/**
+	 * Al pulsarlo volverá a la ventana anterior.
+	 */
 	private JButton btnAtras;
+	/**
+	 * Se utiliza para guardar los datosCliente que llegan como parámetro
+	 */
 	private InterfazCliente datosCliente;
+	/**
+	 * Se utiliza para guardar la contraseña que vaya a poner el usuario
+	 */
 	private JPasswordField txtContraseña;
+	/**
+	 * Al pulsarlo mandará todos los datos necesarios a la implementación para crear la cuenta 
+	 */
 	private JButton btnCrearCuenta;
+	/**
+	 * Se utiliza para que el usuario pueda introducir su fecha de nacimiento con precisión.
+	 */
 	private JCalendar calendar;
+	/**
+	 * Se utiliza para comprobar que el DNI que se introduce es correcto.
+	 */
 	private char letra[] = { 'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V',
 			'H', 'L', 'C', 'K', 'E' };
 
 	/**
-	 * Create the dialog.
 	 * 
-	 * @param datosCliente
-	 * @param b
-	 * @param vPrincipal
+	 * @param datosCliente Es la interfaz que utiliza esta ventana.
+	 * @param b Determina si la ventana tendrá el modal en true o false.
+	 * @param vPrincipal Es la ventana de origen
 	 */
 	public VRegistro(VPrincipal vPrincipal, boolean b, InterfazCliente datosCliente) {
 		super(vPrincipal);
 		this.setModal(b);
 		this.datosCliente = datosCliente;
 
+		JPanel contentPanel = new JPanel();
 		setBounds(100, 100, 713, 895);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -170,11 +199,20 @@ public class VRegistro extends JDialog implements ActionListener {
 		}
 	}
 
+	/**
+	 * @author grupo6
+	 * @param palabras
+	 * @return Devuelve el String enviado pero escrito correctamente
+	 */
 	private String letraMayus(String palabras) {
 		return palabras.toUpperCase().charAt(0) + palabras.toLowerCase().substring(1, palabras.length());
 
 	}
 
+	//Comprueba que los datos que se han introducido cumplan las condiciones necesarias para poder introducirlos en la base de datos sin problemas
+	/**
+	 * Comprueba si los datos introducdos so válidos, si no lo son entonces saltará un menaje indicando que ha causado el error, si estan bien entonces llamará al método nuevoCliente(). 
+	 */
 	private void darAlta() {
 		if (txtDni.getText().isEmpty() || txtNombre.getText().isEmpty() || txtDireccion.getText().isEmpty()
 				|| txtContraseña.getText().isEmpty()) {
@@ -207,6 +245,11 @@ public class VRegistro extends JDialog implements ActionListener {
 					JOptionPane.OK_OPTION);
 		}
 	}
+	/**
+	 * Transforma una caena en un Integer
+	 * @param cadena
+	 * @return Devuelve un Integer
+	 */
 	 public static boolean esNumero(String cadena) {
 	        boolean resultado;
 	        try {
@@ -218,10 +261,18 @@ public class VRegistro extends JDialog implements ActionListener {
 	        return resultado;
 	    }
 	
+	 /**
+	  * Comprueba que el DNI esté o no en la base datos
+	  * @return Devuelve un booleano indicando si el DNI que se ha introducido ya está en la base de datos
+	  */
 	private boolean dniRepetido() {
 		return datosCliente.comprobarDni(txtDni.getText());
 	}
 
+
+	/**
+	 * Añade los datos de introducidos al objeto y los manda por parámetro para introducirlos en la base de datos
+	 */
 	private void nuevoCliente() {
 		LocalDate fechaNac = calendar.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		Cliente cli = new Cliente();
@@ -241,6 +292,11 @@ public class VRegistro extends JDialog implements ActionListener {
 
 	}
 
+	/**
+	 * Calcula la letra del DNI que debería tener el DNI introducido según sus números
+	 * @param text
+	 * @return Devuelve la letra del DNI que corresponde con los números del DNI introducido
+	 */
 	private char clacularLetraDni(String text) {
 		text = text.substring(0, 8);
 		int numDni = Integer.parseInt(text);
@@ -254,6 +310,11 @@ public class VRegistro extends JDialog implements ActionListener {
 		return 0;
 	}
 
+	/**
+	 * Comprueba que la letra del DNI corresponde con la letra del DNI calculada según los números del DNI introducido
+	 * @param c
+	 * @return Devuelve un booleano indicando si la letra del DNI es la que debería o no.
+	 */
 	private boolean hayLetra(char c) {
 		for (int i = 0; i < letra.length; i++) {
 			if (letra[i] == c) {
@@ -264,6 +325,11 @@ public class VRegistro extends JDialog implements ActionListener {
 
 	}
 
+	/**
+	 * Comprueba que el formato del gmail es correcto
+	 * @param gmail
+	 * @return Devuelve un booleano indicando que el formato del gmail es correcto o no.
+	 */
 	private boolean validarEmail(String gmail) {
 		// Patrón para validar el email
 		Pattern pattern = Pattern.compile(

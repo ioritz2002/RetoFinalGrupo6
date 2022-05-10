@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import modelo.InterfazAmbosUsuarios;
 import modelo.InterfazCliente;
 
 import javax.swing.JLabel;
@@ -17,6 +18,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.toedter.calendar.JCalendar;
 
@@ -39,6 +42,7 @@ public class VDatosCliente extends JDialog implements ActionListener {
 	private JButton btnAtras;
 	private Cliente usuario;
 	private JButton btnBorrar;
+	private InterfazAmbosUsuarios datosAmbos;
 
 	/**
 	 * Create the dialog.
@@ -47,11 +51,13 @@ public class VDatosCliente extends JDialog implements ActionListener {
 	 * @param b
 	 * @param vMenuCliente
 	 */
-	public VDatosCliente(VMenuCliente vMenuCliente, boolean b, Cliente usuario, InterfazCliente datosCliente) {
+	public VDatosCliente(VMenuCliente vMenuCliente, boolean b, Cliente usuario, InterfazCliente datosCliente, InterfazAmbosUsuarios datosAmbos) {
 		super(vMenuCliente);
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		this.setModal(b);
 		this.datosCliente = datosCliente;
 		this.usuario = usuario;
+		this.datosAmbos= datosAmbos;
 		setBounds(100, 100, 713, 629);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -180,7 +186,7 @@ public class VDatosCliente extends JDialog implements ActionListener {
 		}
 		if (e.getSource().equals(btnAtras)) {
 			this.dispose();
-			VMenuCliente vMenuCliente = new VMenuCliente(null, true, datosCliente, usuario);
+			VMenuCliente vMenuCliente = new VMenuCliente(null, true, datosCliente, usuario, datosAmbos);
 			vMenuCliente.setVisible(true);
 		}
 
@@ -199,28 +205,38 @@ public class VDatosCliente extends JDialog implements ActionListener {
 
 	}
 
-	private void limpiar() {
-		txtDni.setText("");
-		txtContraseña.setText("");
-		txtDireccion.setText("");
-		txtEmail.setText("");
-		txtFNacimiento.setText("");
-	}
 
 	private void modificar() {
-		usuario.setDni(txtDni.getText());
-		usuario.setNombre(txtNombre.getText());
-		usuario.setContraseña(txtContraseña.getText());
-		usuario.setDireccion(txtDireccion.getText());
-		usuario.setEmail(txtEmail.getText());
-		usuario.setFechaNacimiento(LocalDate.parse(txtFNacimiento.getText()));
-		if (JOptionPane.showConfirmDialog(null, "Esta seguro que quiere modificar los datos?", "confirmacion",
-				JOptionPane.YES_NO_OPTION) == 0) {
-			datosCliente.modificarDatosCliente(usuario);
-			JOptionPane.showMessageDialog(null, "La cuenta se a modificado con exito", "confirmacion",
-					JOptionPane.WARNING_MESSAGE);
-		}
-
+	
+			usuario.setDni(txtDni.getText());
+			usuario.setNombre(txtNombre.getText());
+			usuario.setContraseña(txtContraseña.getText());
+			usuario.setDireccion(txtDireccion.getText());
+			usuario.setEmail(txtEmail.getText());
+			usuario.setFechaNacimiento(LocalDate.parse(txtFNacimiento.getText()));
+			if (JOptionPane.showConfirmDialog(null, "Esta seguro que quiere modificar los datos?", "confirmacion",
+					JOptionPane.YES_NO_OPTION) == 0) {
+				datosCliente.modificarDatosCliente(usuario);
+				JOptionPane.showMessageDialog(null, "La cuenta se a modificado con exito", "confirmacion",
+						JOptionPane.WARNING_MESSAGE);
+			}
+		
 	}
+	
+	private boolean validarEmail(String gmail) {
+		// Patrón para validar el email
+		Pattern pattern = Pattern.compile(
+				"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 
+		// El email a validar
+		String email = gmail;
+
+		Matcher mather = pattern.matcher(email);
+
+		if (mather.find() == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

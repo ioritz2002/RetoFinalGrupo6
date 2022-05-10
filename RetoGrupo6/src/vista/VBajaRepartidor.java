@@ -47,6 +47,7 @@ public class VBajaRepartidor extends JDialog implements ActionListener {
 
 		btnAtras = new JButton("ATR\u00C1S");
 		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnAtras.addActionListener(this);
 		btnAtras.setBounds(58, 181, 103, 53);
 		getContentPane().add(btnAtras);
 
@@ -93,6 +94,9 @@ public class VBajaRepartidor extends JDialog implements ActionListener {
 						JOptionPane.WARNING_MESSAGE);
 				this.dispose();
 			}
+		}
+		if (e.getSource().equals(btnAtras)) {
+			this.dispose();
 		}
 
 	}

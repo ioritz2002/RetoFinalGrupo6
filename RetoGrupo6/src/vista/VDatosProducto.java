@@ -34,6 +34,9 @@ public class VDatosProducto extends JDialog implements ActionListener{
 	private Usuario us;
 	private String cod;
 
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public VDatosProducto(VMenuAdministrador menuAdmin, boolean b, InterfazAdministrador datosAdmin, Usuario usuario) {
 		super(menuAdmin);
 		this.us = usuario;
@@ -202,6 +205,8 @@ public class VDatosProducto extends JDialog implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		//Se introducen los datos introducidos en un objeto producto para pasarlo a la base de datos para modificarla
 		if (e.getSource().equals(btnModificar)) {
 			Producto producto = new Producto();
 			producto.setCodProducto(txtCodigo.getText());
@@ -238,6 +243,7 @@ public class VDatosProducto extends JDialog implements ActionListener{
 				JOptionPane.showMessageDialog(null, "El stock debe ser mayor que 0", "Error", JOptionPane.OK_OPTION);
 			}  else {
 				nuevoProducto();
+				this.dispose();
 			}
 		}
 		

@@ -25,13 +25,12 @@ public class Añade {
 		this.codCesta = codCesta;
 	}
 
-	public String getIdPartidor() {
+	public String getIdProducto() {
 		return idProducto;
 	}
 
-	public void setIdPartidor(String idPartidor) {
-		this.idProducto = idPartidor;
+	public void setIdProducto(String idProducto) {
+		this.idProducto = idProducto;
 	}
-	
-	
+
 }
