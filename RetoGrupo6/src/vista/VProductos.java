@@ -45,11 +45,11 @@ import javax.swing.JRadioButton;
 
 
 /**
- * 
- * @author grupo6
- * @version 1
  * Esta clase es una ventana en la que se mostrara una tabla y los filtros a elegir para los productos que se muestran en la tabla,
  * Desde esta ventana se puede añadir productos al carrito y se puede seleccionar un producto para modificarlo o borrarlo.
+ * @author grupo6
+ * @version 1
+ * 
  *
  */
 public class VProductos extends JDialog implements ActionListener, MouseListener {
@@ -58,7 +58,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 	 */
 	private JTable table;
 	/**
-	 * En este atributo se usa para definir el modelo de tabla que usaremos, que en este caso sera uno por defecto
+	 * Este atributo se usa para definir el modelo de tabla que usaremos, que en este caso sera uno por defecto
 	 */
 	private DefaultTableModel dtm;
 	/**
@@ -146,11 +146,14 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 	 */
 	private List<String> tiposProductos;
 
-	/**
-	 * @wbp.parser.constructor
-	 */
 
-	// Constructor para el administrador
+	/**
+	 * Este constructor es para cuando el administrador entre a esta ventana. Aqui todos los filtros excepto el de los mas vendidos no aparecen.
+	 * @param vMenuAdministrador Es la ventana padre, es decir la ventana desde la que se abre esta
+	 * @param b Este paramentro boolean indica si esta ventana sera modal o no.
+	 * @param usuario Este paramentro de tipo Usuario indica que tipo de usuario ha entrado ha esta ventana
+	 * @param datosAdmin Es la interfaz que utilizara el administrador para poder acceder en caso de necesitar usar la base de datos
+	 */
 	public VProductos(VMenuAdministrador vMenuAdministrador, boolean b, Usuario usuario,
 			InterfazAdministrador datosAdmin) {
 		super(vMenuAdministrador);
@@ -175,7 +178,13 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		cargarTabla(datosAdmin, null, valoraciones);
 	}
 
-	// Consttructor para el cliente porque tiene mas opciones que el administrador
+	/**
+	 * Este constructor es para cuento el cliente entra a esta ventana. Aqui aparecen todas las opciones.
+	 * @param vMenuCliente Es la ventana desde la que se ha abierto esta. 
+	 * @param b Este paramentro boolean indica si esta ventana sera modal o no.
+	 * @param usuario Este parametro de tipo Usuario indica que tipo de usuario ha entrado ha esta ventana.
+	 * @param datosCliente Es la interfaz que utilizara el cliente para poder acceder en caso de necestiar usar la base de datos.
+	 */
 	public VProductos(VMenuCliente vMenuCliente, boolean b, Usuario usuario, InterfazCliente datosCliente) {
 		super(vMenuCliente);
 		this.setModal(b);
@@ -258,6 +267,8 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 
 		tiposProductos = new ArrayList<String>();
 		boolean encontrado;
+		
+		//En este for se coje todos los productos y se va cargando los tipos de los productos en un ArrayList sin que se repitan
 		for (int i = 0; i < productos.size(); i++) {
 			encontrado = false;
 			for (int j = 0; j < tiposProductos.size(); j++) {
@@ -270,7 +281,8 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				tiposProductos.add(productos.get(i).getTipo());
 			}
 		}
-
+		
+		//Se carga este ultimo ArrayList en el combobox
 		for (String t : tiposProductos) {
 			cmbxTipos.addItem(t);
 		}
@@ -278,7 +290,12 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		cmbxTipos.setSelectedIndex(-1);
 	}
 
-	// Este metodo sirve para crear la tabla y cargar sus datos
+	/**
+	 * Este metodo sirve para cargar la tabla con los datos nada mas abrir la ventana.
+	 * @param datosAdmin Este parametro es para poder acceder desde el administrador a la base de datos, sera null si se ha entrado como cliente.
+	 * @param datosCliente Este parametro es para poder acceder desde el cliente a la base de datos, sera null si se ha entrado como administrador.
+	 * @param valoraciones Este paramentro es una lista de las valoraciones para poder cargar en la tabla.
+	 */
 	private void cargarTabla(InterfazAdministrador datosAdmin, InterfazCliente datosCliente,
 			List<Valora> valoraciones) {
 		// Tabla
@@ -293,7 +310,6 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		if (datosCliente == null) {
 			productos = datosAdmin.listarProductos();
 			valoraciones = datosAdmin.listarValoraciones();
-			System.out.println(valoraciones.size());
 		}
 
 		// Cargo el map con los datos de los productos y valoraciones
@@ -322,9 +338,15 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 
 	}
 
-	// Este metodo sirve para cargar el map para poder mostrar la informacion en la
-	// tabla, los parametros que se le pasa son dos listas, una con las valoraciones
-	// y otra con los productos
+	
+	
+	/**
+	 * Este metodo sirve para cargar el map para poder mostrar la informacion en la tabla, los parametros que se le pasa son dos listas, una con las valoraciones <br/> y otra con los productos
+	 * 
+	 * @param productos Este parametro es una lista con todos los productos
+	 * @param valoraciones Este parametro es una lista con todas las valoraciones
+	 * @return Este metodo retorna un map con los productos y sus valoraciones medias.
+	 */
 	private Map<String, ListarTablaProductos> cargarLista(List<Producto> productos, List<Valora> valoraciones) {
 		Map<String, ListarTablaProductos> listar = new TreeMap<String, ListarTablaProductos>();
 		int contador = 0;
@@ -359,9 +381,9 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				}
 
 			}
-			// En el caso de que no exista valoraciones de ese producto ni tampoco este en
-			// la lista entonces se crea una nueva linea con los datos del producto y se le
-			// asigna como valoracion 0
+			/* En el caso de que no exista valoraciones de ese producto ni tampoco este en
+			la lista entonces se crea una nueva linea con los datos del producto y se le
+			asigna como valoracion 0*/
 			if (!listar.containsKey(productos.get(i).getCodProducto())) {
 				ListarTablaProductos linea = new ListarTablaProductos();
 				linea.setCodigoProducto(productos.get(i).getCodProducto());
@@ -372,7 +394,8 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				listar.put(linea.getCodigoProducto(), linea);
 			}
 		}
-
+		
+		//Aqui se saca la media de las valoraciones por cada producto a partir de la suma de las valoraciones de cada producto anteriormente calculada
 		for (int i = 0; i < productos.size(); i++) {
 			contador = 0;
 			for (int j = 0; j < valoraciones.size(); j++) {
@@ -390,6 +413,9 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		return listar;
 	}
 
+	/**
+	 * Este metodo ejecuta los eventos en los botones indicados cuando son pulsados.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(btnAtras)) {
@@ -413,11 +439,15 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 
 	}
 
+	/**
+	 * Este metodo aplica los filtros cuando se pulsa el boton de filtrar teniendo en cuenta que filtro se ha seleccionado.
+	 */
 	private void filtros() {
 		valoraciones = datosCliente.listarValoraciones();
 		Map<String, ListarTablaProductos> listaTabla = null;
 		List<Producto> productosRango = null;
 
+		//Esta opcion filtra los productos que cuestan entre 0 y 50 euros
 		if (rdbtn0A50.isSelected()) {
 			vaciarTabla();
 			productosRango = datosCliente.listarProductosFiltradoPrecio(0, 50);
@@ -433,6 +463,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				dtm.addRow(fila);
 			}
 		}
+		//Esta opcion filtra los productos que cuestan entre 50 y 100 euros
 		if (rdbtn50A100.isSelected()) {
 			vaciarTabla();
 			productosRango = datosCliente.listarProductosFiltradoPrecio(50, 100);
@@ -448,6 +479,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				dtm.addRow(fila);
 			}
 		}
+		//Esta opcion filtra los productos que cuestan entre 100 y 200 euros
 		if (rdbtn100A200.isSelected()) {
 			vaciarTabla();
 			productosRango = datosCliente.listarProductosFiltradoPrecio(100, 200);
@@ -463,6 +495,8 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				dtm.addRow(fila);
 			}
 		}
+		
+		//Esta opcion filtra los productos que cuestan mas de 200 euros
 		if (rdbtnMAS200.isSelected()) {
 			vaciarTabla();
 			productosRango = datosCliente.listarProductosFiltradoPrecio(200, 1000000);
@@ -478,7 +512,8 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				dtm.addRow(fila);
 			}
 		}
-
+		
+		//Esta opcion aolica el filtro de tipo seleccionado en el combo box comprobando antes que no este seleccionado la opcion vacia
 		if (cmbxTipos.getSelectedIndex() > -1) {
 			vaciarTabla();
 			String tipoSeleccionado = cmbxTipos.getSelectedItem().toString();
@@ -494,13 +529,13 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				}
 			}
 		}
-
+		//Esta opcion aplica el filtro de buscar por nombre comprobando primero que el texto no es null y que no este vacio
 		if (txtNombre.getText() != null && !txtNombre.getText().equalsIgnoreCase("")) {
 			vaciarTabla();
 			String nombre = txtNombre.getText();
 
 			for (int i = 0; i < listarProductos.size(); i++) {
-				if (listarProductos.get(i).getNombreProducto().contains(nombre)) {
+				if (listarProductos.get(i).getNombreProducto().toUpperCase().contains(nombre.toUpperCase())) {
 					fila[0] = listarProductos.get(i).getNombreProducto();
 					fila[1] = listarProductos.get(i).getTipoProducto();
 					fila[2] = String.valueOf(listarProductos.get(i).getPrecio());
@@ -512,20 +547,26 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		}
 
 	}
-
+	/**
+	 * Este metodo filtra por el producto mas vendido.
+	 */
 	private void masVendidos() {
 		int contador = 0;
 		int limite = 0;
 		List<ListarTablaProductosMasVendidos> lista = null;
+		ListarTablaProductosMasVendidos[] productosMasVendidos;
+		//Si el usuario es un cliente se ejecuta la sentecia de la implementacion de cliente
 		if (usuario instanceof Cliente) {
 			valoraciones = datosCliente.listarValoraciones();
 		}
+		//Si el usuario es administrador se ejecuta la del administrador
 		if (usuario instanceof Usuario && usuario.getTipo().equalsIgnoreCase("administrador")) {
 			valoraciones = datosAdmin.listarValoraciones();
 		}
 
 		vaciarTabla();
 
+		//En estas dos condiciones obtenemos los productos mas vendidos y los introducimos en la lista, comprobando el usuario ya que el metodo estara en distintas implementaciones.
 		if (usuario instanceof Cliente) {
 			lista = datosCliente.listarProductosMasVendidos();
 		}
@@ -533,27 +574,28 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 			lista = datosAdmin.listarProductosMasVendidosAdmin();
 		}
 
-		ListarTablaProductosMasVendidos[] productosMasVendidos = new ListarTablaProductosMasVendidos[3];
-		System.out.println(lista.size());
-		System.out.println(productosMasVendidos.length);
-
+		//Como solo queremos los 3 mas vendidos usaremos un array de 3 posiciones para introducir alli los productos
+		productosMasVendidos = new ListarTablaProductosMasVendidos[3];
 		limite = lista.size();
+		
+		//Si la lista no es null y tiene mas de 0 productos en ella continuara realizando las siguientes operaciones, si no no lo hara para evitar que de un error de puntero nulo
 		if (lista != null && lista.size() > 0) {
+			//Como queremos que no haya mas productos que 3 entonces si es mayor que 3 lo ponemos a 3
 			if (limite > 3) {
 				limite = 3;
 			}
+			//Pasamos de la lista al array
 			for (int i = 0; i < limite; i++) {
 				productosMasVendidos[i] = lista.get(i);
 			}
-
+			
+			//Aqui sumamos las valoraciones de cada producto para posteriormente sacar la media
 			for (int i = 0; i < productosMasVendidos.length; i++) {
 				for (int j = 0; j < valoraciones.size(); j++) {
 					if (productosMasVendidos[i] != null) {
 
-						if (productosMasVendidos[i].getCodProducto().equalsIgnoreCase(
-								valoraciones.get(j).getCodProducto()) && productosMasVendidos[i].getValoracion() > 0) {
-							productosMasVendidos[i].setValoracion(
-									productosMasVendidos[i].getValoracion() + valoraciones.get(j).getValoracion());
+						if (productosMasVendidos[i].getCodProducto().equalsIgnoreCase(valoraciones.get(j).getCodProducto()) && productosMasVendidos[i].getValoracion() > 0) {
+							productosMasVendidos[i].setValoracion(productosMasVendidos[i].getValoracion() + valoraciones.get(j).getValoracion());
 							contador++;
 						}
 						if (productosMasVendidos[i].getCodProducto().equalsIgnoreCase(
@@ -563,7 +605,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 					}
 
 				}
-
+				// Aqui sacamos la media de las valoraciones de cada producto
 				if (contador > 0) {
 					productosMasVendidos[i].setValoracion((Float) productosMasVendidos[i].getValoracion() / contador);
 				}
@@ -584,6 +626,9 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 
 	}
 
+	/**
+	 * Este metodo ejecuta un evento cuando se pulsa sobre una fila de la tabla
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource().equals(table)) {
@@ -597,30 +642,43 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 
 	}
 
-	@Override
+	/**
+	 * @hidden
+	 */
+	@Override 
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
-
+	/**
+	 * @hidden
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
-
+	/**
+	 * @hidden
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
-
+	/**
+	 * @hidden
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Este metodo calcula el codigo de la cesta correspondiente a la proxima cesta
+	 * @return Retorna el codigo de la cesta calculado en base a las cestas que hay en la base de datos
+	 */
 	private String calcularIdCesta() {
 		int cant = datosCliente.calcularCodCesta() + 1;
 		String cod;
@@ -636,6 +694,11 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		}
 		return cod;
 	}
+	/**
+	 * Este metodo se ejecuta si la seleccion del producto la ha realizado un cliente. Este metodo añade el producto seleccion
+	 * @param listarProductos Esta lista contiene todos los productos que se estan visualizando
+	 * @return Retorna un producto
+	 */
 
 	private Producto seleccionCliente(List<ListarTablaProductos> listarProductos) {
 		Producto producto = new Producto();
@@ -643,12 +706,14 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		Añade añade = null;
 		Cesta cesta = null;
 
-		System.out.println("Entra metodo");
+		//Si el cliente no tiene cesta activa
 		if (datosCliente.comprobarCestaActiva(usuario.getDni()) == null) {
+			//Si el cliente confirma que quiere añadir el producto a la cesta
 			if (JOptionPane.showConfirmDialog(null, "Quieres añadir el producto a la cesta?", null,
 					JOptionPane.YES_NO_OPTION) == 0) {
 				cesta = new Cesta();
 				cesta.setCodCesta(calcularIdCesta());
+				//El estado es false si esta activo y true si esta finalizado
 				cesta.setEstado(false);
 				datosCliente.añadirCesta(cesta);
 				System.out.println("Entra if 1");
@@ -660,18 +725,22 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				if (producto.getStock() == 0) {
 					JOptionPane.showMessageDialog(null, "No se puede añadir el producto porque no tiene stock", null,
 							JOptionPane.ERROR_MESSAGE);
-				} else {
+				} 
+				//Si el producto tiene stock
+				else {
+					//Y el producto ha sido introducido anteriormente en la cesta se muestra un error.
 					if (datosCliente.comprobarProductoRepetido(usuario.getDni(), producto.getCodProducto())) {
 						JOptionPane.showMessageDialog(null,
 								"Error, no se puede introducir el mismo producto mas de una vez en una misma cesta",
 								null, JOptionPane.ERROR_MESSAGE);
 					} else {
-
+						//Si no esta en la cesta
 						añade = new Añade();
 						añade.setCodCesta(cesta.getCodCesta());
 						añade.setDni(usuario.getDni());
 						añade.setIdProducto(producto.getCodProducto());
 
+						
 						datosCliente.añadirProductoAAñade(añade);
 						datosCliente.reducirStock(producto.getCodProducto());
 					}
@@ -680,7 +749,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 			}
 
 		}
-
+		//Si el cliente tiene cesta activa
 		else {
 			if (JOptionPane.showConfirmDialog(null, "Quieres añadir el producto a la cesta?", null,
 					JOptionPane.YES_NO_OPTION) == 0) {
@@ -692,12 +761,16 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				if (producto.getStock() == 0) {
 					JOptionPane.showMessageDialog(null, "No se puede añadir el producto porque no tiene stock", null,
 							JOptionPane.ERROR_MESSAGE);
-				} else {
+				} 
+				//Si el producto tiene stock
+				else {
+					//Y el produto ha sido introducido en la cesta previamente entonces muestra un error.
 					if (datosCliente.comprobarProductoRepetido(usuario.getDni(), producto.getCodProducto())) {
 						JOptionPane.showMessageDialog(null,
 								"Error, no se puede introducir el mismo producto mas de una vez en una misma cesta",
 								null, JOptionPane.ERROR_MESSAGE);
 					} else {
+						//Si no esta en la cesta
 						añade = new Añade();
 						añade.setCodCesta(datosCliente.comprobarCestaActiva(usuario.getDni()));
 						añade.setDni(usuario.getDni());
@@ -714,6 +787,10 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		return producto;
 	}
 
+	/**
+	 * Este metodo se ejecuta cuando la seleccion de la fila la realiza el administrador
+	 * @param listarProductos Este parametro es una lista que tiene los productos que se estan listando en la tabla.
+	 */
 	private void seleccionAdmin(List<ListarTablaProductos> listarProductos) {
 		Producto producto = new Producto();
 		int filaSeleccionada = table.getSelectedRow();
@@ -728,6 +805,11 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		vDatos.setVisible(true);
 	}
 
+	/**
+	 * Este metodo calcula el stock del producto seleccionado por el cliente
+	 * @param producto El paramentro es un producto seleccionado por el cliente en la tabla
+	 * @return Este metodo retorna el stock restante del producto seleccionado por el cliente
+	 */
 	private int obtenerStock(Producto producto) {
 		int stock = -1;
 		for (Producto p : productos) {
@@ -738,6 +820,12 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		return stock;
 	}
 
+	/**
+	 * Este metodo obtiene el codigo del producto buscado por nombre desde una lista
+	 * @param listarProductos Este parametro es una lista que tiene los productos que se muestran en la tabla
+	 * @param nombre Este paramentro es un String del nombre por el que busca el producto
+	 * @return Este metodo retorna el codigo obtenido del producto encontrado por el nombre
+	 */
 	private String obtenerCodigo(List<ListarTablaProductos> listarProductos, String nombre) {
 		String codigo = null;
 
@@ -750,6 +838,9 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		return codigo;
 	}
 
+	/**
+	 * Este metodo vacia la tabla
+	 */
 	private void vaciarTabla() {
 		int numFilas = dtm.getRowCount();
 		

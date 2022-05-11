@@ -6,27 +6,27 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/1dam/Desktop/Reto Final/RetoFinalGrupo6Clon2/RetoFinalGrupo6/jcalendar-1.4.jar">
+	<classpathentry kind="lib" path="C:/RetoFinalGrupo6/RetoFinalGrupo6/jcalendar-1.4.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/1dam/Desktop/Reto Final/RetoFinalGrupo6Clon2/RetoFinalGrupo6/jgoodies-common-1.2.0.jar">
+	<classpathentry kind="lib" path="C:/RetoFinalGrupo6/RetoFinalGrupo6/jgoodies-common-1.2.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/1dam/Desktop/Reto Final/RetoFinalGrupo6Clon2/RetoFinalGrupo6/jgoodies-looks-2.4.1.jar">
+	<classpathentry kind="lib" path="C:/RetoFinalGrupo6/RetoFinalGrupo6/jgoodies-looks-2.4.1.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/1dam/Desktop/Reto Final/RetoFinalGrupo6Clon2/RetoFinalGrupo6/junit-4.6.jar">
+	<classpathentry kind="lib" path="C:/RetoFinalGrupo6/RetoFinalGrupo6/junit-4.6.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/1dam/Desktop/Reto Final/RetoFinalGrupo6Clon2/RetoFinalGrupo6/mysql-connector-java-8.0.15.jar">
+	<classpathentry kind="lib" path="C:/RetoFinalGrupo6/RetoFinalGrupo6/mysql-connector-java-8.0.15.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
