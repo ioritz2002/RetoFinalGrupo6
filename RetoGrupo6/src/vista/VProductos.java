@@ -215,7 +215,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		if (datosCliente == null) {
 			productos = datosAdmin.listarProductos();
 			valoraciones = datosAdmin.listarValoraciones();
-			System.out.println(valoraciones.size());
+			
 		}
 
 		// Cargo el map con los datos de los productos y valoraciones
@@ -339,7 +339,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		List<Producto> productosRango = null;
 
 		if (rdbtn0A50.isSelected()) {
-			vaciarTabla();
+			
 			productosRango = datosCliente.listarProductosFiltradoPrecio(0, 50);
 
 			listaTabla = cargarLista(productosRango, valoraciones);
@@ -354,7 +354,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 			}
 		}
 		if (rdbtn50A100.isSelected()) {
-			vaciarTabla();
+			
 			productosRango = datosCliente.listarProductosFiltradoPrecio(5, 100);
 
 			listaTabla = cargarLista(productosRango, valoraciones);
@@ -369,7 +369,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 			}
 		}
 		if (rdbtn100A200.isSelected()) {
-			vaciarTabla();
+			
 			productosRango = datosCliente.listarProductosFiltradoPrecio(100, 200);
 
 			listaTabla = cargarLista(productosRango, valoraciones);
@@ -384,7 +384,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 			}
 		}
 		if (rdbtnMAS200.isSelected()) {
-			vaciarTabla();
+			
 			productosRango = datosCliente.listarProductosFiltradoPrecio(200, 1000000);
 
 			listaTabla = cargarLista(productosRango, valoraciones);
@@ -416,7 +416,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		}
 
 		if (txtNombre.getText() != null && !txtNombre.getText().equalsIgnoreCase("")) {
-			vaciarTabla();
+			
 			String nombre = txtNombre.getText();
 
 			for (int i = 0; i < listarProductos.size(); i++) {
@@ -430,6 +430,8 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				}
 			}
 		}
+		vaciarTabla();
+		
 
 	}
 
@@ -454,8 +456,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		}
 
 		ListarTablaProductosMasVendidos[] productosMasVendidos = new ListarTablaProductosMasVendidos[3];
-		System.out.println(lista.size());
-		System.out.println(productosMasVendidos.length);
+		
 
 		limite = lista.size();
 		if (lista != null && lista.size() > 0) {
@@ -563,7 +564,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		Añade añade = null;
 		Cesta cesta = null;
 
-		System.out.println("Entra metodo");
+		
 		if (datosCliente.comprobarCestaActiva(usuario.getDni()) == null) {
 			if (JOptionPane.showConfirmDialog(null, "Quieres añadir el producto a la cesta?", null,
 					JOptionPane.YES_NO_OPTION) == 0) {
@@ -571,7 +572,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				cesta.setCodCesta(calcularIdCesta());
 				cesta.setEstado(false);
 				datosCliente.añadirCesta(cesta);
-				System.out.println("Entra if 1");
+				
 
 				producto.setNombre(String.valueOf(dtm.getValueAt(filaSeleccionada, 0)));
 				producto.setCodProducto(obtenerCodigo(listarProductos, producto.getNombre()));
@@ -604,7 +605,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		else {
 			if (JOptionPane.showConfirmDialog(null, "Quieres añadir el producto a la cesta?", null,
 					JOptionPane.YES_NO_OPTION) == 0) {
-				System.out.println("Entra if 2");
+				
 				producto.setNombre(String.valueOf(dtm.getValueAt(filaSeleccionada, 0)));
 				producto.setCodProducto(obtenerCodigo(listarProductos, producto.getNombre()));
 				producto.setPrecio(Double.parseDouble(String.valueOf(dtm.getValueAt(filaSeleccionada, 2))));
