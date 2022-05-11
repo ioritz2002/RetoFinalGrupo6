@@ -43,29 +43,107 @@ import java.awt.event.MouseAdapter;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 
+
+/**
+ * 
+ * @author grupo6
+ * @version 1
+ * Esta clase es una ventana en la que se mostrara una tabla y los filtros a elegir para los productos que se muestran en la tabla,
+ * Desde esta ventana se puede añadir productos al carrito y se puede seleccionar un producto para modificarlo o borrarlo.
+ *
+ */
 public class VProductos extends JDialog implements ActionListener, MouseListener {
+	/**
+	 * Crea una tabla para mostrar los productos
+	 */
 	private JTable table;
+	/**
+	 * En este atributo se usa para definir el modelo de tabla que usaremos, que en este caso sera uno por defecto
+	 */
 	private DefaultTableModel dtm;
+	/**
+	 * En este campo se escribira el nombre de un producto para filtrar la tabla.
+	 */
 	private JTextField txtNombre;
+	/**
+	 * Este boton sirve para cerrar esta ventana.
+	 */
 	private JButton btnAtras;
+	/**
+	 * Este boton lleva a la ventana de cesta para poder ver los productos de la cesta.
+	 */
 	private JButton btnCarrito;
+	/**
+	 * Este boton filtra la tabla y muestro los 3 productos mas vendidos de todos.
+	 */
 	private JButton btnMasVendidos;
+	/**
+	 * En este combo box saldran los tipos de productos que tenemos y se podra seleccionar uno para filtrar la tabla.
+	 */
 	private JComboBox cmbxTipos;
+	/**
+	 * Este boton aplica los filtros introducidos en los otros campos sobre la tabla.
+	 */
 	private JButton btnFiltrar;
+	/**
+	 * Esta es la interfaz de datos del administrador
+	 */
 	private InterfazAdministrador datosAdmin;
+	/**
+	 * Esta es la interfaz de datos del cliente
+	 */
 	private InterfazCliente datosCliente;
+	/**
+	 *  Este es un objeto de usuario para poder saber que usuario estamos usando
+	 */
 	private Usuario usuario;
+	/** 
+	 * Esta lista es para poder cargar los datos de los productos
+	 */
 	private List<ListarTablaProductos> listarProductos;
+	/**
+	 * Esta lista es para poder cargar los productos para poder cargar el map para cargar la tabla
+	 */
 	private List<Producto> productos;
+	/**
+	 * Esta lista es para poder cargar los productos que se añaden a la cesta cuando se selecciona un producto
+	 */
 	private List<Producto> productosCesta;
+	/**
+	 * Esta lista sirve para cargar las valoraciones desde la base de datos
+	 */
 	private List<Valora> valoraciones;
+	/**
+	 * Este array es para poder cargar los datos por cada columna
+	 */
 	private String[] fila;
+	/**
+	 * Este array contiene las cabeceras de la tabla 
+	 */
 	private String[] cabeceras = { "Nombre", "Tipo", "Precio", "Valoracion" };
+	/**
+	 * Este radio button es para poder seleccionar un rango de precio, en este caso: Mas de 200
+	 */
 	private JRadioButton rdbtnMAS200;
+	/**
+	 * Este radio button es para poder seleccionar un rango de precio, en este caso: Entre 100 y 200
+	 */
 	private JRadioButton rdbtn100A200;
+	/**
+	 * Este radio button es para poder seleccionar un rango de precio, en este caso: Entre 50 y 100
+	 */
 	private JRadioButton rdbtn50A100;
+	/**
+	 * Este radio button es para poder seleccionar un rango de precio, en este caso: Entre 0 y 50
+	 */
 	private JRadioButton rdbtn0A50;
+	/**
+	 * Este grupo de botones agrupa los radio button
+	 */
 	private ButtonGroup grupoRadio;
+	/**
+	 * Esta lista es para poder cargar los tipos de productos para el combo box
+	 */
 	private List<String> tiposProductos;
 
 	/**
@@ -326,9 +404,11 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 
 		if (e.getSource().equals(btnFiltrar)) {
 			filtros();
+			
 		}
 		if (e.getSource().equals(btnMasVendidos)) {
 			masVendidos();
+			
 		}
 
 	}
@@ -355,7 +435,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		}
 		if (rdbtn50A100.isSelected()) {
 			vaciarTabla();
-			productosRango = datosCliente.listarProductosFiltradoPrecio(5, 100);
+			productosRango = datosCliente.listarProductosFiltradoPrecio(50, 100);
 
 			listaTabla = cargarLista(productosRango, valoraciones);
 
@@ -671,16 +751,11 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 	}
 
 	private void vaciarTabla() {
-		table = null;
-		dtm = new DefaultTableModel(null, cabeceras);
-
-		table = new JTable(dtm);
-		JScrollPane scroll = new JScrollPane(table);
-		table.setBounds(50, 10, 420, 250);
-		scroll.setViewportView(table);
-		scroll.setBounds(20, 20, 420, 250);
-		getContentPane().add(scroll, BorderLayout.CENTER);
-		table.addMouseListener(this);
+		int numFilas = dtm.getRowCount();
+		
+		for (int i = 0; i < numFilas; i++) {
+			dtm.removeRow(0);
+		}
 
 	}
 }
