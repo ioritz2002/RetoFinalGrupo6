@@ -19,19 +19,44 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 
 public class VBajaRepartidor extends JDialog implements ActionListener {
+	/**
+	 * boton para ir a la ventana anterior
+	 */
 	private JButton btnAtras;
+	/**
+	 * boton para borrar el repartidor de la base de datos
+	 */
 	private JButton btnBajaRepartidor;
+	/**
+	 * combobox cargado con todos los repartidores
+	 */
 	private JComboBox<String> cmbxRepartidores;
+	/**
+	 * Se utiliza para guardar los datosAdmin que llegan como parámetro
+	 */
 	private InterfazAdministrador datosAdministrador;
+	
 	private Repartidor repartidor;
+	/**
+	 * List para de repartidores
+	 */
+	
 	private List<Repartidor> repartidores;
+	
+	
+	/**
+	 * @author	grupo6
+	 * @param	vMenuAdministrador La ventana padre
+	 * @param	b	Indica si la ventana es modal o no
+	 * @param	datosAdministrador Interfaz que contiene los metodos que utiliza el administrador
+	 */
 
 	public VBajaRepartidor(VMenuAdministrador vMenuAdministrador, boolean b, InterfazAdministrador datosAdministrador) {
 
 		super(vMenuAdministrador);
 		this.setModal(b);
 		this.datosAdministrador = datosAdministrador;
-		// this.repartidor = repartidor;
+		
 
 		setBounds(100, 100, 524, 300);
 		getContentPane().setLayout(null);
@@ -61,6 +86,15 @@ public class VBajaRepartidor extends JDialog implements ActionListener {
 		btnBajaRepartidor.addActionListener(this);
 
 	}
+	
+	
+	/**
+	 * Metodo para cargar el comboBox con con los repoartidores de la base de datos,
+	 * Se carga la lista repartidores con la lista que cargada de la interfaz de datos del amistrador.
+	 * Si la lista repartidores no esta vacia se cargara el comboBox con el id y el nombre del repartidor,
+	 * si esta vacio no se mostrará nada
+	 * @param datosAdministrador Interfaz que contiene los metodos que utiliza el administrador
+	 */
 
 	private void cargarRepartidores(InterfazAdministrador datosAdministrador) {
 		// TODO Auto-generated method stub

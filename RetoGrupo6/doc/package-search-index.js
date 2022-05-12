@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"vista"}]
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"clases"},{"l":"controlador"},{"l":"excepciones"},{"l":"modelo"},{"l":"vista"}];updateSearchResults();
