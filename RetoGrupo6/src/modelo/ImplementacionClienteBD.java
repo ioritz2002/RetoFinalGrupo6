@@ -21,8 +21,17 @@ import clases.Repartidor;
 import clases.Usuario;
 import clases.Valora;
 
+/**
+ * Esta es la implementacion de la interfaz de datos del cliente
+ * @author grupo6
+ * @version 1
+ *
+ */
 public class ImplementacionClienteBD implements InterfazCliente {
 
+	/**
+	 * Este atributo sirve para poder establecer una conexion con la base de datos
+	 */
 	private Connection conex;
 	private PreparedStatement stmt;
 	private ResourceBundle archivoConfig;
