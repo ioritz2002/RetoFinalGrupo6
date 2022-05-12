@@ -36,11 +36,10 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	private final String INSERTARProducto = "INSERT INTO producto(COD_PRODUCTO, TIPO, NOMBRE, STOCK, PRECIO, DNI) VALUES(?, ? ,? , ?, ?, ?)";
 	private final String BUSCARNumRep = "SELECT COUNT(*) AS total FROM producto";
 	private final String NUMRepartidor = "SELECT COUNT(*) AS total FROM repartidor";
-	private final String ALTARepartidor = "INSERT INTO repartidor(ID_REPARTIDOR, FECHA_ALTA, NOMBRE, APELLIDO, DNI) VALUES( ?, ?, ?, ?, ?)";
+	private final String ALTARepartidor = "INSERT INTO repartidor(ID_REPARTIDOR, FECHA_ALTA, NOMBRE, APELLIDO, DNI, ACTIVO) VALUES( ?, ?, ?, ?, ?,?)";
 	private final String DELETEproducto = "DELETE FROM producto where COD_PRODUCTO = ?";
-	private final String DELETErepartidor = "DELETE FROM repartidor where ID_REPARTIDOR = ?";
+	private final String DELETErepartidor = "UPDATE repartidor SET ACTIVO= false where ID_REPARTIDOR = ?";
 	private final String CONSULTARrepartidores = "SELECT * FROM repartidor";
-	private final String SELECTProductosMasVendidos = "SELECT producto.*, COUNT(*) FROM producto, añade, cesta WHERE producto.COD_PRODUCTO = añade.COD_PRODUCTO AND añade.COD_CESTA = cesta.COD_CESTA AND cesta.ESTADO = 1 GROUP BY producto.COD_PRODUCTO";
 	private final String SELECTproductosMasVendidos="CALL PRODUCTOS_MAS_VENDIDOS()";
 
 	public ImplementacionAdministradorBD() {
@@ -79,6 +78,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 			stmt.setString(3, repartidor.getNombre());
 			stmt.setString(4, repartidor.getApellido());
 			stmt.setString(5, repartidor.getDniUsuario());
+			stmt.setBoolean(6, true);
 
 			stmt.executeUpdate();
 

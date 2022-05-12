@@ -121,7 +121,6 @@ public class ImplementacionAmbosUsuarios implements InterfazAmbosUsuarios {
 
 			while (rs.next()) {
 				historial = new ListarTablaHistorial();
-				// rs.getString(1), rs.getFloat(2), rs.getDate(3), estado
 				historial.setCodigo(rs.getString(1));
 				historial.setImporte(rs.getFloat(2));
 				if (rs.getDate(3)==null) {
