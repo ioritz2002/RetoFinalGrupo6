@@ -43,7 +43,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	private final String INSERTARValoracion = "INSERT INTO valora (COD_PRODUCTO, DNI, VALORACION) VALUES( ?, ?, ?)";
 	private final String ACTUALIZARValoracion = "UPDATE valora SET VALORACION= ? WHERE COD_PRODUCTO= ? AND DNI= ?";
 	private final String COMPROBARVloracion = "SELECT * FROM valora WHERE COD_PRODUCTO= ? AND DNI= ?";
-	private final String CONSULTARrepartidores = "SELECT * FROM repartidor";
+	private final String CONSULTARrepartidores = "SELECT * FROM repartidor WHERE ACTIVO = 1";
 	private final String HACERcompra = "UPDATE CESTA SET IMPORTE_TOTAL = ?,FECHA_COMPRA = ?, ESTADO = 1, ID_REPARTIDOR = ? WHERE COD_CESTA LIKE ?";
 	private final String REDUCIRstock = "UPDATE producto SET stock = stock - 1 WHERE COD_PRODUCTO = ?";
 	private final String COMPRBARproductoNoDuplicado = "SELECT COD_PRODUCTO FROM añade WHERE COD_CESTA IN (SELECT COD_CESTA FROM cesta WHERE ESTADO = 0) AND DNI = ? AND COD_PRODUCTO = ?";

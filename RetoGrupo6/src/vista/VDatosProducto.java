@@ -81,6 +81,7 @@ public class VDatosProducto extends JDialog implements ActionListener{
 	 * @param b Indica dependiendo de su valor si la ventana va a tener el modal activado o no
 	 * @param datosAdmin Es la interfaz que se va a utilizar en caso de necesitar utilizar la base de datos
 	 * @param usuario Son los datos del usuario que ha iniciado sesion
+	 * @wbp.parser.constructor
 	 */
 	public VDatosProducto(VMenuAdministrador menuAdmin, boolean b, InterfazAdministrador datosAdmin, Usuario usuario) {
 		super(menuAdmin);
@@ -369,7 +370,7 @@ public class VDatosProducto extends JDialog implements ActionListener{
 		prod.setCodProducto(cod);
 
 		datosAdmin.altaProductos(prod);
-		JOptionPane.showMessageDialog(null, "Producto dado de alta correctamente", null, JOptionPane.OK_OPTION);
+		JOptionPane.showMessageDialog(null, "Producto dado de alta correctamente", null, JOptionPane.INFORMATION_MESSAGE);
 
 	}
 

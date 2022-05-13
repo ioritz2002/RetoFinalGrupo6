@@ -20,6 +20,7 @@ import java.util.List;
 
 /**
  * Sirve para que el cliente pueda valorar los productos que ya ha comprado
+ * 
  * @author grupo6
  * @version 1
  */
@@ -33,15 +34,18 @@ public class VValorar extends JDialog implements ActionListener {
 	 */
 	private JButton btnAtras;
 	/**
-	 * Al pulsarlo se mandarán los datos de la valoración seleccionada y a que producto.
+	 * Al pulsarlo se mandarán los datos de la valoración seleccionada y a que
+	 * producto.
 	 */
 	private JButton btnConfirmacion;
 	/**
-	 * En el se guardan los productos que el cliente ya ha comprado para que los seleccione y los valore
+	 * En el se guardan los productos que el cliente ya ha comprado para que los
+	 * seleccione y los valore
 	 */
 	private JComboBox<String> cmbxProductos;
 	/**
-	 * Se igualará a la interfaz que viene por parámetro para poder utilizarla fura del constructor
+	 * Se igualará a la interfaz que viene por parámetro para poder utilizarla fura
+	 * del constructor
 	 */
 	private InterfazCliente datosCliente;
 	/**
@@ -49,16 +53,18 @@ public class VValorar extends JDialog implements ActionListener {
 	 */
 	private String dni;
 	/**
-	 * En la lista se guardarán los productos comprados por el cliente y se guardaran el el comboBox correspondiente.
+	 * En la lista se guardarán los productos comprados por el cliente y se
+	 * guardaran el el comboBox correspondiente.
 	 */
 	private List<Producto> listaProductos;
 
 	/**
 	 * 
 	 * @param vMenuCliente Es la ventana de la que viene
-	 * @param b Indica si el modal estrá activado o desactivado
-	 * @param usuario Son los datos del usuario que ha iniciado sesión
-	 * @param datosCliente Es la interfaz que se utilizará en caso de necesitar utilizar la base datos.
+	 * @param b            Indica si el modal estrá activado o desactivado
+	 * @param usuario      Son los datos del usuario que ha iniciado sesión
+	 * @param datosCliente Es la interfaz que se utilizará en caso de necesitar
+	 *                     utilizar la base datos.
 	 */
 	public VValorar(VMenuCliente vMenuCliente, boolean b, Cliente usuario, InterfazCliente datosCliente) {
 		super(vMenuCliente);
@@ -121,14 +127,19 @@ public class VValorar extends JDialog implements ActionListener {
 
 			// Comprueba si el cliente ha comprado el producto para poder valorarlo o
 			// actualizar la valoracion
-			if (datosCliente.comprobarValoracion(dni, sacarCodigo())) {
-				datosCliente.actualizarValoracion((int) cmbxValoracion.getSelectedItem(), sacarCodigo(), dni);
-				JOptionPane.showMessageDialog(null, "La valoración se ha actualizado correctamente", "Éxito",
-						JOptionPane.INFORMATION_MESSAGE);
+			if (cmbxProductos.getSelectedIndex() == -1) {
+				JOptionPane.showMessageDialog(null, "Usted no ha seleccionado ningun producto", "Error",
+						JOptionPane.ERROR_MESSAGE);
 			} else {
-				datosCliente.insertarValoracion(sacarCodigo(), dni, (int) cmbxValoracion.getSelectedItem());
-				JOptionPane.showMessageDialog(null, "La valoración se ha guardado correctamente", "Éxito",
-						JOptionPane.INFORMATION_MESSAGE);
+				if (datosCliente.comprobarValoracion(dni, sacarCodigo())) {
+					datosCliente.actualizarValoracion((int) cmbxValoracion.getSelectedItem(), sacarCodigo(), dni);
+					JOptionPane.showMessageDialog(null, "La valoración se ha actualizado correctamente", "Éxito",
+							JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					datosCliente.insertarValoracion(sacarCodigo(), dni, (int) cmbxValoracion.getSelectedItem());
+					JOptionPane.showMessageDialog(null, "La valoración se ha guardado correctamente", "Éxito",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 
 		}
@@ -136,6 +147,7 @@ public class VValorar extends JDialog implements ActionListener {
 
 	/**
 	 * Obtiene el codigo del producto que ha seleccionado en el comboBox
+	 * 
 	 * @return Devuelve el código del producto seleccionado
 	 */
 	public String sacarCodigo() {

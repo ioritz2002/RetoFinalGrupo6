@@ -6,12 +6,16 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.junit.Test;
 
+import clases.Producto;
 import clases.Repartidor;
 
 public class ImplementacionAdministradorBDTest {
@@ -65,12 +69,13 @@ public class ImplementacionAdministradorBDTest {
 	@Test
 	public void testAltaRepartidor() throws SQLException {
 		this.testOpenConnection();
+		//Para que el test funcione se debe borrar el repartidor con el mismo id antes de hacer el test
 		Repartidor repartidor = new Repartidor();
 		repartidor.setDniUsuario("79365183a");
 		repartidor.setFechaAlta(LocalDate.parse("2022-05-12"));
 		repartidor.setNombre("Juan");
 		repartidor.setApellido("Contreras");
-		repartidor.setIdRepartidor("RP-0003");
+		repartidor.setIdRepartidor("RP-0004");
 		
 		try {
 			stmt = conex.prepareStatement("INSERT INTO repartidor(ID_REPARTIDOR, FECHA_ALTA, NOMBRE, APELLIDO, DNI, ACTIVO) VALUES( ?, ?, ?, ?, ?,?)");
@@ -80,7 +85,7 @@ public class ImplementacionAdministradorBDTest {
 			stmt.setString(3, repartidor.getNombre());
 			stmt.setString(4, repartidor.getApellido());
 			stmt.setString(5, repartidor.getDniUsuario());
-			stmt.setBoolean(6, false);
+			stmt.setBoolean(6, true);
 
 			stmt.executeUpdate();
 
@@ -101,7 +106,7 @@ public class ImplementacionAdministradorBDTest {
 
 		try {
 			stmt = conex.prepareStatement("UPDATE repartidor SET ACTIVO= false where ID_REPARTIDOR = ?");
-			stmt.setString(1, "RP-0003");
+			stmt.setString(1, "RP-0004");
 			stmt.execute();
 		} catch (SQLException e) {
 			fail("Error al borrar repartidor");
@@ -114,7 +119,34 @@ public class ImplementacionAdministradorBDTest {
 
 	@Test
 	public void testListarRepartidores() {
-		fail("Not yet implemented");
+		List<Repartidor> repartidores = new ArrayList<>();
+		ResultSet rs = null;
+		Repartidor repartidor = null;
+
+		this.testOpenConnection();
+
+		try {
+			stmt = conex.prepareStatement("SELECT * FROM repartidor");
+			rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				repartidor = new Repartidor();
+				repartidor.setIdRepartidor(rs.getString(1));
+				repartidor.setDniUsuario(rs.getString(5));
+				repartidor.setNombre(rs.getString(3));
+				repartidor.setApellido(rs.getString(4));
+				repartidor.setFechaAlta(rs.getDate(2).toLocalDate());
+				repartidores.add(repartidor);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			fail("Consulta mal realizada");
+		} finally {
+			testCloseConnection();
+		}
+
+		
 	}
 
 	@Test
@@ -134,7 +166,31 @@ public class ImplementacionAdministradorBDTest {
 
 	@Test
 	public void testModificarProducto() {
-		fail("Not yet implemented");
+		testOpenConnection();
+		Producto producto= new Producto();
+		producto.setCodProducto("PO-0001");
+		producto.setNombre("Ordenador");
+		producto.setTipo("Electrónico");
+		producto.setStock(20);
+		producto.setPrecio(950);
+		try {
+			stmt = conex.prepareStatement("UPDATE producto SET TIPO = ?, NOMBRE = ?, STOCK = ?, PRECIO = ? WHERE COD_PRODUCTO LIKE ?");
+
+			stmt.setString(1, producto.getTipo());
+			stmt.setString(2, producto.getNombre());
+			stmt.setInt(3, producto.getStock());
+			stmt.setDouble(4, producto.getPrecio());
+			stmt.setString(5, producto.getCodProducto());
+
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			fail("Error al actualizar los datos");
+			e.printStackTrace();
+		} finally {
+			testCloseConnection();
+
+		}
+		
 	}
 
 	@Test
@@ -149,7 +205,26 @@ public class ImplementacionAdministradorBDTest {
 
 	@Test
 	public void testCalcularCodRepartidor() {
-		fail("Not yet implemented");
+		ResultSet rs = null;
+		int num = 0;
+
+		this.testOpenConnection();
+
+		try {
+			stmt = conex.prepareStatement("SELECT COUNT(*) AS total FROM repartidor");
+
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				num = rs.getInt("total");
+			}
+			assertEquals("El resultado debería ser igual",2, num);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+
+		this.testCloseConnection();
+		
 	}
 
 	@Test

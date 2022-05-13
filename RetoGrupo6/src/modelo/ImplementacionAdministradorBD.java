@@ -38,7 +38,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	private final String NUMRepartidor = "SELECT COUNT(*) AS total FROM repartidor";
 	private final String ALTARepartidor = "INSERT INTO repartidor(ID_REPARTIDOR, FECHA_ALTA, NOMBRE, APELLIDO, DNI, ACTIVO) VALUES( ?, ?, ?, ?, ?,?)";
 	private final String DELETEproducto = "DELETE FROM producto where COD_PRODUCTO = ?";
-	private final String DELETErepartidor = "UPDATE repartidor SET ACTIVO= false where ID_REPARTIDOR = ?";
+	private final String DELETErepartidor = "UPDATE repartidor SET ACTIVO= false WHERE ID_REPARTIDOR = ?";
 	private final String CONSULTARrepartidores = "SELECT * FROM repartidor";
 	private final String SELECTproductosMasVendidos="CALL PRODUCTOS_MAS_VENDIDOS()";
 
