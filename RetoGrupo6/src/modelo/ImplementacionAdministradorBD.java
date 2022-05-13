@@ -2,7 +2,6 @@ package modelo;
 
 import java.sql.DriverManager;
 
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,11 +19,11 @@ import clases.Valora;
 import java.sql.Date;
 
 /**
+ * Implementacion del administrador
  * 
  * @author grupo6
  *
  */
-
 
 public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	/**
@@ -41,36 +40,84 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	private ResourceBundle archivoConfig;
 
 	// Conexion
-	
+
 	/**
-	 * 
+	 * url para conectarse a la base de datos
 	 */
 	private String url;
 	/**
-	 * 
+	 * usuario para conectarse a la base de datos
 	 */
 	private String usuario;
 	/**
-	 * 
+	 * contraseña para conectarse a la base de datos
 	 */
 	private String contraseña;
 
 	// SQL
-	
+	/**
+	 * selecciona todos los datos de la tabla valora
+	 */
 	private final String CALCULOValoracion = "SELECT valora.* FROM valora";
+	/**
+	 * selecciona todos los datos de la tabla productos
+	 */
 	private final String SELECTProductos = "SELECT producto.* FROM producto";
+	/**
+	 * actualiza el tipo, nombre, stock, precio de los productos que tengan el mismo
+	 * codigo que el que se le pasa por parametro
+	 */
 	private final String UPDATEProducto = "UPDATE producto SET TIPO = ?, NOMBRE = ?, STOCK = ?, PRECIO = ? WHERE COD_PRODUCTO LIKE ?";
+	/**
+	 * selecciona los dnis y nombres de la tabla clientes
+	 */
 	private final String LISTAClientes = "SELECT DNI, NOMBRE FROM cliente";
+	/**
+	 * selecciona el nombre de los productos, que sean iguales al nombre pasado por
+	 * parametro
+	 */
 	private final String BUSCARNombreProducto = "SELECT NOMBRE FROM producto WHERE UPPER(nombre) LIKE ?";
+	/**
+	 * inserta en la tabla producto nuevos productos con los datos que se le pasa
+	 * como parametro
+	 */
 	private final String INSERTARProducto = "INSERT INTO producto(COD_PRODUCTO, TIPO, NOMBRE, STOCK, PRECIO, DNI) VALUES(?, ? ,? , ?, ?, ?)";
+	/**
+	 * cuenta el numero de productos que hay
+	 */
 	private final String BUSCARNumRep = "SELECT COUNT(*) AS total FROM producto";
+	/**
+	 * cuenta el numero de repartidores que hay
+	 */
 	private final String NUMRepartidor = "SELECT COUNT(*) AS total FROM repartidor";
+	/**
+	 * inserta en la tabla repartidor nuevos repartidores con los datos que se le
+	 * pasan como parametro
+	 */
 	private final String ALTARepartidor = "INSERT INTO repartidor(ID_REPARTIDOR, FECHA_ALTA, NOMBRE, APELLIDO, DNI, ACTIVO) VALUES( ?, ?, ?, ?, ?, ?)";
+	/**
+	 * borrad de la tabla producto todos los producto que sus codigo sea igual que
+	 * el que se le pasa por parametro
+	 */
 	private final String DELETEproducto = "DELETE FROM producto where COD_PRODUCTO = ?";
+	/**
+	 * actualiza el estado de activo del repartido a false al repartidor que tenga
+	 * el mismo id que el que se pasa por parametro
+	 */
 	private final String DELETErepartidor = "UPDATE repartidor SET ACTIVO= false WHERE ID_REPARTIDOR = ?";
+	/**
+	 * selecciona todos los datos de la tabla repartidores
+	 */
 	private final String CONSULTARrepartidores = "SELECT * FROM repartidor";
-	private final String SELECTproductosMasVendidos="CALL PRODUCTOS_MAS_VENDIDOS()";
+	/**
+	 * llama a un procedimiento para mostrar los productos mas vendidos
+	 */
+	private final String SELECTproductosMasVendidos = "CALL PRODUCTOS_MAS_VENDIDOS()";
 
+	/**
+	 * constructor en el que se agragan los datos necesarios para conectarse a la
+	 * base de datos
+	 */
 	public ImplementacionAdministradorBD() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
 		this.url = archivoConfig.getString("Conn");
@@ -78,6 +125,9 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 		this.contraseña = archivoConfig.getString("BDPass");
 	}
 
+	/**
+	 * abre la conexion con la base de datos
+	 */
 	public void openConnection() {
 		try {
 			conex = DriverManager.getConnection(url, usuario, contraseña);
@@ -87,6 +137,11 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 		}
 	}
 
+	/**
+	 * Cierra la conexion con la base de datos
+	 * 
+	 * @throws SQLException
+	 */
 	public void closeConnection() throws SQLException {
 		if (conex != null) {
 			conex.close();
@@ -329,8 +384,6 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 		return listaClientes;
 	}
 
-
-
 	@Override
 	public List<Valora> listarValoraciones() {
 		List<Valora> valoraciones = new ArrayList<Valora>();
@@ -465,25 +518,25 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 		List<ListarTablaProductosMasVendidos> lista = new ArrayList<ListarTablaProductosMasVendidos>();
 		ResultSet rs = null;
 		ListarTablaProductosMasVendidos linea = null;
-		
+
 		openConnection();
 		try {
 			stmt = conex.prepareStatement(SELECTproductosMasVendidos);
 			rs = stmt.executeQuery();
-			
+
 			while (rs.next()) {
 				linea = new ListarTablaProductosMasVendidos();
-				
+
 				linea.setCodProducto(rs.getString(1));
 				linea.setTipo(rs.getString(2));
 				linea.setNombre(rs.getString(3));
 				linea.setStock(rs.getInt(4));
 				linea.setPrecio(rs.getDouble(5));
 				linea.setContador(rs.getInt(7));
-			
+
 				lista.add(linea);
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -493,11 +546,11 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 					rs.close();
 				}
 				closeConnection();
-			}catch(SQLException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return lista;
 	}
 

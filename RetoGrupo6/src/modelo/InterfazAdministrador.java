@@ -13,7 +13,7 @@ import clases.Valora;
 
 
 /**
- * 
+ * Interfaz del administrador
  * @author grupo6
  *
  */
