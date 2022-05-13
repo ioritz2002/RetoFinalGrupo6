@@ -705,6 +705,9 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		int filaSeleccionada = table.getSelectedRow();
 		Añade añade = null;
 		Cesta cesta = null;
+		double precio = 0;
+		int posicionSinbolo;
+		
 
 		//Si el cliente no tiene cesta activa
 		if (datosCliente.comprobarCestaActiva(usuario.getDni()) == null) {
@@ -720,7 +723,9 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 
 				producto.setNombre(String.valueOf(dtm.getValueAt(filaSeleccionada, 0)));
 				producto.setCodProducto(obtenerCodigo(listarProductos, producto.getNombre()));
-				producto.setPrecio(Double.parseDouble(String.valueOf(dtm.getValueAt(filaSeleccionada, 2))));
+				posicionSinbolo = String.valueOf(dtm.getValueAt(filaSeleccionada, 2)).toString().indexOf("€");
+				precio = Double.parseDouble(String.valueOf(dtm.getValueAt(filaSeleccionada, 2)).substring(0, posicionSinbolo));
+				producto.setPrecio(precio);
 				producto.setStock(obtenerStock(producto));
 				if (producto.getStock() == 0) {
 					JOptionPane.showMessageDialog(null, "No se puede añadir el producto porque no tiene stock", null,
@@ -756,7 +761,9 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				System.out.println("Entra if 2");
 				producto.setNombre(String.valueOf(dtm.getValueAt(filaSeleccionada, 0)));
 				producto.setCodProducto(obtenerCodigo(listarProductos, producto.getNombre()));
-				producto.setPrecio(Double.parseDouble(String.valueOf(dtm.getValueAt(filaSeleccionada, 2))));
+				posicionSinbolo = String.valueOf(dtm.getValueAt(filaSeleccionada, 2)).toString().indexOf("€");
+				precio = Double.parseDouble(String.valueOf(dtm.getValueAt(filaSeleccionada, 2)).substring(0, posicionSinbolo));
+				producto.setPrecio(precio);
 				producto.setStock(obtenerStock(producto));
 				if (producto.getStock() == 0) {
 					JOptionPane.showMessageDialog(null, "No se puede añadir el producto porque no tiene stock", null,

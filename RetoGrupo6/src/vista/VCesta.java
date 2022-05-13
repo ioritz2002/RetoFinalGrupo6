@@ -183,14 +183,18 @@ public class VCesta extends JDialog implements ActionListener {
 		}
 		if (e.getSource().equals(btnComprar)) {
 
-			if (JOptionPane.showConfirmDialog(null, "¿Realizar compra?", "Selecciona una opcion",
-					JOptionPane.YES_NO_OPTION) == 0) {
-				datosCliente.realizarCompra(productos.get(0).getCod_cesta(),
-						Double.parseDouble(txtPrecioTotal.getText()), asignarRepartidor(datosCliente));
-				JOptionPane.showMessageDialog(null, "Compra realizada", "Selecciona una opcion",
-						JOptionPane.WARNING_MESSAGE);
-				this.dispose();
+			if (datosCliente.listarRepartidores().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "No se puede realizar la compra, no hay repartidores disponibles en este momento");
+			} else {
 
+				if (JOptionPane.showConfirmDialog(null, "¿Realizar compra?", "Selecciona una opcion",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					datosCliente.realizarCompra(productos.get(0).getCod_cesta(),
+							Double.parseDouble(txtPrecioTotal.getText()), asignarRepartidor(datosCliente));
+					JOptionPane.showMessageDialog(null, "Compra realizada", "Selecciona una opcion",
+							JOptionPane.WARNING_MESSAGE);
+					this.dispose();
+				}
 			}
 
 		}

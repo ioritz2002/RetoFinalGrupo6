@@ -108,7 +108,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	/**
 	 * Esta consulta es para consultar todos los repartidores que hay en la base de datos
 	 */
-	private final String CONSULTARrepartidores = "SELECT * FROM repartidor";
+	private final String CONSULTARrepartidores = "SELECT * FROM repartidor WHERE ACTIVO = 1";
 	/**
 	 * Esta consulta es para que cuando le de ha realizar compra se actualizen los datos de la cesta de la compra
 	 * Se le pasa el importe total, la fecha de la compra, el estado se pasa a finalizado, el id del repartidor, y el codigo de la cesta
