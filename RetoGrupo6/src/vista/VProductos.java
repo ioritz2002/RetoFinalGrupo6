@@ -321,7 +321,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		for (int i = 0; i < listarProductos.size(); i++) {
 			fila[0] = listarProductos.get(i).getNombreProducto();
 			fila[1] = listarProductos.get(i).getTipoProducto();
-			fila[2] = String.valueOf(listarProductos.get(i).getPrecio());
+			fila[2] = String.valueOf(listarProductos.get(i).getPrecio()) + "€";
 			fila[3] = String.valueOf(listarProductos.get(i).getValoracion());
 
 			dtm.addRow(fila);
@@ -457,7 +457,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 			for (ListarTablaProductos p : listaTabla.values()) {
 				fila[0] = p.getNombreProducto();
 				fila[1] = p.getTipoProducto();
-				fila[2] = String.valueOf(p.getPrecio());
+				fila[2] = String.valueOf(p.getPrecio()) + "€";
 				fila[3] = String.valueOf(p.getValoracion());
 
 				dtm.addRow(fila);
@@ -473,7 +473,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 			for (ListarTablaProductos p : listaTabla.values()) {
 				fila[0] = p.getNombreProducto();
 				fila[1] = p.getTipoProducto();
-				fila[2] = String.valueOf(p.getPrecio());
+				fila[2] = String.valueOf(p.getPrecio()) + "€";
 				fila[3] = String.valueOf(p.getValoracion());
 
 				dtm.addRow(fila);
@@ -489,7 +489,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 			for (ListarTablaProductos p : listaTabla.values()) {
 				fila[0] = p.getNombreProducto();
 				fila[1] = p.getTipoProducto();
-				fila[2] = String.valueOf(p.getPrecio());
+				fila[2] = String.valueOf(p.getPrecio()) + "€";
 				fila[3] = String.valueOf(p.getValoracion());
 
 				dtm.addRow(fila);
@@ -506,7 +506,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 			for (ListarTablaProductos p : listaTabla.values()) {
 				fila[0] = p.getNombreProducto();
 				fila[1] = p.getTipoProducto();
-				fila[2] = String.valueOf(p.getPrecio());
+				fila[2] = String.valueOf(p.getPrecio()) + "€";
 				fila[3] = String.valueOf(p.getValoracion());
 
 				dtm.addRow(fila);
@@ -522,7 +522,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				if (listarProductos.get(i).getTipoProducto().equalsIgnoreCase(tipoSeleccionado)) {
 					fila[0] = listarProductos.get(i).getNombreProducto();
 					fila[1] = listarProductos.get(i).getTipoProducto();
-					fila[2] = String.valueOf(listarProductos.get(i).getPrecio());
+					fila[2] = String.valueOf(listarProductos.get(i).getPrecio()) + "€";
 					fila[3] = String.valueOf(listarProductos.get(i).getValoracion());
 
 					dtm.addRow(fila);
@@ -538,7 +538,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				if (listarProductos.get(i).getNombreProducto().toUpperCase().contains(nombre.toUpperCase())) {
 					fila[0] = listarProductos.get(i).getNombreProducto();
 					fila[1] = listarProductos.get(i).getTipoProducto();
-					fila[2] = String.valueOf(listarProductos.get(i).getPrecio());
+					fila[2] = String.valueOf(listarProductos.get(i).getPrecio()) + "€";
 					fila[3] = String.valueOf(listarProductos.get(i).getValoracion());
 
 					dtm.addRow(fila);
@@ -615,7 +615,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				if(productosMasVendidos[i]!=null) {
 					fila[0] = productosMasVendidos[i].getNombre();
 					fila[1] = productosMasVendidos[i].getTipo();
-					fila[2] = String.valueOf(productosMasVendidos[i].getPrecio());
+					fila[2] = String.valueOf(productosMasVendidos[i].getPrecio()) + "€";
 					fila[3] = String.valueOf(productosMasVendidos[i].getValoracion());
 
 					dtm.addRow(fila);
