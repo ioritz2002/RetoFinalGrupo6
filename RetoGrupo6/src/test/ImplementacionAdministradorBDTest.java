@@ -10,236 +10,88 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runners.Parameterized.Parameters;
 
 import clases.Producto;
 import clases.Repartidor;
+import modelo.ImplementacionAdministradorBD;
+import modelo.InterfazAdministrador;
+import modelo.InterfazAmbosUsuarios;
 
 public class ImplementacionAdministradorBDTest {
 
 	
-	private Connection conex;
-	private PreparedStatement stmt;
-	private ResourceBundle archivoConfig;
-
-	// Conexion
-	private String url;
-	private String usuario;
-	private String contraseña;
+	private InterfazAdministrador admin= new ImplementacionAdministradorBD();
 	
-	public ImplementacionAdministradorBDTest() {
-		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
-		this.url = "jdbc:mysql://localhost:3306/tienda_online?serverTimezone=Europe/Madrid&useSSL=false";
-		this.usuario = "root";
-		this.contraseña = "abcd*1234";
-	}
-
-	@Test
-	public void testOpenConnection() {
-		try {
-			conex = DriverManager.getConnection(url, usuario, contraseña);
-		} catch (SQLException e) {
-			fail("Error de conexión con la base de datos");
-			e.printStackTrace();
-		}
-		
-	}
-
-	@Test
-	public void testCloseConnection(){
-		
-		try {
-			if (conex != null) {
-				conex.close();
-			}
-			if (stmt != null) {
-				conex.close();
-			}
-		} catch (SQLException e) {
-			
-			fail("Error al cerrar la conexión con la BD");
-		}
-		
-		
-	}
+	private String codigo;
+	
+	
 
 	@Test
 	public void testAltaRepartidor() throws SQLException {
-		this.testOpenConnection();
-		//Para que el test funcione se debe borrar el repartidor con el mismo id antes de hacer el test
-		Repartidor repartidor = new Repartidor();
+		
+		Repartidor repartidor= new Repartidor();
 		repartidor.setDniUsuario("79365183a");
 		repartidor.setFechaAlta(LocalDate.parse("2022-05-12"));
 		repartidor.setNombre("Juan");
 		repartidor.setApellido("Contreras");
 		repartidor.setIdRepartidor("RP-0004");
-		
-		try {
-			stmt = conex.prepareStatement("INSERT INTO repartidor(ID_REPARTIDOR, FECHA_ALTA, NOMBRE, APELLIDO, DNI, ACTIVO) VALUES( ?, ?, ?, ?, ?,?)");
-			
-			stmt.setString(1, repartidor.getIdRepartidor());
-			stmt.setDate(2, Date.valueOf(repartidor.getFechaAlta()));
-			stmt.setString(3, repartidor.getNombre());
-			stmt.setString(4, repartidor.getApellido());
-			stmt.setString(5, repartidor.getDniUsuario());
-			stmt.setBoolean(6, true);
-
-			stmt.executeUpdate();
-
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			fail("Alta fallida");
-		}
-
-		this.testCloseConnection();
-
-		
+		assertTrue(admin.altaRepartidor(repartidor));
 	}
 
 	@Test
 	public void testBajaRepartidor() throws SQLException {
-		this.testOpenConnection();
-
-		try {
-			stmt = conex.prepareStatement("UPDATE repartidor SET ACTIVO= false where ID_REPARTIDOR = ?");
-			stmt.setString(1, "RP-0004");
-			stmt.execute();
-		} catch (SQLException e) {
-			fail("Error al borrar repartidor");
-			e.printStackTrace();
-		} finally {
-			this.testCloseConnection();
-		}
+	
+		
+		assertTrue(admin.bajaRepartidor("RP-0004"));
+		
 		
 	}
 
 	@Test
 	public void testListarRepartidores() {
-		List<Repartidor> repartidores = new ArrayList<>();
-		ResultSet rs = null;
-		Repartidor repartidor = null;
-
-		this.testOpenConnection();
-
-		try {
-			stmt = conex.prepareStatement("SELECT * FROM repartidor");
-			rs = stmt.executeQuery();
-
-			while (rs.next()) {
-				repartidor = new Repartidor();
-				repartidor.setIdRepartidor(rs.getString(1));
-				repartidor.setDniUsuario(rs.getString(5));
-				repartidor.setNombre(rs.getString(3));
-				repartidor.setApellido(rs.getString(4));
-				repartidor.setFechaAlta(rs.getDate(2).toLocalDate());
-				repartidores.add(repartidor);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			fail("Consulta mal realizada");
-		} finally {
-			testCloseConnection();
-		}
-
+		
+		assertEquals("Alonso", admin.listarRepartidores().get(0).getNombre());
 		
 	}
 
 	@Test
-	public void testAltaProductos() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testBajaProducto() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testListarProductos() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testModificarProducto() {
-		testOpenConnection();
 		Producto producto= new Producto();
 		producto.setCodProducto("PO-0001");
 		producto.setNombre("Ordenador");
 		producto.setTipo("Electrónico");
 		producto.setStock(20);
 		producto.setPrecio(950);
-		try {
-			stmt = conex.prepareStatement("UPDATE producto SET TIPO = ?, NOMBRE = ?, STOCK = ?, PRECIO = ? WHERE COD_PRODUCTO LIKE ?");
-
-			stmt.setString(1, producto.getTipo());
-			stmt.setString(2, producto.getNombre());
-			stmt.setInt(3, producto.getStock());
-			stmt.setDouble(4, producto.getPrecio());
-			stmt.setString(5, producto.getCodProducto());
-
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			fail("Error al actualizar los datos");
-			e.printStackTrace();
-		} finally {
-			testCloseConnection();
-
-		}
-		
+		assertTrue("No ejecuta la acción",admin.modificarProducto(producto));	
 	}
 
-	@Test
-	public void testListarClientes() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testListarValoraciones() {
-		fail("Not yet implemented");
-	}
 
 	@Test
 	public void testCalcularCodRepartidor() {
-		ResultSet rs = null;
-		int num = 0;
-
-		this.testOpenConnection();
-
-		try {
-			stmt = conex.prepareStatement("SELECT COUNT(*) AS total FROM repartidor");
-
-			rs = stmt.executeQuery();
-
-			if (rs.next()) {
-				num = rs.getInt("total");
-			}
-			assertEquals("El resultado debería ser igual",2, num);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-
-		this.testCloseConnection();
+		assertNotNull("No devuelve nada",admin.calcularCodRepartidor());
 		
 	}
 
 	@Test
 	public void testCompararProductos() {
-		fail("Not yet implemented");
+		assertTrue(admin.compararProductos("Ordenador"));
+		
 	}
 
-	@Test
-	public void testCalcularCodProducto() {
-		fail("Not yet implemented");
-	}
 
 	@Test
 	public void testListarProductosMasVendidosAdmin() {
-		fail("Not yet implemented");
+		assertNotNull("Es nulo", admin.listarProductosMasVendidosAdmin());
+		
 	}
 
 }

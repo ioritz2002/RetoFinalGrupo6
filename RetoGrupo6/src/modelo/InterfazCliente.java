@@ -31,7 +31,7 @@ public interface InterfazCliente {
 
 	// Cancelar la compra borrando la cesta y toda la informacion de esta compra en
 	// las tablas cesta y añade
-	public void cancelarCompra(String codCesta);
+	public boolean cancelarCompra(String codCesta);
 
 	// Realizar la compra y pasar el estado de la cesta a realizado, ademas le
 	// asignamos un repartidor aleatoriamente

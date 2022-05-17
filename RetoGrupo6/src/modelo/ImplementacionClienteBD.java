@@ -50,15 +50,13 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	private final String CONSULTARestadoCesta = "SELECT COD_CESTA FROM cesta WHERE ESTADO = 0 AND COD_CESTA IN (SELECT COD_CESTA FROM añade WHERE DNI = ?)";
 	private final String CONTARrepartidores = "SELECT COUNT(*) AS total FROM repartidor";
 	private final String SELECTfiltroPrecio = "SELECT * FROM producto WHERE producto.PRECIO >= ? AND producto.PRECIO <= ?";
-	private final String SELECTproductosMasVendidos="CALL PRODUCTOS_MAS_VENDIDOS()";
+	private final String SELECTproductosMasVendidos = "CALL PRODUCTOS_MAS_VENDIDOS()";
 	private final String SELECTProductos = "SELECT producto.* FROM producto";
 	private final String INSERTañade = "INSERT INTO añade(COD_PRODUCTO, COD_CESTA, DNI) VALUES(?,?,?)";
 	private final String INSERTcesta = "INSERT INTO cesta(COD_CESTA, IMPORTE_TOTAL, ESTADO, ID_REPARTIDOR) VALUES(?,?,?,?)";
 	private final String BUSCARCodCesta = "SELECT COUNT(*) AS total FROM cesta";
 	private final String CALCULOValoracion = "SELECT valora.* FROM valora";
-	
-	
-	
+
 	public ImplementacionClienteBD() {
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
 		this.url = archivoConfig.getString("Conn");
@@ -149,8 +147,6 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		return productos;
 	}
 
-
-
 	@Override
 	public List<ListarTablaCesta> listarCestaCompra(String dni) {
 		// TODO Auto-generated method stub
@@ -194,31 +190,28 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		return productos;
 	}
 
-	
-
 	@Override
-	public void cancelarCompra(String codCesta) {
+	public boolean cancelarCompra(String codCesta) {
 		// TODO Auto-generated method stub
-		
+
 		this.openConnection();
-		
+
 		try {
-			
+
 			stmt = conex.prepareStatement(DELETEcompra);
 			stmt.setString(1, codCesta);
-			stmt.executeUpdate();
-			
+			return stmt.executeUpdate() > 0 ? true: false;
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		finally {
-		try {
-			this.closeConnection();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			return false;
+		} finally {
+			try {
+				this.closeConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -254,7 +247,6 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		}
 
 	}
-
 
 	@Override
 	public void darseDeBaja(String dni) {
@@ -312,7 +304,6 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		}
 	}
 
-
 	@Override
 	public List<Producto> listarProductos(double precioMin, double precioMax) {
 		List<Producto> productos = new ArrayList<Producto>();
@@ -351,31 +342,30 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		return productos;
 	}
 
-	
 	@Override
 	public List<ListarTablaProductosMasVendidos> listarProductosMasVendidos() {
 		List<ListarTablaProductosMasVendidos> lista = new ArrayList<ListarTablaProductosMasVendidos>();
 		ResultSet rs = null;
 		ListarTablaProductosMasVendidos linea = null;
-		
+
 		openConnection();
 		try {
 			stmt = conex.prepareStatement(SELECTproductosMasVendidos);
 			rs = stmt.executeQuery();
-			
+
 			while (rs.next()) {
 				linea = new ListarTablaProductosMasVendidos();
-				
+
 				linea.setCodProducto(rs.getString(1));
 				linea.setTipo(rs.getString(2));
 				linea.setNombre(rs.getString(3));
 				linea.setStock(rs.getInt(4));
 				linea.setPrecio(rs.getDouble(5));
 				linea.setContador(rs.getInt(7));
-			
+
 				lista.add(linea);
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -385,14 +375,14 @@ public class ImplementacionClienteBD implements InterfazCliente {
 					rs.close();
 				}
 				closeConnection();
-			}catch(SQLException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return lista;
 	}
-	
+
 	@Override
 	public boolean comprobarDni(String dni) {
 		ResultSet rs = null;
@@ -630,7 +620,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -656,37 +646,36 @@ public class ImplementacionClienteBD implements InterfazCliente {
 				e.printStackTrace();
 			}
 		}
-		
-	}
 
+	}
 
 	@Override
 	public List<Producto> listarProductosFiltradoPrecio(double precioMin, double precioMax) {
 		List<Producto> productos = new ArrayList<Producto>();
 		Producto producto = null;
 		ResultSet rs = null;
-		
+
 		openConnection();
 		try {
 			stmt = conex.prepareStatement(SELECTfiltroPrecio);
-			
+
 			stmt.setDouble(1, precioMin);
 			stmt.setDouble(2, precioMax);
-			
+
 			rs = stmt.executeQuery();
-			
+
 			while (rs.next()) {
 				producto = new Producto();
-				
+
 				producto.setCodProducto(rs.getString(1));
 				producto.setTipo(rs.getString(2));
 				producto.setNombre(rs.getString(3));
 				producto.setStock(rs.getInt(4));
 				producto.setPrecio(rs.getDouble(5));
-				
+
 				productos.add(producto);
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -696,11 +685,11 @@ public class ImplementacionClienteBD implements InterfazCliente {
 					rs.close();
 				}
 				closeConnection();
-			}catch(SQLException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return productos;
 	}
 
@@ -838,7 +827,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 
 		try {
 			stmt = conex.prepareStatement(REDUCIRstock);
-			
+
 			stmt.setString(1, codProducto);
 			stmt.executeUpdate();
 

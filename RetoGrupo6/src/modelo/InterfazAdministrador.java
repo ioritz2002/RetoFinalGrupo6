@@ -11,10 +11,10 @@ import clases.Valora;
 
 public interface InterfazAdministrador {
 	// Dar de alta a un repartidor
-	public void altaRepartidor(Repartidor repartidor);
+	public boolean altaRepartidor(Repartidor repartidor);
 
 	// Dar de baja a un repartidor
-	public void bajaRepartidor(String idRepartidor);
+	public boolean bajaRepartidor(String idRepartidor);
 
 	// Listar todos los repartidores
 	public List<Repartidor> listarRepartidores();
@@ -29,7 +29,7 @@ public interface InterfazAdministrador {
 	public List<Producto> listarProductos();
 
 	// Modificar un producto
-	public void modificarProducto(Producto producto);
+	public boolean modificarProducto(Producto producto);
 
 	// Listar todos los clientes
 	public List<Cliente> listarClientes();
