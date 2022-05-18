@@ -15,17 +15,40 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * Ventana para que el administrador seleccione el cliente del cual quiere saber su historial
+ * @author 1grupo6
+ * @version 1
+ */
 public class VSelecCliente extends JDialog implements ActionListener {
 	/**
-	 * 
+	 * Al pulsarlo cerrará la ventana actual y volverá a la anterior
 	 */
-	private static final long serialVersionUID = 1L;
 	private JButton btnAtras;
+	/**
+	 * Al pulsarlo se abrirá la ventana del historial del cliente seleccionado en el comboBox
+	 */
 	private JButton btnVerHistorial;
+	/**
+	 * En el se guardarán los clientes que hayan comprado algo
+	 */
 	private JComboBox<String> cmbxClientes;
+	/**
+	 * La interfaz se igualará a la interfaz datosAdmin que viene por parámetro para poder utilizarla fuera del constructor
+	 */
 	private InterfazAdministrador datosAdmin;
+	/**
+	 * La interfaz se igualará a la interfaz datosAmbos que viene por parámetro para poder utilizarla fuera del constructor
+	 */
 	private InterfazAmbosUsuarios datosAmbos;
 
+	/**
+	 * 
+	 * @param menuAdmin Es la ventana de la que viene
+	 * @param b Indica si el modal esta activo o no en la ventana
+	 * @param datosAdmin Es la interfaz que se va a utilizar en caso de necesitar la base de datos
+	 * @param datosAmbos Es la interfaz que se va a utilizar en caso de necesitar la base de datos
+	 */
 	public VSelecCliente(VMenuAdministrador menuAdmin, boolean b, InterfazAdministrador datosAdmin,
 			InterfazAmbosUsuarios datosAmbos) {
 		super(menuAdmin);
@@ -58,6 +81,9 @@ public class VSelecCliente extends JDialog implements ActionListener {
 
 	}
 
+	/**
+	 * Sirve para añadir los datos requeridos en el comboBox
+	 */
 	private void cargarCombo() {
 		List<Cliente> listaClientes = datosAdmin.listarClientes();
 		if (!listaClientes.isEmpty()) {
@@ -68,6 +94,9 @@ public class VSelecCliente extends JDialog implements ActionListener {
 		}
 	}
 
+	/**
+	 *  Permite que al pulsar algún elemento de la ventana haga una acción concreta indicada en el método
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(btnAtras)) {

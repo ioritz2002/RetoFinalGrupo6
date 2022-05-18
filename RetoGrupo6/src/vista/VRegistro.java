@@ -286,7 +286,7 @@ public class VRegistro extends JDialog implements ActionListener {
 		} else {
 			cli.setEmail(txtEmail.getText());
 		}
-		JOptionPane.showMessageDialog(null, "Cuenta creada correctamente", "Exito", JOptionPane.OK_OPTION);
+		JOptionPane.showMessageDialog(null, "Cuenta creada correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
 		datosCliente.registroCliente(cli);
 		this.dispose();
 

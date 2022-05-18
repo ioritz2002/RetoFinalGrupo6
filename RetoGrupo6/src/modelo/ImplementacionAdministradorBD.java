@@ -149,7 +149,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	}
 
 	@Override
-	public void altaRepartidor(Repartidor repartidor) {
+	public boolean altaRepartidor(Repartidor repartidor) {
 		this.openConnection();
 
 		try {
@@ -161,33 +161,35 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 			stmt.setString(5, repartidor.getDniUsuario());
 			stmt.setBoolean(6, true);
 
-			stmt.executeUpdate();
-
+			return stmt.executeUpdate() > 0 ? true: false;
+			
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			return false;
+			
+		} finally {
+			try {
+				this.closeConnection();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-
-		try {
-			this.closeConnection();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 
 	@Override
-	public void bajaRepartidor(String idRepartidor) {
+	public boolean bajaRepartidor(String idRepartidor) {
 		// TODO Auto-generated method stub
 		this.openConnection();
 
 		try {
 			stmt = conex.prepareStatement(DELETErepartidor);
 			stmt.setString(1, idRepartidor);
-			stmt.execute();
+			return stmt.executeUpdate() > 0 ? true: false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		} finally {
 			try {
 				this.closeConnection();
@@ -196,6 +198,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 				e.printStackTrace();
 			}
 		}
+		
 	}
 
 	@Override
@@ -324,7 +327,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	}
 
 	@Override
-	public void modificarProducto(Producto producto) {
+	public boolean modificarProducto(Producto producto) {
 		openConnection();
 		try {
 			stmt = conex.prepareStatement(UPDATEProducto);
@@ -335,10 +338,11 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 			stmt.setDouble(4, producto.getPrecio());
 			stmt.setString(5, producto.getCodProducto());
 
-			stmt.executeUpdate();
+			return stmt.executeUpdate() > 0 ? true: false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
+			return false;
 		} finally {
 			try {
 				closeConnection();

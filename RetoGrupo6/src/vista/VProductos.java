@@ -801,15 +801,21 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 	private void seleccionAdmin(List<ListarTablaProductos> listarProductos) {
 		Producto producto = new Producto();
 		int filaSeleccionada = table.getSelectedRow();
+		int posicionSinbolo;
+		double precio;
+		
 
 		producto.setNombre(String.valueOf(dtm.getValueAt(filaSeleccionada, 0)));
 		producto.setCodProducto(obtenerCodigo(listarProductos, producto.getNombre()));
 		producto.setTipo(String.valueOf(dtm.getValueAt(filaSeleccionada, 1)));
-		producto.setPrecio(Double.parseDouble(String.valueOf(dtm.getValueAt(filaSeleccionada, 2))));
+		posicionSinbolo = String.valueOf(dtm.getValueAt(filaSeleccionada, 2)).toString().indexOf("€");
+		precio = Double.parseDouble(String.valueOf(dtm.getValueAt(filaSeleccionada, 2)).substring(0, posicionSinbolo));
+		producto.setPrecio(precio);
 		producto.setStock(obtenerStock(producto));
 
 		VDatosProducto vDatos = new VDatosProducto(this, true, datosAdmin, producto);
 		vDatos.setVisible(true);
+		this.dispose();
 	}
 
 	/**

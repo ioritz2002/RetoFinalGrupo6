@@ -13,16 +13,18 @@ public interface InterfazAdministrador {
 	/**
 	 * Dar de alta a un repartidor
 	 * 
-	 * @param repartidor
+	 * @param repartidor El repartidor que se quiere dar de alta
+	 * @return Retorna true si se ha dado de alta, false si no
 	 */
-	public void altaRepartidor(Repartidor repartidor);
+	public boolean altaRepartidor(Repartidor repartidor);
 
 	/**
 	 * Dar de baja a un repartidor
 	 * 
 	 * @param identificador del repartidor
+	 * @return Retorna true si se ha dado de baja, false si no.
 	 */
-	public void bajaRepartidor(String idRepartidor);
+	public boolean bajaRepartidor(String idRepartidor);
 	/**
 	 * Listar todos los repartidores
 	 * 
@@ -34,7 +36,7 @@ public interface InterfazAdministrador {
 	/**
 	 * Dar de alta prodcutos
 	 * 
-	 * @param producto
+	 * @param producto El producto a dar de alta
 	 */
 	public void altaProductos(Producto producto);
 
@@ -55,9 +57,9 @@ public interface InterfazAdministrador {
 	/**
 	 * Modificar un producto
 	 * 
-	 * @param producto
+	 * @param producto Producto a modificar
 	 */
-	public void modificarProducto(Producto producto);
+	public boolean modificarProducto(Producto producto);
 
 	/**
 	 * Listar todos los clientes
@@ -81,8 +83,8 @@ public interface InterfazAdministrador {
 	/**
 	 * Compara productos para saber si el nuevo a introducir está repetido
 	 * 
-	 * @param nombre
-	 * @return
+	 * @param nombre El nombre que se quiere comprobar
+	 * @return Retorna un true si el nombre ya existe y un false si no lo es 
 	 */
 	public boolean compararProductos(String nombre);
 	/**

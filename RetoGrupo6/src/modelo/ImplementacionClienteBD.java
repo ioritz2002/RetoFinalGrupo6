@@ -317,30 +317,30 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	
 
 	@Override
-	public void cancelarCompra(String codCesta) {
+	public boolean cancelarCompra(String codCesta) {
 		// TODO Auto-generated method stub
-		
+
 		this.openConnection();
-		
+
 		try {
-			
+
 			stmt = conex.prepareStatement(DELETEcompra);
 			stmt.setString(1, codCesta);
-			stmt.executeUpdate();
-			
+			return stmt.executeUpdate() > 0 ? true: false;
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		finally {
-		try {
-			this.closeConnection();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			return false;
+		} finally {
+			try {
+				this.closeConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
+
 
 	@Override
 	public void realizarCompra(String codCesta, Double precio, String codigo) {

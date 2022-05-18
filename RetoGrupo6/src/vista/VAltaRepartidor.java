@@ -147,7 +147,7 @@ public class VAltaRepartidor extends JDialog implements ActionListener {
 		if (e.getSource().equals(btnDarAlta)) {
 			if (txtNombre.getText().isEmpty() || txtApellido.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "El nombre y el apellido no pueden estar vacios", "Error",
-						JOptionPane.OK_OPTION);
+						JOptionPane.ERROR_MESSAGE);
 			} else {
 				nuevoCodRepartidor();
 			}
@@ -183,7 +183,7 @@ public class VAltaRepartidor extends JDialog implements ActionListener {
 		rep.setDniUsuario(dni);
 
 		JOptionPane.showMessageDialog(null, "Los datos se han introducido correctamente", "Correcto",
-				JOptionPane.OK_OPTION);
+				JOptionPane.INFORMATION_MESSAGE);
 
 		datosAdmin.altaRepartidor(rep);
 		this.dispose();
