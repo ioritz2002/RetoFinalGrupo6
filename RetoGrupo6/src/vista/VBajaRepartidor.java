@@ -31,7 +31,6 @@ public class VBajaRepartidor extends JDialog implements ActionListener {
 		super(vMenuAdministrador);
 		this.setModal(b);
 		this.datosAdministrador = datosAdministrador;
-		// this.repartidor = repartidor;
 
 		setBounds(100, 100, 524, 300);
 		getContentPane().setLayout(null);

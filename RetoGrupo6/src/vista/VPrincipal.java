@@ -21,21 +21,48 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
+/**
+ * Es la primera ventana de la aplicación, en ella se podrá inicar sesión y crear una cuenta
+ * @author 1dam
+ * @version 1
+ */
 public class VPrincipal extends JFrame implements ActionListener {
 
 	/**
-	 * 
+	 * En el el ususario escribirá su DNI para identificarse
 	 */
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 	private JTextField txtDni;
+	/**
+	 * Al pulsar el botón se abrirá la ventana VRegistro para crear la nueva cuenta
+	 */
 	private JButton btnCrearCuenta;
+	/**
+	 * Al pulsarlo se comprobarán los datos introducidos en los txt para comfirmar la existencia del usuario, si existe y dependiendo que sea (administrador o cliente) irá a VMenuCliente o VMenuAdministrador.
+	 */
 	private JButton btnIniciarSesion;
+	/**
+	 * Se igualará a la interfaz datosAdmin que viene por parámetro para poder utilizarlo fuera del constructor
+	 */
 	private InterfazAdministrador datosAdmin;
+	/**
+	 * Se igualará a la interfaz datosCliente que viene por parámetro para poder utilizarlo fuera del constructor
+	 */
 	private InterfazCliente datosCliente;
+	/**
+	 * Se igualará a la interfaz datosAmbos que viene por parámetro para poder utilizarlo fuera del constructor
+	 */
 	private InterfazAmbosUsuarios datosAmbos;
+	/**
+	 * En el el usuario escribirá su contraseña para iniciar sesión
+	 */
 	private JPasswordField txtContraseña;
 
+	/**
+	 * 
+	 * @param datosAdmin Es una de las interfaces que se usarán en caso de necesitar la base de datos
+	 * @param datosCliente Es una de las interfaces que se usarán en caso de necesitar la base de datos
+	 * @param datosAmbos Es una de las interfaces que se usarán en caso de necesitar la base de datos
+	 */
 	public VPrincipal(InterfazAdministrador datosAdmin, InterfazCliente datosCliente,
 			InterfazAmbosUsuarios datosAmbos) {
 		this.datosAdmin = datosAdmin;
@@ -43,7 +70,7 @@ public class VPrincipal extends JFrame implements ActionListener {
 		this.datosAmbos = datosAmbos;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 729, 427);
-		contentPane = new JPanel();
+		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -80,6 +107,9 @@ public class VPrincipal extends JFrame implements ActionListener {
 		contentPane.add(txtContraseña);
 	}
 
+	/**
+	 * Permite que al pulsar algún elemento de la ventana haga una acción concreta indicada en el método
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(btnCrearCuenta)) {
@@ -93,6 +123,9 @@ public class VPrincipal extends JFrame implements ActionListener {
 
 	}
 	
+	/**
+	 * Método para pasar los datos requeridos para iniciar sesión a la implementación
+	 */
 	private void iniciarSesion() {
 		String dni = txtDni.getText();
 		String contraseña = txtContraseña.getText();
@@ -117,11 +150,17 @@ public class VPrincipal extends JFrame implements ActionListener {
 		}
 	}
 
+	/**
+	 * Método para vaciar los txt de la ventana al comprobar que algún dato no es correcto
+	 */
 	private void limpiar() {
 		txtDni.setText("");
 		txtContraseña.setText("");
 	}
 
+	/**
+	 * Método para abrir una ventana u otra en caso de ser administrador o cliente
+	 */
 	private void comprobarLogin(String dni, String contraseña, Usuario usuario) throws LoginIncorrectoException {
 		if (usuario != null) {
 			if (dni.equalsIgnoreCase(usuario.getDni()) && contraseña.equals(usuario.getContraseña())) {

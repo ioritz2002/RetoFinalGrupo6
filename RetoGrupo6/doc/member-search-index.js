@@ -1,1 +1,0 @@
-memberSearchIndex = [{"p":"vista","c":"VAltaRepartidor","l":"actionPerformed(ActionEvent)","url":"actionPerformed(java.awt.event.ActionEvent)"},{"p":"vista","c":"VAltaRepartidor","l":"VAltaRepartidor(VMenuAdministrador, boolean, InterfazAdministrador, Usuario)","url":"%3Cinit%3E(vista.VMenuAdministrador,boolean,modelo.InterfazAdministrador,clases.Usuario)"}]
