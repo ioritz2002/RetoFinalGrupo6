@@ -20,67 +20,21 @@ import modelo.InterfazAdministrador;
 
 import javax.swing.JButton;
 
-/**
- * Es una ventana en la que se uede modificar, dar de alta o borrar un producto.
- * @author grupo6
- * @version 1
- */
 public class VDatosProducto extends JDialog implements ActionListener{
-	/**
-	 * En el se mostrará el codigo del producto generado automaticamente o el elegido para dar de baja o modificar.
-	 */
 	private JTextField txtCodigo;
-	/**
-	 * En el aparecerá el tipo del producto elegido o si es para dar de alta se mostrará vacio para que el usuario pueda escribir el tipo del nuevo producto.
-	 */
 	private JTextField txtTipo;
-	/**
-	 * Al pulsarlo se volverá a la vetana anterior.
-	 */
 	private JButton btnAtras;
-	/**
-	 * Al pulsarlo se recogerán los datos de los txt y se comprobarán para luego poder implementarlos.
-	 */
 	private JButton btnAlta;
-	/**
-	 * Al pulsarlo se se recogerá el código del producto para borrar ese producto de la base de datos. 
-	 */
 	private JButton btnBaja;
-	/**
-	 * Al pulsarlo recogerá todos los datos de los txt y actualizará la base datos con ellos
-	 */
 	private JButton btnModificar;
-	/**
-	 * Si es para dar de alta el usuario escribira el nopmbre del nuevo producto, si es para modificar o dar de baja mostrará el nombre del producto seleccionado
-	 */
 	private JTextField txtNombre;
-	/**
-	 * Si es para dar de alta el usuariopofrá escribir el precio del nuevo producto y si es para dar de baja o modificar se mostrará el precio del producto selecionado y en caso de modificar se podrá cambiar
-	 */
 	private JTextField txtPrecio;
-	/**
-	 * Si es para dar de alta el usuario podrá escribir el stock del nuevo producto y si es para dar debaja o modificar se mostrará el stock del producto seleccionado y se podrá editar en caso de modificar
-	 */
 	private JTextField txtStock;
-	/**
-	 * Permite guardar los datosAdmin que llegan por parámetro y utilizarlos fuera del constructor
-	 */
 	private InterfazAdministrador datosAdmin;
-	/**
-	 * Se utiliza para guardar los datos del usuario que ha iniciado sesión y utilizarlos fuera del constructor
-	 */
 	private Usuario us;
-	/**
-	 * Guarda un codigo de producto generdo automaticamente
-	 */
 	private String cod;
 
 	/**
-	 * 
-	 * @param menuAdmin Es la ventana de la viene
-	 * @param b Indica dependiendo de su valor si la ventana va a tener el modal activado o no
-	 * @param datosAdmin Es la interfaz que se va a utilizar en caso de necesitar utilizar la base de datos
-	 * @param usuario Son los datos del usuario que ha iniciado sesion
 	 * @wbp.parser.constructor
 	 */
 	public VDatosProducto(VMenuAdministrador menuAdmin, boolean b, InterfazAdministrador datosAdmin, Usuario usuario) {
@@ -158,13 +112,7 @@ public class VDatosProducto extends JDialog implements ActionListener{
 		getContentPane().add(txtStock);
 
 	}
-	/**
-	 * 
-	 * @param vProductos Es la ventana de la que viene
-	 * @param b Indica si el modal va a estar activado o no dependiendo de su valor
-	 * @param datosAdmin Es la interfaz que utilizará si se necesita la base datos
-	 * @param producto Son los datos del producto seleccionado en la ventana anterior
-	 */
+	
 	public VDatosProducto(VProductos vProductos, boolean b, InterfazAdministrador datosAdmin, Producto producto) {
 		super(vProductos);
 		this.setModal(b);
@@ -247,10 +195,6 @@ public class VDatosProducto extends JDialog implements ActionListener{
 		
 	}
 
-	/**
-	 * Guarda los datos del producto que llega como parámetro en los distintos txt de la ventana
-	 * @param producto Son los datos del producto que llega por parámetro
-	 */
 	private void cargarDatos(Producto producto) {
 		txtCodigo.setText(producto.getCodProducto());
 		txtNombre.setText(producto.getNombre());
@@ -259,9 +203,6 @@ public class VDatosProducto extends JDialog implements ActionListener{
 		txtTipo.setText(producto.getTipo());
 	}
 
-	/**
-	 * Al pulsar algún elemento indicado en el método hará una acción u otra.
-	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -326,11 +267,6 @@ public class VDatosProducto extends JDialog implements ActionListener{
 		}
 	}
 	
-	/**
-	 * Método que comprueba si el String que recibe está compuesto por números
-	 * @param num Es un dato de un txt 
-	 * @return Devuelve un booleano indicando si es true que el String introducido son números y si es false que todos no son números.
-	 */
 	private boolean comprobarNumero(String num) {
 		char numeros[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 		boolean letra = false;
@@ -347,18 +283,10 @@ public class VDatosProducto extends JDialog implements ActionListener{
 		return letra;
 	}
 
-	/**
-	 * Método para que las palabras que se pasen por parámetro pasen a estar escritas correctamente
-	 * @param palabras Es la palabra que se quiere escribir correctamente respetando las mayúsculas y minúsculas
-	 * @return Devuelve la palabra modificada co las mayúsculas y minúsculas en su posición
-	 */
 	private String letraMayusMinus(String palabras) {
 		return palabras.toUpperCase().charAt(0) + palabras.toLowerCase().substring(1, palabras.length());
 	}
 
-	/**
-	 * Método para guardar los datos de los txt una vez se comprueba que los datos son válidos.
-	 */
 	private void nuevoProducto() {
 		Producto prod = new Producto();
 
@@ -370,14 +298,10 @@ public class VDatosProducto extends JDialog implements ActionListener{
 		prod.setCodProducto(cod);
 
 		datosAdmin.altaProductos(prod);
-		JOptionPane.showMessageDialog(null, "Producto dado de alta correctamente", null, JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Producto dado de alta correctamente", null, JOptionPane.OK_OPTION);
 
 	}
 
-	/**
-	 * Método para calcular una id válida para un nuevo producto
-	 * @return Devuelve un código de producto único
-	 */
 	private String calcularId() {
 		int cant = datosAdmin.calcularCodProducto() + 1;
 		String cod;
@@ -394,11 +318,6 @@ public class VDatosProducto extends JDialog implements ActionListener{
 		return cod;
 	}
 
-	/**
-	 * Comprueba que el nombre del producto nuevo ya está en la base de datos.
-	 * @param nombre Es el nombre del producto del txtNombre.
-	 * @return Devuelve un booleano indicando si el nombre esta repetido o no.
-	 */
 	private boolean prodRepetido(String nombre) {
 		return datosAdmin.compararProductos(nombre);
 	}

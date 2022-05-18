@@ -25,40 +25,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
-/**
- * En esta ventana se mostrará el historial de las compras que ha realizado el cliente seleccionado o el cliente que entre a la ventana
- * @author grupo6
- * @version 1
- */
 public class VHistorialCompras extends JDialog implements ActionListener {
-	/**
-	 * Al pulsarlo cerrará la ventana e irá a la ventana anterior
-	 */
 	private JButton btnAtras;
-	/**
-	 * En la lista se guardarán los atributos de las compras que queremos mostrar en la tabla
-	 */
+	private InterfazAmbosUsuarios datosAmbos;
 	private List<ListarTablaHistorial> historial;
-	/**
-	 * Se usa para definir el modelo de la tabla que queremos
-	 */
-	private DefaultTableModel dtm;
-	/**
-	 * Crea una tabla para mostrar los productos comprados del cliente
-	 */
-	private JTable table;
-	/**
-	 * Se igualará al la variable usuario que llega por parámetro para poder utilizarla fuera del constructor.
-	 */
 	private Usuario usuario;
+	private DefaultTableModel dtm;
+	private JTable table;
 
 	/**
-	 * 
-	 * @param vSelecCliente Es la ventana de la que viene
-	 * @param b Indica si el modal estará activo o no.
-	 * @param datosAdmin Es la interfaz que usaremos en caso de necesitar la base datos
-	 * @param dni Es el DNI del cliente seleccionado
-	 * @param datosAmbos Es la interfaz que usaremos en caso de necesitar la base de datos
+	 * @wbp.parser.constructor
 	 */
 	public VHistorialCompras(VSelecCliente vSelecCliente, boolean b, InterfazAdministrador datosAdmin, String dni,
 			InterfazAmbosUsuarios datosAmbos) {
@@ -105,14 +81,6 @@ public class VHistorialCompras extends JDialog implements ActionListener {
 		
 	}
 
-	/**
-	 * 
-	 * @param vMenuCliente Es la ventana de la que viene
-	 * @param b Indica si el modal estará activado o desactivado 
-	 * @param usuario Son los datos del cliente que ha iniciado sesión.
-	 * @param datosCliente Es la interfaz que usaremos en caso de necesitar utilizar la base de datos
-	 * @param datosAmbos Es la interfaz que usaremos en caso de necesitar utilizar la base de datos
-	 */
 	public VHistorialCompras(VMenuCliente vMenuCliente, boolean b, Cliente usuario, InterfazCliente datosCliente,
 			InterfazAmbosUsuarios datosAmbos) {
 		super(vMenuCliente);
@@ -127,6 +95,7 @@ public class VHistorialCompras extends JDialog implements ActionListener {
 		btnAtras.setBounds(30, 252, 103, 33);
 		getContentPane().add(btnAtras);
 
+		// Tabla Aqui se ponen las cabeceras y cuantas columnas va a tener la tabla
 		String[] columnasHistorial = { "Codigo Cesta", "Importe", "Fecha", "Estado" };
 		String[] fila = new String[4];
 
@@ -139,14 +108,9 @@ public class VHistorialCompras extends JDialog implements ActionListener {
 			
 		} 
 			for (int i = 0; i < historial.size(); i++) {
-				
 				fila[0] = historial.get(i).getCodigo();
 				fila[1] = String.valueOf(historial.get(i).getImporte());
-				if(historial.get(i).getFecha() != null) {
-					fila[2] = historial.get(i).getFecha().toString();
-				} else {
-					fila[2] = "";
-				}
+				fila[2] = historial.get(i).getFecha().toString();
 				fila[3] = historial.get(i).getEstado();
 
 				dtm.addRow(fila);
@@ -161,12 +125,31 @@ public class VHistorialCompras extends JDialog implements ActionListener {
 			table.setEnabled(false);;
 		
 
+		// Aqui se carga en una
+		// coleccion todos los datos de los productos Clase se refiere a una de las
+		// clases de nuestro proyecto Set<Clase> productosTabla = aqui va el metodo que
+		// carga los datos de los productos en la implementacion;
+
+		// foreach para cargar la tabla for(){ fila[0]= getDato(); fila[1]= getDato();
+		// fila[2]= getDato(); fila[3]= getDato();
+
+		// Aqui le decimos que nos añada una fila a la tabla con los datos previamente
+		// introducidos dtm.addRow(fila); }
+
+		// Se crea la tabla con el modelo dtm table = new JTable(dtm);
+
+		// Se le añade un scrol a la tabla JScrollPane scroll = new JScrollPane(table);
+
+		// Se le pone las posiciones y el tamaño table.setBounds()
+
+		// Se le añade el evento de raton y despues se realiza la siguiente accion
+		// scroll.setViewportView(table);
+
+		// Despues se le pone el tamaño y posiciones al scroll y se añade al panel con
+		// scroll.setBounds(); getContentPane().add(scroll, BorderLayout.CENTER);
 
 	}
 
-	/**
-	 * Permite que al pulsar algún elemento de la ventana haga una acción concreta
-	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(btnAtras)) {

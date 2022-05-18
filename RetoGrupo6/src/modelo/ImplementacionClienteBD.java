@@ -21,170 +21,51 @@ import clases.Repartidor;
 import clases.Usuario;
 import clases.Valora;
 
-/**
- * Esta es la implementacion de la interfaz de datos del cliente
- * @author grupo6
- * @version 1
- *
- */
 public class ImplementacionClienteBD implements InterfazCliente {
 
-	/**
-	 * Este atributo sirve para poder establecer una conexion con la base de datos
-	 */
 	private Connection conex;
-	/**
-	 * Este atributo de tipo prepared statement sirve para decir a la conexion que consulta tiene que ejecutar
-	 */
 	private PreparedStatement stmt;
-	/**
-	 * Este atributo sirve para poder crear o leer un fichero de texto plano
-	 */
 	private ResourceBundle archivoConfig;
 
 	// Conexion
-	/**
-	 * Esta es la url de la base de datos a la que nos conectaremos
-	 */
 	private String url;
-	/**
-	 * Este es el usuario con el que nos conectemos a la base de datos
-	 */
 	private String usuario;
-	/**
-	 * Esta es la contraseña con la que nos conectaremos a la base de datos
-	 */
 	private String contraseña;
 
 	// SQL
-	/**
-	 * Esta consulta busca los productos de un cliente en concreto en el que el estado de la cesta sea en curso
-	 * Se le pasa el dni del cliente
-	 */
 	private final String BUSCARproductos = "SELECT P.NOMBRE,P.TIPO,P.PRECIO,C.COD_CESTA FROM PRODUCTO P, CESTA C, AÑADE A WHERE P.COD_PRODUCTO = A.COD_PRODUCTO AND C.COD_CESTA=A.COD_CESTA AND C.ESTADO = 0 AND A.DNI = ?";
-	/**
-	 * Esta consulta llama al procedimiento alamcenado de modificar los datos del cliente para modificar sus datos
-	 * Se le pasa todos los datos del cliente
-	 */
 	private final String UPDATEcliente = "CALL MODIFICAR_CLIENTE(?,?,?,?,?,?)";
-	/**
-	 * Esta consulta busca el dni para saber si existe
-	 * Se le pasa el dni del cliente
-	 */
 	private final String BUSCARDni = "SELECT * FROM cliente WHERE dni = ?";
-	/**
-	 * Esta consulta llama a un procedimiento almacenado para poder insertar los datos del cliente tanto en la tabla de usuario como en la tabla de cliente
-	 * Se le pasa tanto los datos de la tabla de usuario como los de la tabla de cliente
-	 */
 	private final String INTRODUCIRCliente = "CALL INSERT_CLIENTE( ?, ?, ?, ?, ?, ?)";
-	/**
-	 * Esta consulta es para borrar los datos del cliente de la tabla de usuario
-	 */
 	private final String DELETEcliente = "DELETE FROM usuario WHERE DNI = ?";
-	/**
-	 * Esta consulta es para borrar la cesta de compra
-	 * Se le pasa el codigo de la cesta a eliminar
-	 */
 	private final String DELETEcompra = "DELETE FROM cesta WHERE COD_CESTA LIKE ?";
-	/**
-	 * Esta consulta es para buscar los productos que han sido comprados por un determinado cliente
-	 */
 	private final String BUSCARProductosComprados = "SELECT COD_PRODUCTO, NOMBRE FROM producto WHERE COD_PRODUCTO IN (SELECT COD_PRODUCTO FROM añade WHERE DNI= ? AND COD_CESTA IN (SELECT COD_CESTA FROM cesta WHERE ESTADO=1))";
-	/**
-	 * Esta consulta es para insertar la valoracion en la tabla de valora
-	 * Se le pasa el codigo de producto, el dni del cliente que valora el producto y la valoracion al producto en si
-	 */
 	private final String INSERTARValoracion = "INSERT INTO valora (COD_PRODUCTO, DNI, VALORACION) VALUES( ?, ?, ?)";
-	/**
-	 * Esta consulta actualiza la valoracion de un producto
-	 * Se le pasa la nueva valoracion, el codigo del producto a valorar de nuevo y  el dni del cliente
-	 */
 	private final String ACTUALIZARValoracion = "UPDATE valora SET VALORACION= ? WHERE COD_PRODUCTO= ? AND DNI= ?";
-	/**
-	 * Esta consulta es para comprobar si el producto tiene una valoracion o no
-	 * Se le pasa el codigo del producto y el dni del cliente
-	 */
 	private final String COMPROBARVloracion = "SELECT * FROM valora WHERE COD_PRODUCTO= ? AND DNI= ?";
-
-
-	/**
-	 * Esta consulta es para consultar todos los repartidores que hay en la base de datos
-	 */
-	private final String CONSULTARrepartidores = "SELECT * FROM repartidor WHERE ACTIVO = 1";
-	/**
-	 * Esta consulta es para que cuando le de ha realizar compra se actualizen los datos de la cesta de la compra
-	 * Se le pasa el importe total, la fecha de la compra, el estado se pasa a finalizado, el id del repartidor, y el codigo de la cesta
-	 */
-
+	private final String CONSULTARrepartidores = "SELECT * FROM repartidor";
 	private final String HACERcompra = "UPDATE CESTA SET IMPORTE_TOTAL = ?,FECHA_COMPRA = ?, ESTADO = 1, ID_REPARTIDOR = ? WHERE COD_CESTA LIKE ?";
-	/**
-	 * Esta consulta es para que cuando el cliente realice la compra el stock del producto se reduzca en 1
-	 * Se le pasa el codigo del producto al que se le reducira el stock
-	 */
 	private final String REDUCIRstock = "UPDATE producto SET stock = stock - 1 WHERE COD_PRODUCTO = ?";
-	/**
-	 * Esta consulta comprueba que no haiga mas de una vez el mismo producto en la misma cesta
-	 * Se le pasa el dni del cliente al que le pertenece la cesta y el codigo del producto que deseamos comprobar
-	 */
 	private final String COMPRBARproductoNoDuplicado = "SELECT COD_PRODUCTO FROM añade WHERE COD_CESTA IN (SELECT COD_CESTA FROM cesta WHERE ESTADO = 0) AND DNI = ? AND COD_PRODUCTO = ?";
-	/**
-	 * Esta consulta es para obtener el codigo de la cesta activa de un usuario concreto
-	 * Se le pasa el dni del usuario para poder encontrar la cesta de ese usuario
-	 */
 	private final String CONSULTARestadoCesta = "SELECT COD_CESTA FROM cesta WHERE ESTADO = 0 AND COD_CESTA IN (SELECT COD_CESTA FROM añade WHERE DNI = ?)";
-	/**
-	 * Esta consulta es para obtener cuantos repartidores hay en total
-	 */
 	private final String CONTARrepartidores = "SELECT COUNT(*) AS total FROM repartidor";
-	/**
-	 * Esta consulta es para obtener los productos filtrados por un rango de precios
-	 * Se le pasa el precio minimo y el precio maximo 
-	 */
 	private final String SELECTfiltroPrecio = "SELECT * FROM producto WHERE producto.PRECIO >= ? AND producto.PRECIO <= ?";
-	/**
-	 * Esta consulta llama al procedimiento almacenado de productos mas vendidos
-	 */
 	private final String SELECTproductosMasVendidos="CALL PRODUCTOS_MAS_VENDIDOS()";
-	/**
-	 * Esta consulta obtiene todos los productos
-	 */
 	private final String SELECTProductos = "SELECT producto.* FROM producto";
-	/**
-	 * Esta consulta inserta los productos añadidos a la cesta en la tabla de añade
-	 * Se le pasa el codigo del producto, el codigo de la cesta a la que pertenecen y el dni del cliente que a añadido los productos a la cesta
-	 */
 	private final String INSERTañade = "INSERT INTO añade(COD_PRODUCTO, COD_CESTA, DNI) VALUES(?,?,?)";
-	/**
-	 * Esta consulta inserta los datos de la cesta en la tabla cesta
-	 * Se le pasa el codigo de la cesta, el importe total de la cesta que sera null, el estado que sera 0 (en curso) y el id del repartidor que tambien sera null
-	 * En esta consulta el importe y el codRepartidor seran null debido a que se actualizara posteriormente en otra consulta
-	 */
 	private final String INSERTcesta = "INSERT INTO cesta(COD_CESTA, IMPORTE_TOTAL, ESTADO, ID_REPARTIDOR) VALUES(?,?,?,?)";
-	/**
-	 * Esta consulta es para obtener cuantas cestas hay en total
-	 */
 	private final String BUSCARCodCesta = "SELECT COUNT(*) AS total FROM cesta";
-	/**
-	 *Esta consulta es para obtener todas las valoraciones de cada producto por cada cliente
-	 */
 	private final String CALCULOValoracion = "SELECT valora.* FROM valora";
 	
 	
-	/**
-	 * Este es el constructor de la implementacion
-	 */
+	
 	public ImplementacionClienteBD() {
-		// Obtiene el fichero
 		this.archivoConfig = ResourceBundle.getBundle("modelo.config");
-		// Y lee los datos del fichero
 		this.url = archivoConfig.getString("Conn");
 		this.usuario = archivoConfig.getString("BDUser");
 		this.contraseña = archivoConfig.getString("BDPass");
 	}
 
-	/**
-	 * Este metodo es para poder establecer la conexion con la base de datos
-	 */
 	public void openConnection() {
 		try {
 			conex = DriverManager.getConnection(url, usuario, contraseña);
@@ -194,10 +75,6 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		}
 	}
 
-	/**
-	 * Este metodo es para poder cerrar la conexion con la base de datos cuando finalizamos una consulta
-	 * @throws SQLException Este metodo lanza la excepcion en el caso de que no se haya podido cerrar la conexion correctamente
-	 */
 	public void closeConnection() throws SQLException {
 		if (conex != null) {
 			conex.close();
@@ -272,6 +149,8 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		return productos;
 	}
 
+
+
 	@Override
 	public List<ListarTablaCesta> listarCestaCompra(String dni) {
 		// TODO Auto-generated method stub
@@ -315,28 +194,31 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		return productos;
 	}
 
+	
+
 	@Override
-	public boolean cancelarCompra(String codCesta) {
+	public void cancelarCompra(String codCesta) {
 		// TODO Auto-generated method stub
-
+		
 		this.openConnection();
-
+		
 		try {
-
+			
 			stmt = conex.prepareStatement(DELETEcompra);
 			stmt.setString(1, codCesta);
-			return stmt.executeUpdate() > 0 ? true: false;
-
+			stmt.executeUpdate();
+			
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
-		} finally {
-			try {
-				this.closeConnection();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		}
+		finally {
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		}
 	}
 
@@ -372,6 +254,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		}
 
 	}
+
 
 	@Override
 	public void darseDeBaja(String dni) {
@@ -429,6 +312,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		}
 	}
 
+
 	@Override
 	public List<Producto> listarProductos(double precioMin, double precioMax) {
 		List<Producto> productos = new ArrayList<Producto>();
@@ -467,30 +351,31 @@ public class ImplementacionClienteBD implements InterfazCliente {
 		return productos;
 	}
 
+	
 	@Override
 	public List<ListarTablaProductosMasVendidos> listarProductosMasVendidos() {
 		List<ListarTablaProductosMasVendidos> lista = new ArrayList<ListarTablaProductosMasVendidos>();
 		ResultSet rs = null;
 		ListarTablaProductosMasVendidos linea = null;
-
+		
 		openConnection();
 		try {
 			stmt = conex.prepareStatement(SELECTproductosMasVendidos);
 			rs = stmt.executeQuery();
-
+			
 			while (rs.next()) {
 				linea = new ListarTablaProductosMasVendidos();
-
+				
 				linea.setCodProducto(rs.getString(1));
 				linea.setTipo(rs.getString(2));
 				linea.setNombre(rs.getString(3));
 				linea.setStock(rs.getInt(4));
 				linea.setPrecio(rs.getDouble(5));
 				linea.setContador(rs.getInt(7));
-
+			
 				lista.add(linea);
 			}
-
+			
 		} catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -500,14 +385,14 @@ public class ImplementacionClienteBD implements InterfazCliente {
 					rs.close();
 				}
 				closeConnection();
-			} catch (SQLException e) {
+			}catch(SQLException e) {
 				e.printStackTrace();
 			}
 		}
-
+		
 		return lista;
 	}
-
+	
 	@Override
 	public boolean comprobarDni(String dni) {
 		ResultSet rs = null;
@@ -745,7 +630,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 				e.printStackTrace();
 			}
 		}
-
+		
 	}
 
 	@Override
@@ -771,36 +656,37 @@ public class ImplementacionClienteBD implements InterfazCliente {
 				e.printStackTrace();
 			}
 		}
-
+		
 	}
+
 
 	@Override
 	public List<Producto> listarProductosFiltradoPrecio(double precioMin, double precioMax) {
 		List<Producto> productos = new ArrayList<Producto>();
 		Producto producto = null;
 		ResultSet rs = null;
-
+		
 		openConnection();
 		try {
 			stmt = conex.prepareStatement(SELECTfiltroPrecio);
-
+			
 			stmt.setDouble(1, precioMin);
 			stmt.setDouble(2, precioMax);
-
+			
 			rs = stmt.executeQuery();
-
+			
 			while (rs.next()) {
 				producto = new Producto();
-
+				
 				producto.setCodProducto(rs.getString(1));
 				producto.setTipo(rs.getString(2));
 				producto.setNombre(rs.getString(3));
 				producto.setStock(rs.getInt(4));
 				producto.setPrecio(rs.getDouble(5));
-
+				
 				productos.add(producto);
 			}
-
+			
 		} catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -810,11 +696,11 @@ public class ImplementacionClienteBD implements InterfazCliente {
 					rs.close();
 				}
 				closeConnection();
-			} catch (SQLException e) {
+			}catch(SQLException e) {
 				e.printStackTrace();
 			}
 		}
-
+		
 		return productos;
 	}
 
@@ -952,7 +838,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 
 		try {
 			stmt = conex.prepareStatement(REDUCIRstock);
-
+			
 			stmt.setString(1, codProducto);
 			stmt.executeUpdate();
 
