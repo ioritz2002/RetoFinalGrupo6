@@ -30,6 +30,11 @@ import clases.Usuario;
 
 import javax.swing.JPasswordField;
 
+/**
+ * Es la ventana en la que se podrá registrar un nuevo cliente
+ * @author grupo6
+ * @version 1
+ */
 public class VRegistro extends JDialog implements ActionListener {
 
 	/**
@@ -186,6 +191,9 @@ public class VRegistro extends JDialog implements ActionListener {
 		}
 	}
 
+	/**
+	 * Permite que al pulsar algún elemento de la ventana haga una acción concreta
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(btnAtras)) {
@@ -286,7 +294,7 @@ public class VRegistro extends JDialog implements ActionListener {
 		} else {
 			cli.setEmail(txtEmail.getText());
 		}
-		JOptionPane.showMessageDialog(null, "Cuenta creada correctamente", "Exito", JOptionPane.OK_OPTION);
+		JOptionPane.showMessageDialog(null, "Cuenta creada correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
 		datosCliente.registroCliente(cli);
 		this.dispose();
 

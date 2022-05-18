@@ -19,31 +19,36 @@ import clases.Valora;
  */
 public interface InterfazAdministrador {
 
+
 	/**
 	 * Dar de alta a un repartidor
 	 * 
-	 * @param repartidor
+	 * @param repartidor El repartidor al que se le va a dar de alta
+	 * @return Retorna true en el caso de que se haya dado de alta al repartidor, false en el caso de que no.
 	 */
-	public void altaRepartidor(Repartidor repartidor);
+	public boolean altaRepartidor(Repartidor repartidor);
 
 	/**
 	 * Dar de baja a un repartidor
 	 * 
 	 * @param identificador del repartidor
+	 * @return Retorna true en el caso de que se haya dado de baja al repartidor, false en el caso de que no.
 	 */
-	public void bajaRepartidor(String idRepartidor);
-
+	public boolean bajaRepartidor(String idRepartidor);
 	/**
 	 * Listar todos los repartidores
 	 * 
 	 * @return lista con todos los repartidores
 	 */
+	
+
+
 	public List<Repartidor> listarRepartidores();
 
 	/**
 	 * Dar de alta prodcutos
 	 * 
-	 * @param producto
+	 * @param producto El producto al que se le da de alta
 	 */
 	public void altaProductos(Producto producto);
 
@@ -61,13 +66,15 @@ public interface InterfazAdministrador {
 	 */
 	public List<Producto> listarProductos();
 
+
+
 	/**
 	 * Modificar un producto
 	 * 
-	 * @param producto
+	 * @param producto El producto  que se quiere modificar
+	 * @return Retorna true si se ha actualizado algun producto, Retorna false si no se ha actulizado nada
 	 */
-
-	public void modificarProducto(Producto producto);
+	public boolean modificarProducto(Producto producto);
 
 	/**
 	 * Listar todos los clientes
@@ -93,8 +100,8 @@ public interface InterfazAdministrador {
 	/**
 	 * Compara productos para saber si el nuevo a introducir está repetido
 	 * 
-	 * @param nombre
-	 * @return
+	 * @param nombre Es el nombre que se quiere comprobar
+	 * @return Retorna true si esta repetido, en el caso de que no este retorna false.
 	 */
 	public boolean compararProductos(String nombre);
 

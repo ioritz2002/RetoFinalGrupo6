@@ -19,11 +19,13 @@ import clases.Valora;
 import java.sql.Date;
 
 /**
+
  * Implementacion del administrador
  * 
  * @author grupo6
  *
  */
+
 
 public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	/**
@@ -39,7 +41,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	 */
 	private ResourceBundle archivoConfig;
 
-	// Conexion
+
 
 	/**
 	 * url para conectarse a la base de datos
@@ -90,6 +92,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	 * cuenta el numero de repartidores que hay
 	 */
 	private final String NUMRepartidor = "SELECT COUNT(*) AS total FROM repartidor";
+
 	/**
 	 * inserta en la tabla repartidor nuevos repartidores con los datos que se le
 	 * pasan como parametro
@@ -108,11 +111,14 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	/**
 	 * selecciona todos los datos de la tabla repartidores
 	 */
-	private final String CONSULTARrepartidores = "SELECT * FROM repartidor";
+
+	private final String CONSULTARrepartidores = "SELECT * FROM repartidor WHERE ACTIVO = 1";
 	/**
 	 * llama a un procedimiento para mostrar los productos mas vendidos
 	 */
-	private final String SELECTproductosMasVendidos = "CALL PRODUCTOS_MAS_VENDIDOS()";
+	private final String SELECTproductosMasVendidos="CALL PRODUCTOS_MAS_VENDIDOS()";
+
+	
 
 	/**
 	 * constructor en el que se agragan los datos necesarios para conectarse a la
@@ -152,7 +158,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	}
 
 	@Override
-	public void altaRepartidor(Repartidor repartidor) {
+	public boolean altaRepartidor(Repartidor repartidor) {
 		this.openConnection();
 
 		try {
@@ -162,34 +168,37 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 			stmt.setString(3, repartidor.getNombre());
 			stmt.setString(4, repartidor.getApellido());
 			stmt.setString(5, repartidor.getDniUsuario());
+			stmt.setBoolean(6, true);
 
-			stmt.executeUpdate();
-
+			return stmt.executeUpdate() > 0 ? true: false;
+			
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			return false;
+			
+		} finally {
+			try {
+				this.closeConnection();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-
-		try {
-			this.closeConnection();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 
 	@Override
-	public void bajaRepartidor(String idRepartidor) {
+	public boolean bajaRepartidor(String idRepartidor) {
 		// TODO Auto-generated method stub
 		this.openConnection();
 
 		try {
 			stmt = conex.prepareStatement(DELETErepartidor);
 			stmt.setString(1, idRepartidor);
-			stmt.execute();
+			return stmt.executeUpdate() > 0 ? true: false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		} finally {
 			try {
 				this.closeConnection();
@@ -198,6 +207,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 				e.printStackTrace();
 			}
 		}
+		
 	}
 
 	@Override
@@ -326,7 +336,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	}
 
 	@Override
-	public void modificarProducto(Producto producto) {
+	public boolean modificarProducto(Producto producto) {
 		openConnection();
 		try {
 			stmt = conex.prepareStatement(UPDATEProducto);
@@ -337,10 +347,11 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 			stmt.setDouble(4, producto.getPrecio());
 			stmt.setString(5, producto.getCodProducto());
 
-			stmt.executeUpdate();
+			return stmt.executeUpdate() > 0 ? true: false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
+			return false;
 		} finally {
 			try {
 				closeConnection();
