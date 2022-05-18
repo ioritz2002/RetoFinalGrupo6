@@ -25,17 +25,55 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VCesta extends JDialog implements ActionListener {
+
+	/**
+	 * campo de texto que muestra el precio total de la cesta
+	 */
 	private JTextField txtPrecioTotal;
+	/**
+	 * boton para ir a la ventana anterior
+	 */
 	private JButton btnAtras;
+	/**
+	 * boton para borrar la compra que esta en curso
+	 */
 	private JButton btnCancelarCompra;
+	/**
+	 * boton para confirmar la compra que esta en curso
+	 */
 	private JButton btnComprar;
+	/**
+	 * Se utiliza para guardar los datosAdmin que llegan como parámetro
+	 */
 	private InterfazCliente datosCliente;
+	/**
+	 * tabla para mostrar los productos que hay en la cesta del cliente
+	 */
 	private JTable table;
+	/**
+	 * crea una tabla por defecto
+	 */
 	private DefaultTableModel dtm;
+	/**
+	 * Lista para cargar los productos que hay en la cesta
+	 */
 	private List<ListarTablaCesta> productos;
+	/**
+	 * Lista para cargar los repartidores
+	 */
 	private List<Repartidor> repartidores;
+	/**
+	 * para guardar los datos de los usuarios que llegen por parametro
+	 */
 	private Cliente usuario;
-	private ListarTablaCesta cesta;
+
+	/**
+	 * @author grupo6
+	 * @param vProductos   La ventana padre
+	 * @param b            Indica si la ventana es modal o no
+	 * @param usuario      datos del usuario
+	 * @param datosCliente Interfaz que contiene los metodos que utiliza el cliente
+	 */
 
 	public VCesta(VProductos vProductos, boolean b, Cliente usuario, InterfazCliente datosCliente) {
 		super(vProductos);
@@ -86,6 +124,15 @@ public class VCesta extends JDialog implements ActionListener {
 	/**
 	 * @wbp.parser.constructor
 	 */
+
+	/**
+	 * @author grupo6
+	 * @param vMenuCliente ventana padre
+	 * @param b            Indica si la ventana es modal o no
+	 * @param datosCliente Interfaz que contiene los metodos que utiliza el cliente
+	 * @param usuario      datos del usuario
+	 */
+
 	public VCesta(VMenuCliente vMenuCliente, boolean b, InterfazCliente datosCliente, Cliente usuario) {
 		super(vMenuCliente);
 		this.setModal(b);
@@ -132,6 +179,23 @@ public class VCesta extends JDialog implements ActionListener {
 		}
 	}
 
+	/**
+	 * Metodo para cargar la tabla de los productos que tiene en la cesta el
+	 * cliente. Se declara un array de Strings con las cabeceras que queremos que
+	 * tengan nuestra tablas y otro array con el numero de columnas que queremos.
+	 * 
+	 * 
+	 * Se carga la lista productos con los productos que tiene el cliente en la
+	 * cesta.
+	 * 
+	 * Se crea un for y por cada producto se cogera su nombre, tipo, y precio y se
+	 * mostraran en sus respectivas columnas Por cada vuelta que da el for se irá
+	 * cargando el precio de la cesta.
+	 * 
+	 * 
+	 * @param datosCliente Interfaz que contiene los metodos que utiliza el cliente
+	 * @param usuario      datos del usuario
+	 */
 	private void cargarTabla(InterfazCliente datosCliente, Cliente usuario) {
 
 		double precio = 0;
@@ -161,6 +225,20 @@ public class VCesta extends JDialog implements ActionListener {
 		table.setEnabled(false);
 
 	}
+
+	/**
+	 * Metodo para asignar de forma aleatoria una compra a un repartidor
+	 * 
+	 * Se carga la lista repartidores con los repartidores que hay.
+	 * 
+	 * Se declaran dos variables max y min; min sera 0 siempre y max que tendra el
+	 * valor del tamaño de la lista menos uno ya que el size empieza a contar desde
+	 * 0. Se genera un numero random con esas variables y devuelve el codigo del
+	 * repartidor
+	 * 
+	 * @param datosCliente Interfaz que contiene los metodos que utiliza el cliente
+	 * @return devuelve el codigo del repartidor al que se le a asignado la compra
+	 */
 
 	private String asignarRepartidor(InterfazCliente datosCliente) {
 

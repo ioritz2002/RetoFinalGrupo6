@@ -106,6 +106,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	 */
 	private final String COMPROBARVloracion = "SELECT * FROM valora WHERE COD_PRODUCTO= ? AND DNI= ?";
 
+
 	/**
 	 * Esta consulta es para consultar todos los repartidores que hay en la base de datos
 	 */

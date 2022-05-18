@@ -1,6 +1,7 @@
 package modelo;
 
 import java.sql.DriverManager;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,11 +19,14 @@ import clases.Valora;
 import java.sql.Date;
 
 /**
- * 
+
  * Implementacion del administrador
+ * 
  * @author grupo6
  *
  */
+
+
 public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	/**
 	 * prepara la conexion
@@ -37,7 +41,8 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	 */
 	private ResourceBundle archivoConfig;
 
-	// Conexion
+
+
 	/**
 	 * url para conectarse a la base de datos
 	 */
@@ -106,6 +111,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	/**
 	 * selecciona todos los datos de la tabla repartidores
 	 */
+
 	private final String CONSULTARrepartidores = "SELECT * FROM repartidor WHERE ACTIVO = 1";
 	/**
 	 * llama a un procedimiento para mostrar los productos mas vendidos
@@ -113,6 +119,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	private final String SELECTproductosMasVendidos="CALL PRODUCTOS_MAS_VENDIDOS()";
 
 	
+
 	/**
 	 * constructor en el que se agragan los datos necesarios para conectarse a la
 	 * base de datos
@@ -123,6 +130,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 		this.usuario = archivoConfig.getString("BDUser");
 		this.contraseña = archivoConfig.getString("BDPass");
 	}
+
 	/**
 	 * abre la conexion con la base de datos
 	 */

@@ -2,6 +2,8 @@ package modelo;
 
 import java.util.List;
 
+
+
 import clases.Cliente;
 import clases.ListarTablaProductosMasVendidos;
 import clases.Producto;
@@ -9,7 +11,14 @@ import clases.Repartidor;
 import clases.Usuario;
 import clases.Valora;
 
+
+/**
+ * Interfaz del administrador
+ * @author grupo6
+ *
+ */
 public interface InterfazAdministrador {
+
 
 	/**
 	 * Dar de alta a un repartidor
@@ -32,6 +41,7 @@ public interface InterfazAdministrador {
 	 * @return lista con todos los repartidores
 	 */
 	
+
 
 	public List<Repartidor> listarRepartidores();
 
@@ -57,6 +67,7 @@ public interface InterfazAdministrador {
 	public List<Producto> listarProductos();
 
 
+
 	/**
 	 * Modificar un producto
 	 * 
@@ -78,12 +89,14 @@ public interface InterfazAdministrador {
 	 * @return lista con las valoraciones de un producto
 	 */
 	public List<Valora> listarValoraciones();
+
 	/**
 	 * Buscar cuantos repartidores hay
 	 * 
 	 * @return el numero de repartidores
 	 */
 	public int calcularCodRepartidor();
+
 	/**
 	 * Compara productos para saber si el nuevo a introducir está repetido
 	 * 
@@ -91,6 +104,7 @@ public interface InterfazAdministrador {
 	 * @return Retorna true si esta repetido, en el caso de que no este retorna false.
 	 */
 	public boolean compararProductos(String nombre);
+
 	/**
 	 * Buscar cuantos productos hay
 	 * 
