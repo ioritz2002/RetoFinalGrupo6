@@ -449,7 +449,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 
 		//Esta opcion filtra los productos que cuestan entre 0 y 50 euros
 		if (rdbtn0A50.isSelected()) {
-			vaciarTabla();
+			
 			productosRango = datosCliente.listarProductosFiltradoPrecio(0, 50);
 
 			listaTabla = cargarLista(productosRango, valoraciones);
@@ -481,7 +481,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		}
 		//Esta opcion filtra los productos que cuestan entre 100 y 200 euros
 		if (rdbtn100A200.isSelected()) {
-			vaciarTabla();
+			
 			productosRango = datosCliente.listarProductosFiltradoPrecio(100, 200);
 
 			listaTabla = cargarLista(productosRango, valoraciones);
@@ -498,7 +498,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		
 		//Esta opcion filtra los productos que cuestan mas de 200 euros
 		if (rdbtnMAS200.isSelected()) {
-			vaciarTabla();
+			
 			productosRango = datosCliente.listarProductosFiltradoPrecio(200, 1000000);
 
 			listaTabla = cargarLista(productosRango, valoraciones);
@@ -531,7 +531,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		}
 		//Esta opcion aplica el filtro de buscar por nombre comprobando primero que el texto no es null y que no este vacio
 		if (txtNombre.getText() != null && !txtNombre.getText().equalsIgnoreCase("")) {
-			vaciarTabla();
+			
 			String nombre = txtNombre.getText();
 
 			for (int i = 0; i < listarProductos.size(); i++) {
@@ -545,6 +545,8 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				}
 			}
 		}
+		vaciarTabla();
+		
 
 	}
 	/**
@@ -574,8 +576,10 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 			lista = datosAdmin.listarProductosMasVendidosAdmin();
 		}
 
+
 		//Como solo queremos los 3 mas vendidos usaremos un array de 3 posiciones para introducir alli los productos
 		productosMasVendidos = new ListarTablaProductosMasVendidos[3];
+
 		limite = lista.size();
 		
 		//Si la lista no es null y tiene mas de 0 productos en ella continuara realizando las siguientes operaciones, si no no lo hara para evitar que de un error de puntero nulo
@@ -708,8 +712,8 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		double precio = 0;
 		int posicionSinbolo;
 		
-
 		//Si el cliente no tiene cesta activa
+
 		if (datosCliente.comprobarCestaActiva(usuario.getDni()) == null) {
 			//Si el cliente confirma que quiere añadir el producto a la cesta
 			if (JOptionPane.showConfirmDialog(null, "Quieres añadir el producto a la cesta?", null,
@@ -719,7 +723,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 				//El estado es false si esta activo y true si esta finalizado
 				cesta.setEstado(false);
 				datosCliente.añadirCesta(cesta);
-				System.out.println("Entra if 1");
+				
 
 				producto.setNombre(String.valueOf(dtm.getValueAt(filaSeleccionada, 0)));
 				producto.setCodProducto(obtenerCodigo(listarProductos, producto.getNombre()));
@@ -758,7 +762,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		else {
 			if (JOptionPane.showConfirmDialog(null, "Quieres añadir el producto a la cesta?", null,
 					JOptionPane.YES_NO_OPTION) == 0) {
-				System.out.println("Entra if 2");
+				
 				producto.setNombre(String.valueOf(dtm.getValueAt(filaSeleccionada, 0)));
 				producto.setCodProducto(obtenerCodigo(listarProductos, producto.getNombre()));
 				posicionSinbolo = String.valueOf(dtm.getValueAt(filaSeleccionada, 2)).toString().indexOf("€");

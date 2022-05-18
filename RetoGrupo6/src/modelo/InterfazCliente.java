@@ -53,13 +53,17 @@ public interface InterfazCliente {
 	 */
 	public List<ListarTablaCesta> listarCestaCompra(String dni);
 
+
 	/**
 	 * Cancelar la compra borrando la cesta y toda la informacion de esta compra en
 	 * las tablas cesta y añade
 	 * 
 	 * @param codCesta Se pasa el codigo de la cesta para encontrarla y borrarla
+	 * @return Retorna true si se ha cancelado la compra, false en el caso de que no.
 	 */
-	public void cancelarCompra(String codCesta);
+
+	public boolean cancelarCompra(String codCesta);
+
 
 	/**
 	 * Relaizar la compra y pasar el estado de la cesta a realizado, ademas le
