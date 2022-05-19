@@ -2,9 +2,9 @@ package test;
 
 import static org.junit.Assert.*;
 
-<<<<<<< HEAD
+
 import org.junit.Test;
-=======
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;

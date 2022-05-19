@@ -28,28 +28,73 @@ import clases.Usuario;
 
 import javax.swing.JPasswordField;
 
+/**
+ * Esta clase es una ventana para mostrar los datos del cliente y poder modificar sus datos o poder darse de baja
+ * @author grupo6
+ * @version 1 
+ */
 public class VDatosCliente extends JDialog implements ActionListener {
 
+	/**
+	 * Se crea el panel de la ventana para poder añadir las consas
+	 */
 	private final JPanel contentPanel = new JPanel();
+	/**
+	 * Es un campo de texto en el que se mostrara el dni del cliente
+	 */
 	private JTextField txtDni;
+	/**
+	 * Es un campo de texto en el que se mostrara el email del cliente
+	 */
 	private JTextField txtEmail;
+	/**
+	 * Es un campo de texto en el que se mostrara el nombre del cliente
+	 */
 	private JTextField txtNombre;
+	/**
+	 * Es un campo de texto en el que se mostrara la direccion del cliente
+	 */
 	private JTextField txtDireccion;
+	/**
+	 * Es la interfaz de datos del cliente
+	 */
 	private InterfazCliente datosCliente;
+	/**
+	 * Es un campo de texto en el que se mostrara la fecha de nacimiento del cliente
+	 */
 	private JTextField txtFNacimiento;
+	/**
+	 * Es un campo de contraseña en el que se mostrara la contraseña de la cuenta del cliente oculto
+	 */
 	private JPasswordField txtContraseña;
+	/**
+	 * Es un boton para ejecutar la consulta de modificar los datos del cliente
+	 */
 	private JButton btnModificar;
+	/**
+	 * Es un boton que cierra la ventana para volver a la anterior
+	 */
 	private JButton btnAtras;
+	/**
+	 * Es un objeto para recibir el usuario que esta conectado a traves de la ventana anterior
+	 */
 	private Cliente usuario;
+	/**
+	 * Es un boton para ejecutar la consulta para darse de baja
+	 */
 	private JButton btnBorrar;
+	/**
+	 * Es la interfaz de datos de ambos usuarios
+	 */
 	private InterfazAmbosUsuarios datosAmbos;
 
 	/**
-	 * Create the dialog.
 	 * 
-	 * @param datosCliente
-	 * @param b
-	 * @param vMenuCliente
+	 * Este es el constructor de la ventana
+	 * @param datosCliente Es la implementacion de los datos del cliente
+	 * @param b Es el parametro que indica si la ventana sera modal o no
+	 * @param vMenuCliente Este paramentro indica cual es el padre de esta ventana es decir desde donde se ha llamado
+	 * @param datosAmbos Es la implementacion de los datos de ambos usuarios
 	 */
 	public VDatosCliente(VMenuCliente vMenuCliente, boolean b, Cliente usuario, InterfazCliente datosCliente, InterfazAmbosUsuarios datosAmbos) {
 		super(vMenuCliente);
@@ -169,6 +214,10 @@ public class VDatosCliente extends JDialog implements ActionListener {
 		cargarDatos(usuario);
 	}
 
+	/**
+	 * Este metodo carga los datos del usuario en los campos correspondientes
+	 * @param usuario Se pasa como parametro un usuario para poder cargar los datos correspondiente
+	 */
 	private void cargarDatos(Cliente usuario) {
 		txtDni.setText(usuario.getDni());
 		txtContraseña.setText(usuario.getContraseña());
@@ -178,6 +227,9 @@ public class VDatosCliente extends JDialog implements ActionListener {
 		txtNombre.setText(usuario.getNombre());
 	}
 
+	/**
+	 * Este metodo ejecuta los eventos de los botones
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(btnModificar)) {
@@ -191,7 +243,6 @@ public class VDatosCliente extends JDialog implements ActionListener {
 		}
 
 		if (e.getSource().equals(btnBorrar)) {
-
 			if (JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres darte de baja?", "Selecciona una opcion",
 					JOptionPane.YES_NO_OPTION) == 0) {
 				datosCliente.darseDeBaja(txtDni.getText());
@@ -206,6 +257,9 @@ public class VDatosCliente extends JDialog implements ActionListener {
 	}
 
 
+	/**
+	 * Este metodo modifica los datos del cliente en la base de datos
+	 */
 	private void modificar() {
 	
 			usuario.setDni(txtDni.getText());
@@ -223,6 +277,11 @@ public class VDatosCliente extends JDialog implements ActionListener {
 		
 	}
 	
+	/**
+	 * Este metodo dice si un email es valido o no
+	 * @param gmail Este paramentro sting es el email a validar
+	 * @return Retorna si el email es valido o no
+	 */
 	private boolean validarEmail(String gmail) {
 		// Patrón para validar el email
 		Pattern pattern = Pattern.compile(

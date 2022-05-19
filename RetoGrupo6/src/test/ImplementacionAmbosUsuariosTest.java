@@ -1,43 +1,20 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
-<<<<<<< HEAD
-import org.junit.Test;
-
-public class ImplementacionAmbosUsuariosTest {
-
-	
-
-=======
-import java.sql.Array;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ResourceBundle;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
-
-import clases.Cliente;
 import clases.ListarTablaHistorial;
 import clases.Usuario;
-import modelo.ImplementacionAdministradorBD;
 import modelo.ImplementacionAmbosUsuarios;
-import modelo.InterfazAdministrador;
 import modelo.InterfazAmbosUsuarios;
 
 @RunWith(Parameterized.class)
