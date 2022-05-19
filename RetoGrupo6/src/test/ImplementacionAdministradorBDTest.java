@@ -35,7 +35,6 @@ public class ImplementacionAdministradorBDTest {
 	
 	private InterfazAdministrador admin= new ImplementacionAdministradorBD();
 	
-	private String codigo;
 	
 	
 
@@ -63,9 +62,16 @@ public class ImplementacionAdministradorBDTest {
 	@Test
 	public void testListarRepartidores() {
 		
-		assertEquals("Alonso", admin.listarRepartidores().get(0).getNombre());
+		if (admin.listarRepartidores()==null) {
+			assertNull(null, admin.listarRepartidores());
+		}else {
+			assertEquals("Alonso", admin.listarRepartidores().get(0).getNombre());
+		}
+		
+	
 		
 	}
+	
 
 	@Test
 	public void testModificarProducto() {
@@ -88,9 +94,9 @@ public class ImplementacionAdministradorBDTest {
 	@Test
 	public void testCompararProductos() {
 		assertTrue(admin.compararProductos("Ordenador"));
+		assertFalse(admin.compararProductos("Rastrillo"));
 		
 	}
-
 
 	@Test
 	public void testListarProductosMasVendidosAdmin() {
