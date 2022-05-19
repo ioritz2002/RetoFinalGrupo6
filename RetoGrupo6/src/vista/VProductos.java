@@ -692,6 +692,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 		} else {
 			cod = "CE-000" + cant;
 		}
+		System.out.println(cod);
 		return cod;
 	}
 	/**

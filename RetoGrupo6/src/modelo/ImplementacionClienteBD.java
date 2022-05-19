@@ -158,9 +158,9 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	 */
 	private final String INSERTcesta = "INSERT INTO cesta(COD_CESTA, IMPORTE_TOTAL, ESTADO, ID_REPARTIDOR) VALUES(?,?,?,?)";
 	/**
-	 * Esta consulta es para obtener cuantas cestas hay en total
+	 * Esta consulta es para obtener la ultima cesta para poder calcular despues el codigo de cesta
 	 */
-	private final String BUSCARCodCesta = "SELECT COUNT(*) AS total FROM cesta";
+	private final String BUSCARCodCesta = "SELECT cesta.COD_CESTA FROM cesta ORDER BY COD_CESTA DESC LIMIT 1;";
 	/**
 	 *Esta consulta es para obtener todas las valoraciones de cada producto por cada cliente
 	 */
@@ -827,6 +827,7 @@ public class ImplementacionClienteBD implements InterfazCliente {
 	@Override
 	public int calcularCodCesta() {
 		ResultSet rs = null;
+		String cod;
 		int num = 0;
 
 		this.openConnection();
@@ -837,7 +838,9 @@ public class ImplementacionClienteBD implements InterfazCliente {
 			rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				num = rs.getInt("total");
+				cod = rs.getString(1);
+				num = Integer.parseInt(cod.substring(cod.indexOf("-")+1, cod.length()));
+						
 			}
 
 		} catch (SQLException e1) {
