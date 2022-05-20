@@ -95,6 +95,7 @@ public class VDatosCliente extends JDialog implements ActionListener {
 	 * @param b Es el parametro que indica si la ventana sera modal o no
 	 * @param vMenuCliente Este paramentro indica cual es el padre de esta ventana es decir desde donde se ha llamado
 	 * @param datosAmbos Es la implementacion de los datos de ambos usuarios
+	 * @param usuario Son los datos del cliente
 	 */
 	public VDatosCliente(VMenuCliente vMenuCliente, boolean b, Cliente usuario, InterfazCliente datosCliente, InterfazAmbosUsuarios datosAmbos) {
 		super(vMenuCliente);

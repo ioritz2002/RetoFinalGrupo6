@@ -160,6 +160,10 @@ public class VPrincipal extends JFrame implements ActionListener {
 
 	/**
 	 * Método para abrir una ventana u otra en caso de ser administrador o cliente
+	 * @param dni Es el dni que se envia para ser comprobado
+	 * @param contraseña Es la contraseña que se envia para ser comprobada.
+	 * @param usuario Es el usuario que se envia para comprobar que tipo de usuario es
+	 * @throws LoginIncorrectoException Al saltar la excepción saldrá un mensaje de error
 	 */
 	private void comprobarLogin(String dni, String contraseña, Usuario usuario) throws LoginIncorrectoException {
 		if (usuario != null) {

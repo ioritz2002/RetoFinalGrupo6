@@ -21,7 +21,7 @@ public interface InterfazAdministrador {
 	/**
 	 * Dar de baja a un repartidor
 	 * 
-	 * @param identificador del repartidor
+	 * @param idRepartidor identificador del repartidor
 	 * @return Retorna true si se ha dado de baja, false si no.
 	 */
 	public boolean bajaRepartidor(String idRepartidor);
@@ -37,13 +37,15 @@ public interface InterfazAdministrador {
 	 * Dar de alta prodcutos
 	 * 
 	 * @param producto El producto a dar de alta
+	 * @return retorna true si se ha realizado el alta y false sino
 	 */
 	public boolean altaProductos(Producto producto);
 
 	/**
 	 * Dar de baja a un producto
 	 * 
-	 * @param codigo del producto
+	 * @param codProducto codigo del producto
+	 * @return retorna true si se ha realizado la baja y false sino.
 	 */
 	public boolean bajaProducto(String codProducto);
 
@@ -58,6 +60,7 @@ public interface InterfazAdministrador {
 	 * Modificar un producto
 	 * 
 	 * @param producto Producto a modificar
+	 * @return retorna true si se ha realizado la modificación y false sino.
 	 */
 	public boolean modificarProducto(Producto producto);
 
