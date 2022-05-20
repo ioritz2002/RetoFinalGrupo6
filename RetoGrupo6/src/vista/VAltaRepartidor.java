@@ -158,7 +158,7 @@ public class VAltaRepartidor extends JDialog implements ActionListener {
 	/**
 	 * Metodo para transformar la primera letra de una palabra en mayúscula y el
 	 * resto en minúscula
-	 * @param palabras
+	 * @param palabras Es la palabra que se envia para ser corregida
 	 * @return String Devuelve la palabra enviada bien escrita
 	 */
 	private String letraMayusMinus(String palabras) {

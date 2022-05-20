@@ -72,7 +72,7 @@ public class ListarTablaProductosMasVendidos {
 	}
 	/**
 	 * 
-	 * @param codigo del producto
+	 * @param codProducto codigo del producto
 	 */
 	public void setCodProducto(String codProducto) {
 		this.codProducto = codProducto;

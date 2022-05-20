@@ -138,7 +138,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	/**
 	 * Cierra la conexion con la base de datos
 	 * 
-	 * @throws SQLException
+	 * @throws SQLException recoge el fallo de SQL
 	 */
 	public void closeConnection() throws SQLException {
 		if (conex != null) {

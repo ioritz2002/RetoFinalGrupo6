@@ -201,7 +201,7 @@ public class VRegistro extends JDialog implements ActionListener {
 
 	/**
 	 * @author grupo6
-	 * @param palabras
+	 * @param palabras Son las palabras que se mandan para ser corregidas
 	 * @return Devuelve el String enviado pero escrito correctamente
 	 */
 	private String letraMayus(String palabras) {
@@ -247,7 +247,7 @@ public class VRegistro extends JDialog implements ActionListener {
 	}
 	/**
 	 * Transforma una caena en un Integer
-	 * @param cadena
+	 * @param cadena Es el string que se manda para comprobar si son números o no
 	 * @return Devuelve un Integer
 	 */
 	 public static boolean esNumero(String cadena) {
@@ -294,7 +294,7 @@ public class VRegistro extends JDialog implements ActionListener {
 
 	/**
 	 * Calcula la letra del DNI que debería tener el DNI introducido según sus números
-	 * @param text
+	 * @param text Es el dni que se manda para comprobar que letra le corresponde 
 	 * @return Devuelve la letra del DNI que corresponde con los números del DNI introducido
 	 */
 	private char clacularLetraDni(String text) {
@@ -312,7 +312,7 @@ public class VRegistro extends JDialog implements ActionListener {
 
 	/**
 	 * Comprueba que la letra del DNI corresponde con la letra del DNI calculada según los números del DNI introducido
-	 * @param c
+	 * @param c Es la letra del DNI a comprobar
 	 * @return Devuelve un booleano indicando si la letra del DNI es la que debería o no.
 	 */
 	private boolean hayLetra(char c) {
@@ -327,7 +327,7 @@ public class VRegistro extends JDialog implements ActionListener {
 
 	/**
 	 * Comprueba que el formato del gmail es correcto
-	 * @param gmail
+	 * @param gmail Es el supuesto gmail que ha introducido el usuario
 	 * @return Devuelve un booleano indicando que el formato del gmail es correcto o no.
 	 */
 	private boolean validarEmail(String gmail) {

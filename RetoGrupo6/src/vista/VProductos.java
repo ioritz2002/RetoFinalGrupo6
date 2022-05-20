@@ -341,8 +341,7 @@ public class VProductos extends JDialog implements ActionListener, MouseListener
 	
 	
 	/**
-	 * Este metodo sirve para cargar el map para poder mostrar la informacion en la tabla, los parametros que se le pasa son dos listas, una con las valoraciones <br/> y otra con los productos
-	 * 
+	 * Este metodo sirve para cargar el map para poder mostrar la informacion en la tabla, los parametros que se le pasa son dos listas, una con las valoraciones <br> y otra con los productos
 	 * @param productos Este parametro es una lista con todos los productos
 	 * @param valoraciones Este parametro es una lista con todas las valoraciones
 	 * @return Este metodo retorna un map con los productos y sus valoraciones medias.

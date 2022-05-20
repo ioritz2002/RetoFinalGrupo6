@@ -32,7 +32,6 @@ public class ListarTablaProductos implements Comparable<ListarTablaProductos> {
 	/**
 	 * Constructor vacio
 	 */
-
 	public ListarTablaProductos() {
 		super();
 	}
@@ -41,16 +40,14 @@ public class ListarTablaProductos implements Comparable<ListarTablaProductos> {
 	 * 
 	 * @return nombre del producto
 	 */
-
 	public String getNombreProducto() {
 		return nombreProducto;
 	}
 
 	/**
 	 * 
-	 * @param nombre del Producto
+	 * @param nombreProducto del Producto
 	 */
-
 	public void setNombreProducto(String nombreProducto) {
 		this.nombreProducto = nombreProducto;
 	}
@@ -59,14 +56,13 @@ public class ListarTablaProductos implements Comparable<ListarTablaProductos> {
 	 * 
 	 * @return tipo de producto
 	 */
-
 	public String getTipoProducto() {
 		return tipoProducto;
 	}
 
 	/**
 	 * 
-	 * @param tipo de Producto
+	 * @param tipoProducto tipo de Producto
 	 */
 	public void setTipoProducto(String tipoProducto) {
 		this.tipoProducto = tipoProducto;
@@ -76,7 +72,6 @@ public class ListarTablaProductos implements Comparable<ListarTablaProductos> {
 	 * 
 	 * @return precio del producto
 	 */
-
 	public double getPrecio() {
 		return precio;
 	}
@@ -93,7 +88,6 @@ public class ListarTablaProductos implements Comparable<ListarTablaProductos> {
 	 * 
 	 * @return valoracion del producto
 	 */
-
 	public float getValoracion() {
 		return valoracion;
 	}
@@ -102,7 +96,6 @@ public class ListarTablaProductos implements Comparable<ListarTablaProductos> {
 	 * 
 	 * @param valoracion del producto
 	 */
-
 	public void setValoracion(float valoracion) {
 		this.valoracion = valoracion;
 	}
@@ -111,16 +104,14 @@ public class ListarTablaProductos implements Comparable<ListarTablaProductos> {
 	 * 
 	 * @return codigo del producto
 	 */
-
 	public String getCodigoProducto() {
 		return codigoProducto;
 	}
 
 	/**
 	 * 
-	 * @param codigo del Producto
+	 * @param codigoProducto del Producto
 	 */
-
 	public void setCodigoProducto(String codigoProducto) {
 		this.codigoProducto = codigoProducto;
 	}
@@ -128,7 +119,6 @@ public class ListarTablaProductos implements Comparable<ListarTablaProductos> {
 	/**
 	 * metodo para ordenar por valoracion
 	 */
-
 	@Override
 	public int compareTo(ListarTablaProductos o) {
 		// TODO Auto-generated method stub
