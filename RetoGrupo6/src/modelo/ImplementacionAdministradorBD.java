@@ -20,6 +20,7 @@ import java.sql.Date;
 /**
  * 
  * Implementacion del administrador
+ * 
  * @author grupo6
  *
  */
@@ -109,9 +110,8 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	/**
 	 * llama a un procedimiento para mostrar los productos mas vendidos
 	 */
-	private final String SELECTproductosMasVendidos="CALL PRODUCTOS_MAS_VENDIDOS()";
+	private final String SELECTproductosMasVendidos = "CALL PRODUCTOS_MAS_VENDIDOS()";
 
-	
 	/**
 	 * constructor en el que se agragan los datos necesarios para conectarse a la
 	 * base de datos
@@ -122,6 +122,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 		this.usuario = archivoConfig.getString("BDUser");
 		this.contraseña = archivoConfig.getString("BDPass");
 	}
+
 	/**
 	 * abre la conexion con la base de datos
 	 */
@@ -161,21 +162,21 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 			stmt.setString(5, repartidor.getDniUsuario());
 			stmt.setBoolean(6, true);
 
-			return stmt.executeUpdate() > 0 ? true: false;
-			
+			return stmt.executeUpdate() > 0 ? true : false;
+
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 			return false;
-			
+
 		} finally {
 			try {
 				this.closeConnection();
-				
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -186,7 +187,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 		try {
 			stmt = conex.prepareStatement(DELETErepartidor);
 			stmt.setString(1, idRepartidor);
-			return stmt.executeUpdate() > 0 ? true: false;
+			return stmt.executeUpdate() > 0 ? true : false;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -198,7 +199,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -239,7 +240,7 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 	}
 
 	@Override
-	public void altaProductos(Producto producto) {
+	public boolean altaProductos(Producto producto) {
 		this.openConnection();
 		try {
 			stmt = conex.prepareStatement(INSERTARProducto);
@@ -250,23 +251,26 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 			stmt.setDouble(5, producto.getPrecio());
 			stmt.setString(6, producto.getDni());
 
-			stmt.executeUpdate();
+			return stmt.executeUpdate() > 0 ? true : false;
 
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
+
 			e1.printStackTrace();
+			return false;
 		}
 
-		try {
-			this.closeConnection();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		finally {
+			try {
+				this.closeConnection();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	@Override
-	public void bajaProducto(String codProducto) {
+	public boolean bajaProducto(String codProducto) {
 		// TODO Auto-generated method stub
 
 		this.openConnection();
@@ -274,10 +278,10 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 		try {
 			stmt = conex.prepareStatement(DELETEproducto);
 			stmt.setString(1, codProducto);
-			stmt.executeUpdate();
+			return stmt.executeUpdate() > 0 ? true : false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		} finally {
 			try {
 				this.closeConnection();
@@ -338,9 +342,9 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 			stmt.setDouble(4, producto.getPrecio());
 			stmt.setString(5, producto.getCodProducto());
 
-			return stmt.executeUpdate() > 0 ? true: false;
+			return stmt.executeUpdate() > 0 ? true : false;
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 			return false;
 		} finally {
@@ -385,8 +389,6 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 		}
 		return listaClientes;
 	}
-
-
 
 	@Override
 	public List<Valora> listarValoraciones() {
@@ -522,25 +524,25 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 		List<ListarTablaProductosMasVendidos> lista = new ArrayList<ListarTablaProductosMasVendidos>();
 		ResultSet rs = null;
 		ListarTablaProductosMasVendidos linea = null;
-		
+
 		openConnection();
 		try {
 			stmt = conex.prepareStatement(SELECTproductosMasVendidos);
 			rs = stmt.executeQuery();
-			
+
 			while (rs.next()) {
 				linea = new ListarTablaProductosMasVendidos();
-				
+
 				linea.setCodProducto(rs.getString(1));
 				linea.setTipo(rs.getString(2));
 				linea.setNombre(rs.getString(3));
 				linea.setStock(rs.getInt(4));
 				linea.setPrecio(rs.getDouble(5));
 				linea.setContador(rs.getInt(7));
-			
+
 				lista.add(linea);
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -550,11 +552,11 @@ public class ImplementacionAdministradorBD implements InterfazAdministrador {
 					rs.close();
 				}
 				closeConnection();
-			}catch(SQLException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return lista;
 	}
 

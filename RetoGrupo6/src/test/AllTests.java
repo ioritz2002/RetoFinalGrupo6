@@ -7,8 +7,9 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
 	ImplementacionAdministradorBDTest.class,
-	ImplementacionAmbosUsuariosTest.class,
-	ImplementacionClienteBDTest.class
+
+	ImplementacionAmbosUsuariosTest.class
+
 })
 public class AllTests {
 

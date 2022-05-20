@@ -38,14 +38,14 @@ public interface InterfazAdministrador {
 	 * 
 	 * @param producto El producto a dar de alta
 	 */
-	public void altaProductos(Producto producto);
+	public boolean altaProductos(Producto producto);
 
 	/**
 	 * Dar de baja a un producto
 	 * 
 	 * @param codigo del producto
 	 */
-	public void bajaProducto(String codProducto);
+	public boolean bajaProducto(String codProducto);
 
 	/**
 	 * Listar todos los productos
