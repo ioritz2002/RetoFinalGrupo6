@@ -6,6 +6,7 @@ package clases;
  * @version 1
  *
  */
+
 public class Añade {
 	/**
 	 * Guarda el DNI de quien añade un producto a la cesta
