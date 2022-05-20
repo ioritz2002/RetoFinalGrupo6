@@ -29,10 +29,9 @@ public class ImplementacionAmbosUsuariosTest {
 
 	@Parameters
 	public static java.util.Collection<Object[]> dnis() {
-		return Arrays.asList(new Object[][] { { "79365183A" }, { "99999999R" }, { "9999999i" }, {"99999998T"} });
+		return Arrays.asList(new Object[][] { { "79365183A" }, { "99999999R" }, {"99999998T"}, {"99999997E"} });
 	}
 
-	// (expected= java.lang.NullPointerException.class)
 	@Test
 	public void testBuscarUsuarioLogin() {
 		Usuario us = ambos.buscarUsuarioLogin(dni1);
@@ -54,13 +53,12 @@ public class ImplementacionAmbosUsuariosTest {
 		if (listaHistorial.isEmpty()) {
 			assertEquals(0, listaHistorial.size());
 		} else {
-			if (listaHistorial.get(0).getCodigo().equalsIgnoreCase("CE-0001")) {
-				assertEquals("Son distintos", "CE-0001", listaHistorial.get(0).getCodigo());
+			if (listaHistorial.get(0).getCodigo().equalsIgnoreCase("CE-0002")) {
+				assertEquals("Son distintos", "CE-0002", listaHistorial.get(0).getCodigo());
 			} else {
 				assertNotEquals("Son iguales", "CE-0001", listaHistorial.get(0).getCodigo());
 			}
 
 		}
 	}
-
 }
